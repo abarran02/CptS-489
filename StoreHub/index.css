@@ -3,7 +3,7 @@
     --secondary-color: white;
     --tertiary-color: rgb(130, 75, 28);
     --page-color: #e8e8e8;
-    --hover-color: red;
+    --hover-color: #D49A6A;
 }
 
 body {
@@ -50,6 +50,10 @@ footer {
 .navbar-login {
     display: flex;
     justify-content: flex-end;
+}
+
+.navbar-custom {
+    background-color: var(--primary-color); /* Use primary color for navbar background */
 }
 
 .login-modal input[type=text],
