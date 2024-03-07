@@ -2,6 +2,7 @@
     --primary-color: #FFA500;
     --secondary-color: white;
     --tertiary-color: rgb(130, 75, 28);
+    --page-color: #e8e8e8;
     --hover-color: red;
 }
 
@@ -9,6 +10,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    background-color: var(--page-color);
 }
 
 footer {
@@ -72,4 +74,19 @@ footer {
 
 .footer-links i {
     margin-right: 5px;
+}
+
+.logos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lg-logo {
+    width: 500px;
+}
+
+.carousel-img {
+    margin: auto;    
+    width: 50%;
 }

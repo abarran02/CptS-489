@@ -2,15 +2,16 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="index.css">
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="index.css" />
 </head>
 
 <!-- Modal for login -->
@@ -24,12 +25,14 @@
             <div class="modal-body">
                 <form action="" class="login-modal">
                     <label for="email"><b>Email</b></label>
-                    <input type="text" placeholder="Enter Email" name="email" required>
-                    <br>
+                    <input type="text" placeholder="Enter Email" name="email" required />
+                    <br />
                     <label for="passwd"><b>Password</b></label>
-                    <input type="password" placeholder="Enter Password" name="passwd" required>
+                    <input type="password" placeholder="Enter Password" name="passwd" required />
                 </form>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
                 <button type="button" class="btn btn-primary">Log In</button>
             </div>
         </div>
@@ -38,15 +41,19 @@
 
 <!-- Header / Title -->
 <header>
-    <!-- TODO: Use PHP to include header in each page -->
+    <!-- TODO: Include header in each page -->
     <div class="container-fluid">
         <div class="row navbar">
             <class class="col-10">
                 <!-- TODO: Hide anchors until user has logged in -->
-                <a href="" class = "my-anchor">Store Manager</a> <!-- Manage your storefront page (may not need this) -->
-                <a href="" class = "my-anchor">Inventory</a> <!-- Manage your inventory -->
-                <a href="" class = "my-anchor">Order Fulfillment</a> <!-- Who handles your orders -->
-                <a href="" class = "my-anchor">Recipes</a> <!-- Publish verified recipes as a storefront (use your own ingredients) -->
+                <a href="" class="my-anchor">Store Manager</a>
+                <!-- Manage your storefront page (may not need this) -->
+                <a href="" class="my-anchor">Inventory</a>
+                <!-- Manage your inventory -->
+                <a href="" class="my-anchor">Order Fulfillment</a>
+                <!-- Who handles your orders -->
+                <a href="" class="my-anchor">Recipes</a>
+                <!-- Publish verified recipes as a storefront (use your own ingredients) -->
             </class>
             <div class="col-2 navbar-login">
                 <!-- Button trigger modal -->
@@ -59,50 +66,89 @@
     </div>
 </header>
 
-
-
 <body>
     <!--Hub page for store/wholesale users. Follows from login page. Directs users to - Inventory Management, 
         Order Processing, Shipping and Fulfillment. -->
-        <main>
-            <div class="container">
-                <div class="row">
-                    <h1>Welcome Page</h1>
-                    <!-- Carousel? -->
-                    
-                    <p>
-                        Welcome to Hunter Gather, the ... 
-                        <br>
-                        Manage the look of your store front(???)
-                        <br>
-                        Manage your inventory
-                        <br>
-                        Handle order fulfillment for customers.
-                        <br>
-                        Publish verified recipes ...
-                    </p>
+    <main>
+        <div class="container">
+            <div class="row">
+                <!-- Can be stylized later -->
+                <div class = "d-flex justify-content-center">
+                    <h1>Hunter Gather</h1>
                 </div>
-            </div>
-        </main>
-
-        <footer>
-            <!-- TODO: Use PHP to include footer in each page -->
-            <div class = "container-fluid">
-                <div class = "row ht50 footer-links">
-                    <div class = "col">
-                        <a href="https://www.google.com/" class = "my-anchor"><i class = "bi bi-file-person"></i>About Us</a>
-                        <a href="https://www.google.com/" class = "my-anchor"><i class = "bi bi-send"></i>Contact Us </a>
-                        <a href="https://www.google.com/" class = "my-anchor"><i class = "bi bi-calendar3"></i>Calendar</a> 
-                        <a href="https://www.google.com/" class = "my-anchor"><i class = "bi bi-map"></i>Map</a> 
-                        <a href="https://www.google.com/" class = "my-anchor"><i class = "bi bi-shield-lock"></i>Privacy</a> 
+                <div id="carouselExampleCaptions" class="carousel slide" data-bs-theme = "dark">
+                    <div class="carousel-indicators">
+                      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
                     </div>
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                        <div class="d-flex justify-content-center">
+                            <img class = "carousel-img" src="img/TempLogo.png" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-caption d-none d-md-block">
+                          <h5>Page Customization</h5>
+                          <p>Some representative placeholder content for the first slide.</p>
+                        </div>
+                      </div>
+                      <div class="carousel-item">
+                        <div class="d-flex justify-content-center">
+                            <img class = "carousel-img" src="img/TempLogo.png" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-caption d-none d-md-block">
+                          <h5>Inventory Management</h5>
+                          <p>Some representative placeholder content for the second slide.</p>
+                        </div>
+                      </div>
+                      <div class="carousel-item">
+                        <div class="d-flex justify-content-center">
+                            <img class = "carousel-img" src="img/TempLogo.png" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-caption d-none d-md-block">
+                          <h5>Order Fulfillment</h5>
+                          <p>Some representative placeholder content for the third slide.</p>
+                        </div>
+                      </div>
+                      <div class="carousel-item">
+                        <div class="d-flex justify-content-center">
+                            <img class = "carousel-img" src="img/TempLogo.png" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-caption d-none d-md-block">
+                          <h5>Publish Recipes</h5>
+                          <p>Some representative placeholder content for the third slide.</p>
+                        </div>
+                      </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                  </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <!-- TODO: Include footer in each page -->
+        <div class="container-fluid">
+            <div class="row ht50 footer-links">
+                <div class="col">
+                    <a href="https://www.google.com/" class="my-anchor"><i class="bi bi-file-person"></i>About Us</a>
+                    <a href="https://www.google.com/" class="my-anchor"><i class="bi bi-send"></i>Contact Us
+                    </a>
+                    <a href="https://www.google.com/" class="my-anchor"><i class="bi bi-calendar3"></i>Calendar</a>
+                    <a href="https://www.google.com/" class="my-anchor"><i class="bi bi-map"></i>Map</a>
+                    <a href="https://www.google.com/" class="my-anchor"><i class="bi bi-shield-lock"></i>Privacy</a>
                 </div>
             </div>
-        </footer>
+        </div>
+    </footer>
 </body>
-
-
-
-
 
 </html>
