@@ -85,13 +85,35 @@
             <div class="row">
                 <h1>Store Profile</h1>
                 <p>
-                    Welcome (SQL username). Update your profile settings and look here. 
-                    <br><br>
-                    List of Published Recipes (Pull from SQL)
+                    Publish and Edit recipes here
                 </p>
-
+                <h1 class="mb-3">Publish Recipe</h1>
+                <form>
+                    <div class="mb-3">
+                        <label for="recipeName" class="form-label">Recipe Name</label>
+                        <input type="text" class="form-control" id="recipeName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ingredients" class="form-label">Ingredients</label>
+                        <textarea class="form-control" id="ingredients" rows="4" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="instructions" class="form-label">Instructions</label>
+                        <textarea class="form-control" id="instructions" rows="6" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Publish</button>
+                </form>
+                <p>
+                    Your Verified Recipes! (Pull from SQL)
+                    <!-- Can select recipes. Populate recipe form with existing information. -->
+                </p>
                 <ul>
+                    <!-- Example items -->
                     <li>
+                        Simple Spaghetti
+                    </li>
+                    <li>
+                        [Store name]'s Chocolate Chip Cookies
                     </li>
                 </ul>
             </div>
