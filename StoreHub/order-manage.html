@@ -81,11 +81,45 @@
         </div>
     </nav>
     <main>
-        <div class="container">
-            <div class="row">
-                <p>Payment processing. Shipping fulfillment. Order history.</p>
+        <body>
+            <div class="container">
+                <h1 class="mb-4">Order Handling</h1>
+                <!-- Search bar to filter orders -->
+                <div class="form-group mb-3">
+                    <select class="form-control" id="searchOption">
+                        <option value = "order_id">Order ID</option>
+                        <option value = "customer_name">Customer Name</option>
+                        <option value = "status">Status</option>
+                    </select>
+                    <input type="text" class="form-control" id="searchInput" placeholder="Search Orders">
+                </div>
+                <!-- Table to display orders -->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Order ID</th>
+                            <th scope="col">Customer Name</th>
+                            <th scope="col">Total Amount</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Sample order rows -->
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>John Doe</td>
+                            <td>$100</td>
+                            <td><span class="badge bg-success">Shipped</span></td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-sm">View</button>
+                                <button type="button" class="btn btn-warning btn-sm">Edit</button>
+                                <button type="button" class="btn btn-danger btn-sm">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-        </div>
     </main>
 
     <footer>

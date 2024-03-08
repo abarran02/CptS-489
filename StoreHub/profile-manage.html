@@ -85,15 +85,29 @@
             <div class="row">
                 <h1>Store Profile</h1>
                 <p>
-                    Welcome (SQL username). Update your profile settings and look here. 
-                    <br><br>
-                    List of Published Recipes (Pull from SQL)
+                    Welcome (username). Update your profile settings here. 
                 </p>
-
-                <ul>
-                    <li>
-                    </li>
-                </ul>
+                <!-- TODO: populate with current information from DB -->
+                <h1 class="mb-4">Profile Settings</h1>
+                <form>
+                    <div class="mb-3">
+                        <label for="storeName" class="form-label">Store Name</label>
+                        <input type="text" class="form-control" id="storeName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="email" placeholder="store@email.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phoneNumber" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="phoneNumber" placeholder="(***)-***-****">
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address</label>
+                        <input type="text" class="form-control" id="address">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
             </div>
         </div>
     </main>
