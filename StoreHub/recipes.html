@@ -10,7 +10,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-    <script defer src = "recipes.js"></script>
+    <script defer src = "recipe.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="recipes.css">
@@ -108,10 +108,14 @@
                         <label for="ingredients" class="form-label">Ingredients</label>
                         <textarea class="form-control" id="ingredients" rows="4" required></textarea>
                     </div>
-                    <div>
+                    <div class = "form-group">
                         <label for ="ingredients" class = "form-label">Ingredients:</label><br>
-                        <input type="text" id = "itemInput" placeholder="Ingredient">
-                        <button type="button" class = "btn btn-primary" id="addItemBtn">Add</button>
+                        <div class="input-group">
+                            <input type="text" id="itemInput" class="form-control" placeholder="Ingredient">
+                            <input type="number" id="quantityInput" class="form-control" placeholder="Quantity">
+                            <input type="text" id = "quantityType" class = "form-control" placeholder = "oz, tsp, ...">
+                        </div>
+                        <button type="button" class = "btn btn-primary justify-content-center" id="addItemBtn">Add</button>
                         <ul id = "itemList"></ul>
                     </div>
                     <div class="mb-3">

@@ -1,4 +1,4 @@
-li {
+.ingredientList li {
     padding: 10px;
     margin-bottom: 5px;
     border-radius: 5px;
@@ -6,11 +6,11 @@ li {
     transition: opacity 0.5s ease;
 }
 
-li.fade-in {
+.ingredientList li.fade-in {
     opacity: 1;
 }
 
-ul {
+.ingredientList ul {
     list-style-type: none;
     padding: 0;
 }

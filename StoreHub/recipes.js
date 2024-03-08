@@ -1,16 +1,16 @@
 const itemList = [];
 
 const addItem = () => {
-    const itemInput = document.getElementById("itemInput");
+    const ingredientInput = document.getElementById("ingredientInput");
     const listItem = {
         id: Date.now(),
-        text: itemInput.value,
+        text: ingredientInput.value,
     };
 
     if (listItem.text != "") {
         itemList.push(listItem);
         renderList();
-        itemInput.value = "";
+        ingredientInput.value = "";
     };
 
 };
@@ -33,7 +33,7 @@ const editItem = (id) => {
 }
 
 const renderList = () => {
-    const itemListContainer = document.getElementById("itemList");
+    const itemListContainer = document.getElementById("ingredientList");
     itemListContainer.innerHTML = "";
     
     itemList.forEach(item => {
@@ -45,13 +45,11 @@ const renderList = () => {
 
         const deleteBtn = document.createElement("button");
         deleteBtn.textContent = "Delete";
-        deleteBtn.classList.add("btn", "btn-danger", "mr-2")
         deleteBtn.addEventListener("click", () => deleteItem(item.id));
         buttonContainer.appendChild(deleteBtn);
 
         const editBtn = document.createElement("button");
         editBtn.textContent = "Edit";
-        editBtn.classList.add("btn", "btn-warning")
         editBtn.addEventListener("click", () => editItem(item.id));
         buttonContainer.appendChild(editBtn);
 
@@ -64,4 +62,4 @@ const renderList = () => {
     });
 };
 
-document.getElementById("addItemBtn").addEventListener("click", addItem);
+document.getElementById("addItemBtn").addEventListener
