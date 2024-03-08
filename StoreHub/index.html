@@ -52,19 +52,16 @@
             <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a href="index.html" class="nav-link">Home<span class="sr-only"></span></a>
+                        <a href="index.html" class="nav-link">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a href="profile-manage.html" class="nav-link">Profile <span class="sr-only"></span></a>
+                        <a href="order-manage.html" class="nav-link">Orders</a>
                     </li>
                     <li class="nav-item">
-                        <a href="order-manage.html" class="nav-link">Orders <span class="sr-only"></span></a>
+                        <a href="inventory.html" class="nav-link">Inventory</a>
                     </li>
                     <li class="nav-item">
-                        <a href="inventory.html" class="nav-link">Inventory <span class="sr-only"></span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="recipes.html" class="nav-link">Recipes <span class="sr-only"></span></a>
+                        <a href="recipes.html" class="nav-link">Recipes</a>
                     </li> 
                 </ul>
                 <!-- TODO: Center searchbar -->
@@ -74,9 +71,12 @@
                         <button class="btn btn-outline-primary" type="submit">Search</button>
                     </form>
                 </div>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Log In
-                </button>
+                <div class = "profile">
+                    <a href="profile-manage.html" class="my-anchor"><i class="bi bi-gear"></i></a>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Log In
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
@@ -103,7 +103,7 @@
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             <div class="d-flex justify-content-center">
-                                <img class="carousel-img" src="img/TempLogo.png" class="d-block w-100" alt="...">
+                                <img class="carousel-img" src="static/TempLogo.png" class="d-block w-100" alt="...">
                             </div>
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>Page Customization</h5>
@@ -112,7 +112,7 @@
                         </div>
                         <div class="carousel-item">
                             <div class="d-flex justify-content-center">
-                                <img class="carousel-img" src="img/TempLogo.png" class="d-block w-100" alt="...">
+                                <img class="carousel-img" src="static/TempLogo.png" class="d-block w-100" alt="...">
                             </div>
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>Inventory Management</h5>
@@ -121,7 +121,7 @@
                         </div>
                         <div class="carousel-item">
                             <div class="d-flex justify-content-center">
-                                <img class="carousel-img" src="img/TempLogo.png" class="d-block w-100" alt="...">
+                                <img class="carousel-img" src="static/TempLogo.png" class="d-block w-100" alt="...">
                             </div>
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>Order Fulfillment</h5>
@@ -130,7 +130,7 @@
                         </div>
                         <div class="carousel-item">
                             <div class="d-flex justify-content-center">
-                                <img class="carousel-img" src="img/TempLogo.png" class="d-block w-100" alt="...">
+                                <img class="carousel-img" src="static/TempLogo.png" class="d-block w-100" alt="...">
                             </div>
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>Publish Recipes</h5>

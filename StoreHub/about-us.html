@@ -11,7 +11,7 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
-    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="about-us.css" />
 </head>
 
 <!-- Modal for login -->
@@ -52,19 +52,16 @@
             <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a href="index.html" class="nav-link">Home<span class="sr-only"></span></a>
+                        <a href="index.html" class="nav-link">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a href="profile-manage.html" class="nav-link">Profile <span class="sr-only"></span></a>
+                        <a href="order-manage.html" class="nav-link">Orders</a>
                     </li>
                     <li class="nav-item">
-                        <a href="order-manage.html" class="nav-link">Orders <span class="sr-only"></span></a>
+                        <a href="inventory.html" class="nav-link">Inventory</a>
                     </li>
                     <li class="nav-item">
-                        <a href="inventory.html" class="nav-link">Inventory <span class="sr-only"></span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="recipes.html" class="nav-link">Recipes <span class="sr-only"></span></a>
+                        <a href="recipes.html" class="nav-link">Recipes</a>
                     </li> 
                 </ul>
                 <!-- TODO: Center searchbar -->
@@ -74,9 +71,12 @@
                         <button class="btn btn-outline-primary" type="submit">Search</button>
                     </form>
                 </div>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Log In
-                </button>
+                <div class = "profile">
+                    <a href="profile-manage.html" class="my-anchor"><i class="bi bi-gear"></i></a>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Log In
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
@@ -86,67 +86,48 @@
         <div class="container">
             <div class="row">
                 <!-- Can be stylized later -->
-                <h1>Who We Are</h1>
-                <div id="carouselExampleCaptions" class="carousel slide" data-bs-theme="dark">
-                    <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0"
-                            class="active" aria-current="true" aria-label="Slide 1"></button>
-                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-                            aria-label="Slide 2"></button>
-                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-                            aria-label="Slide 3"></button>
-                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"
-                            aria-label="Slide 4"></button>
-                    </div>
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <div class="d-flex justify-content-center">
-                                <img class="carousel-img" src="img/TempLogo.png" class="d-block w-100" alt="...">
-                            </div>
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>Page Customization</h5>
-                                <p>Customize your store's profile!</p>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="d-flex justify-content-center">
-                                <img class="carousel-img" src="img/TempLogo.png" class="d-block w-100" alt="...">
-                            </div>
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>Inventory Management</h5>
-                                <p>Handle your inventory!</p>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="d-flex justify-content-center">
-                                <img class="carousel-img" src="img/TempLogo.png" class="d-block w-100" alt="...">
-                            </div>
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>Order Fulfillment</h5>
-                                <p>Fulfill customer orders!</p>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="d-flex justify-content-center">
-                                <img class="carousel-img" src="img/TempLogo.png" class="d-block w-100" alt="...">
-                            </div>
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>Publish Recipes</h5>
-                                <p>Publish verified recipes with your ingredients!</p>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
-                        data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
-                        data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
+                <!-- TODO: Add profile pictures? -->
+                <div class="col-lg-8 offset-lg-2 text-center team">
+                    <h1>Our Team</h1>
+                    <h3>Alec Barron</h3>
+                    <img class = "profile_pic" src="static/TempLogo.png" alt="">
+                    <p>
+                        Alec Barran is a junior Computer Science student specializing in cybersecurity software engineering. He primarily uses Python and has proficiency in C/C++, 
+                        C#, Java, JavaScript, and HTML/CSS.
+                    </p>
+                    <h3>Griffin Gerry</h3>
+                    <img class = "profile_pic" src="static/TempLogo.png" alt="">
+                    <p>
+                        Griffin Gerry is a junior Computer Science student with a focus on cybersecurity. He has some experience with HTML, CSS, PHP, and SQL. 
+                    </p>
+                    <h3>William Heinecke</h3>
+                    <img class = "profile_pic" src="static/TempLogo.png" alt="">
+                    <p>
+                        William Heinecke is a junior studying Computer Science who has experience with Python and is learning techniques for web development.
+                    </p>
                 </div>
+                <div class="col-lg-8 offset-lg-2 text-center">
+                    <h1 class = "mb-4">Our Mission</h1>
+                    <p>
+                        HunterGather is a platform which combines the joy of discovering new recipes with the convenience of online grocery shopping. 
+                        It is the lovechild of recipe sites and online shopping, where users can have a one-stop destination to find diverse recipes and instantly 
+                        add all the ingredients to the cart for hassle-free delivery
+                    </p>
+                    <p>
+                        What sets HunterGather apart is its integrated shopping service. With a simple click, users can add selected ingredients 
+                        from a recipe directly to their shopping cart. Once the user is ready, they can review their selection and proceed to checkout. 
+                        The connection between recipe discovery and ingredient procurement eliminates the need for multiple apps, culminating in a more 
+                        efficient and enjoyable cooking experience.
+                    </p>
+                    <p>
+                        In a world that is becoming faster than ever, we understand the need for an efficient experience. 
+                    </p>
+                    <p>
+                        Join us on our mission to revolutionize the way you cook and shop for groceries. With HunterGather, culinary exploration has never been more 
+                        convenient, accessible, and enjoyable.
+                    </p>
+                </div>
+        
             </div>
         </div>
     </main>
@@ -156,12 +137,8 @@
         <div class="container-fluid">
             <div class="row ht50 footer-links">
                 <div class="col">
-                    <a href="https://www.google.com/" class="my-anchor"><i class="bi bi-file-person"></i>About Us</a>
-                    <a href="https://www.google.com/" class="my-anchor"><i class="bi bi-send"></i>Contact Us
-                    </a>
-                    <a href="https://www.google.com/" class="my-anchor"><i class="bi bi-calendar3"></i>Calendar</a>
-                    <a href="https://www.google.com/" class="my-anchor"><i class="bi bi-map"></i>Map</a>
-                    <a href="https://www.google.com/" class="my-anchor"><i class="bi bi-shield-lock"></i>Privacy</a>
+                    <a href="about-us.html" class="my-anchor"><i class="bi bi-file-person"></i>About Us</a>
+                    <a href="https://www.google.com/" class="my-anchor"><i class="bi bi-send"></i>Contact Us</a>
                 </div>
             </div>
         </div>

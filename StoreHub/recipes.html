@@ -10,8 +10,10 @@
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+    <script defer src = "recipes.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="recipes.css">
 </head>
 
 <!-- Modal for login -->
@@ -44,28 +46,24 @@
     <nav class="navbar navbar-expand-lg navbar-custom border-body" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Icon</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" 
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-            </button>
+              </button>
             <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a href="index.html" class="nav-link">Home<span class="sr-only"></span></a>
+                        <a href="index.html" class="nav-link">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a href="profile-manage.html" class="nav-link">Profile <span class="sr-only"></span></a>
+                        <a href="order-manage.html" class="nav-link">Orders</a>
                     </li>
                     <li class="nav-item">
-                        <a href="order-manage.html" class="nav-link">Orders <span class="sr-only"></span></a>
+                        <a href="inventory.html" class="nav-link">Inventory</a>
                     </li>
                     <li class="nav-item">
-                        <a href="inventory.html" class="nav-link">Inventory <span class="sr-only"></span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="recipes.html" class="nav-link">Recipes <span class="sr-only"></span></a>
-                    </li>
+                        <a href="recipes.html" class="nav-link">Recipes</a>
+                    </li> 
                 </ul>
                 <!-- TODO: Center searchbar -->
                 <div class="col-lg-4">
@@ -74,41 +72,62 @@
                         <button class="btn btn-outline-primary" type="submit">Search</button>
                     </form>
                 </div>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Log In
-                </button>
+                <div class = "profile">
+                    <a href="profile-manage.html" class="my-anchor"><i class="bi bi-gear"></i></a>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Log In
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
     <main>
         <div class="container">
             <div class="row">
-                <h1>Your Recipes</h1>
-                <p>
-                    Publish and Edit recipes here
-                </p>
                 <h1 class="mb-3">Publish Recipe</h1>
-                <form>
+                <form id="recipeForm">
                     <div class="mb-3">
                         <label for="recipeName" class="form-label">Recipe Name</label>
                         <input type="text" class="form-control" id="recipeName" required>
+                    </div>
+                    <p>Prep Time</p>
+                    <div class="mb-3 d-inline-flex align-items-center">
+                        <label for="prepHours" class="form-label px-2">Hours</label>
+                        <input type="number" class="form-control" id="prepHours" min="0">
+                        <label for="prepMinutes" class="form-label px-2">Minutes</label>
+                        <input type="number" class="form-control" id="prepMinutes" min="0" max="59">
+                    </div>
+                    <p>Cooking Time</p>
+                    <div class="mb-3 d-inline-flex align-items-center">
+                        <label for="cookingHours" class="form-label px-2">Hours</label>
+                        <input type="number" class="form-control" id="cookingHours" min="0">
+                        <label for="cookingMinutes" class="form-label px-2">Minutes</label>
+                        <input type="number" class="form-control" id="cookingMinutes" min="0" max="59">
                     </div>
                     <div class="mb-3">
                         <label for="ingredients" class="form-label">Ingredients</label>
                         <textarea class="form-control" id="ingredients" rows="4" required></textarea>
                     </div>
+                    <div>
+                        <label for ="ingredients" class = "form-label">Ingredients:</label><br>
+                        <input type="text" id = "itemInput" placeholder="Ingredient">
+                        <button type="button" class = "btn btn-primary" id="addItemBtn">Add</button>
+                        <ul id = "itemList"></ul>
+                    </div>
                     <div class="mb-3">
                         <label for="instructions" class="form-label">Instructions</label>
                         <textarea class="form-control" id="instructions" rows="6" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Publish</button>
+                    <button type="button" class="btn btn-primary">Publish</button>
                 </form>
-                <p>
-                    Your Verified Recipes! (Pull from SQL)
+                <br>
+                <h2>
+                    Your Verified Recipes! (From DB)
                     <!-- Can select recipes. Populate recipe form with existing information. -->
-                </p>
-                <ul>
-                    <!-- Example items -->
+                </h2>
+                <ul id = "recipeList">
+                    <!-- Example recipe items -->
+                    <!-- Display total time when mini. Break down into prep and cooking when viewing -->
                     <li>
                         Simple Spaghetti
                     </li>
