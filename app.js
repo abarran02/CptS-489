@@ -1,6 +1,6 @@
 const express = require('express');
 const sequelize = require('./db');
-const Recipe = require('./models/Recipe');
+const models = require('./models/index');
 
 var apiRouter = require('./routes/api');
 var publicRouter = require('./routes/public');
@@ -22,17 +22,16 @@ app.get('/', (req, res) => {
 
 // create default Recipe in database
 async function setup() {
-  const defaultRecipe = await Recipe.findOne({
+  const defaultRecipe = await models.Recipe.findOne({
     where: {
-      Recipeid: 1
+      id: 1
     }
   });
 
   // check whether the default already exists
   if (!defaultRecipe) {
-    const def = await Recipe.create(
+    const def = await models.Recipe.create(
       {
-        recipeid: "1",
         name: "Grilled Cheese",
         description: "A sandwich."
       }
