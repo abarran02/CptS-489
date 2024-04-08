@@ -1,6 +1,6 @@
 const express = require('express');
 const sequelize = require('./db');
-const Recipe = require('./models/Recipe');
+const models = require('./models/models');
 
 var apiRouter = require('./routes/api');
 var publicRouter = require('./routes/public');
@@ -15,6 +15,7 @@ app.use('/public', publicRouter);
 app.use('/public', express.static('./public/Public'));
 app.use('/storehub', storeRouter);
 app.use('/storehub', express.static('./public/StoreHub'));
+app.use('/uploads', express.static('./public/uploads'));
 
 app.get('/', (req, res) => {
   res.redirect('/public');
@@ -22,27 +23,25 @@ app.get('/', (req, res) => {
 
 // create default Recipe in database
 async function setup() {
-  const defaultRecipe = await Recipe.findOne({
+  const defaultRecipe = await models.Recipe.findOne({
     where: {
-      Recipeid: 1
+      id: 1
     }
   });
 
   // check whether the default already exists
   if (!defaultRecipe) {
-    const def = await Recipe.create(
-      {
-        recipeid: "1",
-        name: "Grilled Cheese",
-        description: "A sandwich."
-      }
-    );
+    const def = await models.Recipe.create({
+      name: "Grilled Cheese",
+      description: "A sandwich.",
+      image: "uploads/grilled-cheese.jpg"
+    });
   }
 }
 
 sequelize.sync({ force: false }).then(()=>{
   console.log("Sequelize Sync Completed...");
-  setup().then(()=> console.log("Setup complete"))
+  setup().then(()=> console.log("Setup complete"));
 });
 
 // app.post('/', async (req, res) => {
@@ -51,5 +50,5 @@ sequelize.sync({ force: false }).then(()=>{
 // });
 
 app.listen(port, () => {
-  console.log(`App available at http://localhost:${port}`)
+  console.log(`App available at http://localhost:${port}`);
 });

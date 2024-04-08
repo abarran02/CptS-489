@@ -1,22 +1,14 @@
 const sequelize = require('../db')
-const { Model, DataTypes } = require('sequelize')
+const { DataTypes } = require('sequelize')
 
-class Recipe extends Model {
-    static async findRecipe(recipeid){
-        try {
-            const recipe = await Recipe.findByPk(recipeid)
-            return recipe ? recipe : null;
-        } catch (error) {
-            console.log(error)
-            return null
-        }
-    }
-}
-
-Recipe.init({
-  recipeid: {
-    type: DataTypes.STRING,
+const Recipe = sequelize.define('Recipe', {
+  id: {
+    type: DataTypes.INTEGER,
     primaryKey: true,
+    autoIncrement: true
+  },
+  ownerid: {
+    type: DataTypes.INTEGER,
     allowNull: false
   },
   name: {
@@ -26,10 +18,17 @@ Recipe.init({
   description: {
     type: DataTypes.TEXT,
     allowNull: false
-  }
-}, {
-  sequelize,
-  modelName: 'Recipe'
+  },
+  steps: {
+    type: DataTypes.JSON,
+    allowNull: false
+  },
+  ingredients: {
+    // defined as amount and ingredient id
+    type: DataTypes.JSON,
+    allowNull: false
+  },
+  image: DataTypes.STRING // image storage path
 });
 
-module.exports = Recipe
+module.exports = Recipe;
