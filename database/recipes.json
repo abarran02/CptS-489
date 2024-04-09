@@ -1,0 +1,206 @@
+[
+  {
+    "name": "Spaghetti Carbonara",
+    "description": "A classic Italian pasta dish made with spaghetti, crispy pancetta, eggs, cheese, and black pepper.",
+    "ownerid": 0,
+    "steps": [
+      "Cook spaghetti until al dente.",
+      "Fry pancetta until crispy.",
+      "Whisk eggs and grated cheese together.",
+      "Toss cooked spaghetti with pancetta.",
+      "Add egg mixture to spaghetti and pancetta, stirring constantly.",
+      "Serve immediately."
+    ],
+    "ingredients": [
+      { "amount": "8 oz", "ingredient_id": "spaghetti" },
+      { "amount": "4 oz", "ingredient_id": "pancetta" },
+      { "amount": "2", "ingredient_id": "eggs" },
+      { "amount": "1/2 cup", "ingredient_id": "grated cheese" }
+    ],
+    "image": "/uploads/spaghetti-carbonara.jpg"
+  },
+  {
+    "name": "Sushi",
+    "description": "A Japanese delicacy featuring vinegared rice, fresh fish, and various toppings, rolled in seaweed and sliced into bite-sized pieces.",
+    "ownerid": 0,
+    "steps": [
+      "Prepare sushi rice according to instructions.",
+      "Slice fish and other ingredients into thin strips.",
+      "Lay nori sheet on bamboo mat.",
+      "Spread rice on nori, add ingredients, and roll tightly.",
+      "Slice sushi into pieces.",
+      "Serve with soy sauce, wasabi, and pickled ginger."
+    ],
+    "ingredients": [
+      { "amount": "2 cups", "ingredient_id": "sushi rice" },
+      { "amount": "4 sheets", "ingredient_id": "nori (seaweed)" },
+      { "amount": "8 oz", "ingredient_id": "fresh fish" },
+      { "amount": "1/4 cup", "ingredient_id": "rice vinegar" },
+      { "amount": "2 tbsp", "ingredient_id": "sugar" },
+      { "amount": "1 tsp", "ingredient_id": "salt" }
+    ],
+    "image": "/uploads/sushi.jpg"
+  },
+  {
+    "name": "Tacos al Pastor",
+    "description": "A Mexican street food favorite consisting of marinated pork, grilled and sliced thinly, served on tortillas with pineapple, onion, and cilantro.",
+    "ownerid": 0,
+    "steps": [
+      "Marinate pork shoulder slices.",
+      "Skewer and cook pork until crispy.",
+      "Slice cooked pork thinly.",
+      "Serve on warm tortillas with pineapple, onion, cilantro, and salsa."
+    ],
+    "ingredients": [
+      { "amount": "2 lbs", "ingredient_id": "pork shoulder" },
+      { "amount": "1 cup", "ingredient_id": "pineapple juice" },
+      { "amount": "1/4 cup", "ingredient_id": "white vinegar" },
+      { "amount": "2 tbsp", "ingredient_id": "achiote paste" }
+    ],
+    "image": "/uploads/tacos-al-pastor.jpg"
+  },
+  {
+    "name": "Pad Thai",
+    "description": "A popular Thai stir-fried noodle dish made with rice noodles, shrimp or chicken, eggs, tofu, peanuts, bean sprouts, and a tangy sauce.",
+    "ownerid": 0,
+    "steps": [
+      "Soak rice noodles until softened.",
+      "Stir-fry with protein, eggs, tofu, and peanuts.",
+      "Add bean sprouts and sauce.",
+      "Serve hot."
+    ],
+    "ingredients": [
+      { "amount": "8 oz", "ingredient_id": "rice noodles" },
+      { "amount": "8 oz", "ingredient_id": "shrimp or chicken" },
+      { "amount": "2", "ingredient_id": "eggs" },
+      { "amount": "1/2 cup", "ingredient_id": "tofu" },
+      { "amount": "1/4 cup", "ingredient_id": "peanuts" }
+    ],
+    "image": "/uploads/pad-thai.jpg"
+  },
+  {
+    "name": "Chicken Tikka Masala",
+    "description": "A flavorful Indian curry dish featuring marinated chicken cooked in a creamy tomato sauce, served with rice or naan bread.",
+    "ownerid": 0,
+    "steps": [
+      "Marinate chicken pieces in yogurt and spices.",
+      "Grill or bake chicken until cooked through.",
+      "Sauté onion, garlic, and spices.",
+      "Add tomato sauce and cream, simmer.",
+      "Add cooked chicken to sauce, simmer until flavors meld.",
+      "Serve with rice or naan."
+    ],
+    "ingredients": [
+      { "amount": "1 lb", "ingredient_id": "chicken pieces" },
+      { "amount": "1 cup", "ingredient_id": "yogurt" },
+      { "amount": "2 cups", "ingredient_id": "tomato sauce" },
+      { "amount": "1/2 cup", "ingredient_id": "cream" },
+      { "amount": "1", "ingredient_id": "onion" },
+      { "amount": "2 cloves", "ingredient_id": "garlic" }
+    ],
+    "image": "/uploads/chicken-tikka-masala.jpg"
+  },
+  {
+    "name": "Hamburger",
+    "description": "A classic American dish featuring a grilled beef patty served on a toasted bun with various toppings.",
+    "ownerid": 0,
+    "steps": [
+      "Form ground beef into patties.",
+      "Grill or fry patties until cooked to desired doneness.",
+      "Toast hamburger buns.",
+      "Assemble burgers with desired toppings like lettuce, tomato, onion, cheese, and condiments.",
+      "Serve hot."
+    ],
+    "ingredients": [
+      { "amount": "1 lb", "ingredient_id": "ground beef" },
+      { "amount": "4", "ingredient_id": "hamburger buns" },
+      { "amount": "4", "ingredient_id": "lettuce leaves" },
+      { "amount": "4", "ingredient_id": "slices tomato" },
+      { "amount": "4", "ingredient_id": "slices onion" },
+      { "amount": "4", "ingredient_id": "slices cheese" },
+      { "amount": "to taste", "ingredient_id": "condiments" }
+    ],
+    "image": "/uploads/hamburger.jpg"
+  },
+  {
+    "name": "Chicken Caesar Salad",
+    "description": "A refreshing salad made with crisp romaine lettuce, grilled chicken, croutons, and Parmesan cheese, tossed in a creamy Caesar dressing.",
+    "ownerid": 0,
+    "steps": [
+      "Grill chicken breasts until fully cooked.",
+      "Tear romaine lettuce into bite-sized pieces.",
+      "Combine lettuce, sliced chicken, croutons, and grated Parmesan cheese in a large bowl.",
+      "Drizzle with Caesar dressing and toss to coat evenly.",
+      "Serve immediately."
+    ],
+    "ingredients": [
+      { "amount": "2", "ingredient_id": "chicken breasts" },
+      { "amount": "1 head", "ingredient_id": "romaine lettuce" },
+      { "amount": "1 cup", "ingredient_id": "croutons" },
+      { "amount": "1/2 cup", "ingredient_id": "grated Parmesan cheese" },
+      { "amount": "1/4 cup", "ingredient_id": "Caesar dressing" }
+    ],
+    "image": "/uploads/chicken-caesar-salad.jpg"
+  },
+  {
+    "name": "Miso Soup",
+    "description": "A traditional Japanese soup consisting of dashi stock, tofu, seaweed, and miso paste, garnished with sliced green onions.",
+    "ownerid": 0,
+    "steps": [
+      "Bring dashi stock to a simmer.",
+      "Add cubed tofu and sliced seaweed to the simmering stock.",
+      "Scoop out some of the hot broth and dissolve miso paste into it, then return the mixture to the pot.",
+      "Simmer for a few more minutes, then remove from heat.",
+      "Garnish with sliced green onions and serve hot."
+    ],
+    "ingredients": [
+      { "amount": "4 cups", "ingredient_id": "dashi stock" },
+      { "amount": "1/2 block", "ingredient_id": "tofu, cubed" },
+      { "amount": "2 tbsp", "ingredient_id": "miso paste" },
+      { "amount": "1/4 cup", "ingredient_id": "seaweed, sliced" },
+      { "amount": "2", "ingredient_id": "green onions, sliced" }
+    ],
+    "image": "/uploads/miso-soup.jpg"
+  },
+  {
+    "name": "Beef Stroganoff",
+    "description": "A Russian dish made with sautéed beef strips, onions, mushrooms, and sour cream, served over egg noodles.",
+    "ownerid": 0,
+    "steps": [
+      "Sauté thinly sliced beef until browned, then remove from skillet.",
+      "Sauté sliced onions and mushrooms in the same skillet.",
+      "Return beef to skillet, add beef broth and simmer.",
+      "Stir in sour cream and season with salt and pepper.",
+      "Serve over cooked egg noodles."
+    ],
+    "ingredients": [
+      { "amount": "1 lb", "ingredient_id": "beef, thinly sliced" },
+      { "amount": "1", "ingredient_id": "onion, sliced" },
+      { "amount": "8 oz", "ingredient_id": "mushrooms, sliced" },
+      { "amount": "1 cup", "ingredient_id": "beef broth" },
+      { "amount": "1/2 cup", "ingredient_id": "sour cream" },
+      { "amount": "to taste", "ingredient_id": "salt and pepper" },
+      { "amount": "8 oz", "ingredient_id": "egg noodles, cooked" }
+    ],
+    "image": "/uploads/beef-stroganoff.jpg"
+  },
+  {
+    "name": "Caprese Salad",
+    "description": "A simple Italian salad made with fresh tomatoes, mozzarella cheese, basil leaves, olive oil, and balsamic glaze.",
+    "ownerid": 0,
+    "steps": [
+      "Slice tomatoes and fresh mozzarella cheese into thick slices.",
+      "Arrange tomato and mozzarella slices on a serving platter, alternating them.",
+      "Tuck fresh basil leaves between the tomato and mozzarella slices.",
+      "Drizzle with olive oil and balsamic glaze.",
+      "Season with salt and pepper to taste, and serve immediately."
+    ],
+    "ingredients": [
+      { "amount": "4", "ingredient_id": "tomatoes, sliced" },
+      { "amount": "8 oz", "ingredient_id": "fresh mozzarella cheese, sliced" },
+      { "amount": "1/2 cup", "ingredient_id": "fresh basil leaves" },
+      { "amount": "2 tbsp", "ingredient_id": "olive oil" }
+    ],
+    "image": "/uploads/caprese.jpg"
+  }
+]
