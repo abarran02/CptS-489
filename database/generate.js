@@ -1,12 +1,11 @@
-const arrayData = require('./recipes.json');
+const arrayData = require('./defaultdata.json');
 const sequelize = require('../db');
-const Recipe = require('../models/Recipe')
+const models = require('../models/models')
 
-sequelize.sync({ force: false }).then( async () => {
-  console.log("Sequelize Sync Completed...");
+async function insertRecipes() {
   for (let i = 0; i < arrayData.length; i++) {
-    const element = arrayData[i];
-    await Recipe.create({
+    const element = arrayData.recipes[i];
+    await models.Recipe.create({
       name: element.name,
       description: element.description,
       ownerid: element.ownerid,
@@ -15,4 +14,22 @@ sequelize.sync({ force: false }).then( async () => {
       image: element.image
     });
   }
+}
+
+async function insertIngredients() {
+  for (let i = 0; i < arrayData.length; i++) {
+    const element = arrayData.ingredients[i];
+    await models.Ingredient.create({
+      name: element.name,
+      description: element.description,
+      image: element.image,
+      category: element.category
+    });
+  }
+}
+
+sequelize.sync({ force: false }).then( async () => {
+  console.log("Sequelize Sync Completed...");
+  await insertRecipes();
+  await insertIngredients();
 });

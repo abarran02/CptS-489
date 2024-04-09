@@ -1,0 +1,250 @@
+{
+  "recipes": [
+    {
+      "name": "Spaghetti Carbonara",
+      "description": "A classic Italian pasta dish made with spaghetti, crispy pancetta, eggs, cheese, and black pepper.",
+      "ownerid": 0,
+      "steps": [
+        "Cook spaghetti until al dente.",
+        "Fry pancetta until crispy.",
+        "Whisk eggs and grated cheese together.",
+        "Toss cooked spaghetti with pancetta.",
+        "Add egg mixture to spaghetti and pancetta, stirring constantly.",
+        "Serve immediately."
+      ],
+      "ingredients": [
+        { "amount": "8 oz", "ingredient_name": "spaghetti", "ingredientid": 0 },
+        { "amount": "4 oz", "ingredient_name": "pancetta", "ingredientid": 0 },
+        { "amount": "2", "ingredient_name": "eggs", "ingredientid": 0 },
+        { "amount": "1/2 cup", "ingredient_name": "grated cheese", "ingredientid": 0 }
+      ],
+      "image": "/uploads/spaghetti-carbonara.jpg"
+    },
+    {
+      "name": "Sushi",
+      "description": "A Japanese delicacy featuring vinegared rice, fresh fish, and various toppings, rolled in seaweed and sliced into bite-sized pieces.",
+      "ownerid": 0,
+      "steps": [
+        "Prepare sushi rice according to instructions.",
+        "Slice fish and other ingredients into thin strips.",
+        "Lay nori sheet on bamboo mat.",
+        "Spread rice on nori, add ingredients, and roll tightly.",
+        "Slice sushi into pieces.",
+        "Serve with soy sauce, wasabi, and pickled ginger."
+      ],
+      "ingredients": [
+        { "amount": "2 cups", "ingredient_name": "sushi rice", "ingredientid": 0 },
+        { "amount": "4 sheets", "ingredient_name": "nori (seaweed)", "ingredientid": 0 },
+        { "amount": "8 oz", "ingredient_name": "fresh fish", "ingredientid": 0 },
+        { "amount": "1/4 cup", "ingredient_name": "rice vinegar", "ingredientid": 0 },
+        { "amount": "2 tbsp", "ingredient_name": "sugar", "ingredientid": 0 },
+        { "amount": "1 tsp", "ingredient_name": "salt", "ingredientid": 0 }
+      ],
+      "image": "/uploads/sushi.jpg"
+    },
+    {
+      "name": "Tacos al Pastor",
+      "description": "A Mexican street food favorite consisting of marinated pork, grilled and sliced thinly, served on tortillas with pineapple, onion, and cilantro.",
+      "ownerid": 0,
+      "steps": [
+        "Marinate pork shoulder slices.",
+        "Skewer and cook pork until crispy.",
+        "Slice cooked pork thinly.",
+        "Serve on warm tortillas with pineapple, onion, cilantro, and salsa."
+      ],
+      "ingredients": [
+        { "amount": "2 lbs", "ingredient_name": "pork shoulder", "ingredientid": 0 },
+        { "amount": "1 cup", "ingredient_name": "pineapple juice", "ingredientid": 0 },
+        { "amount": "1/4 cup", "ingredient_name": "white vinegar", "ingredientid": 0 },
+        { "amount": "2 tbsp", "ingredient_name": "achiote paste", "ingredientid": 0 }
+      ],
+      "image": "/uploads/tacos-al-pastor.jpg"
+    },
+    {
+      "name": "Pad Thai",
+      "description": "A popular Thai stir-fried noodle dish made with rice noodles, shrimp or chicken, eggs, tofu, peanuts, bean sprouts, and a tangy sauce.",
+      "ownerid": 0,
+      "steps": [
+        "Soak rice noodles until softened.",
+        "Stir-fry with protein, eggs, tofu, and peanuts.",
+        "Add bean sprouts and sauce.",
+        "Serve hot."
+      ],
+      "ingredients": [
+        { "amount": "8 oz", "ingredient_name": "rice noodles", "ingredientid": 0 },
+        { "amount": "8 oz", "ingredient_name": "shrimp or chicken", "ingredientid": 0 },
+        { "amount": "2", "ingredient_name": "eggs", "ingredientid": 0 },
+        { "amount": "1/2 cup", "ingredient_name": "tofu", "ingredientid": 0 },
+        { "amount": "1/4 cup", "ingredient_name": "peanuts", "ingredientid": 0 }
+      ],
+      "image": "/uploads/pad-thai.jpg"
+    },
+    {
+      "name": "Chicken Tikka Masala",
+      "description": "A flavorful Indian curry dish featuring marinated chicken cooked in a creamy tomato sauce, served with rice or naan bread.",
+      "ownerid": 0,
+      "steps": [
+        "Marinate chicken pieces in yogurt and spices.",
+        "Grill or bake chicken until cooked through.",
+        "Sauté onion, garlic, and spices.",
+        "Add tomato sauce and cream, simmer.",
+        "Add cooked chicken to sauce, simmer until flavors meld.",
+        "Serve with rice or naan."
+      ],
+      "ingredients": [
+        { "amount": "1 lb", "ingredient_name": "chicken pieces", "ingredientid": 0 },
+        { "amount": "1 cup", "ingredient_name": "yogurt", "ingredientid": 0 },
+        { "amount": "2 cups", "ingredient_name": "tomato sauce", "ingredientid": 0 },
+        { "amount": "1/2 cup", "ingredient_name": "cream", "ingredientid": 0 },
+        { "amount": "1", "ingredient_name": "onion", "ingredientid": 0 },
+        { "amount": "2 cloves", "ingredient_name": "garlic", "ingredientid": 0 }
+      ],
+      "image": "/uploads/chicken-tikka-masala.jpg"
+    },
+    {
+      "name": "Hamburger",
+      "description": "A classic American dish featuring a grilled beef patty served on a toasted bun with various toppings.",
+      "ownerid": 0,
+      "steps": [
+        "Form ground beef into patties.",
+        "Grill or fry patties until cooked to desired doneness.",
+        "Toast hamburger buns.",
+        "Assemble burgers with desired toppings like lettuce, tomato, onion, cheese, and condiments.",
+        "Serve hot."
+      ],
+      "ingredients": [
+        { "amount": "1 lb", "ingredient_name": "ground beef", "ingredientid": 0 },
+        { "amount": "4", "ingredient_name": "hamburger buns", "ingredientid": 0 },
+        { "amount": "4", "ingredient_name": "lettuce leaves", "ingredientid": 0 },
+        { "amount": "4", "ingredient_name": "slices tomato", "ingredientid": 0 },
+        { "amount": "4", "ingredient_name": "slices onion", "ingredientid": 0 },
+        { "amount": "4", "ingredient_name": "slices cheese", "ingredientid": 0 },
+        { "amount": "to taste", "ingredient_name": "condiments", "ingredientid": 0 }
+      ],
+      "image": "/uploads/hamburger.jpg"
+    },
+    {
+      "name": "Chicken Caesar Salad",
+      "description": "A refreshing salad made with crisp romaine lettuce, grilled chicken, croutons, and Parmesan cheese, tossed in a creamy Caesar dressing.",
+      "ownerid": 0,
+      "steps": [
+        "Grill chicken breasts until fully cooked.",
+        "Tear romaine lettuce into bite-sized pieces.",
+        "Combine lettuce, sliced chicken, croutons, and grated Parmesan cheese in a large bowl.",
+        "Drizzle with Caesar dressing and toss to coat evenly.",
+        "Serve immediately."
+      ],
+      "ingredients": [
+        { "amount": "2", "ingredient_name": "chicken breasts", "ingredientid": 0 },
+        { "amount": "1 head", "ingredient_name": "romaine lettuce", "ingredientid": 0 },
+        { "amount": "1 cup", "ingredient_name": "croutons", "ingredientid": 0 },
+        { "amount": "1/2 cup", "ingredient_name": "grated Parmesan cheese", "ingredientid": 0 },
+        { "amount": "1/4 cup", "ingredient_name": "Caesar dressing", "ingredientid": 0 }
+      ],
+      "image": "/uploads/chicken-caesar-salad.jpg"
+    },
+    {
+      "name": "Miso Soup",
+      "description": "A traditional Japanese soup consisting of dashi stock, tofu, seaweed, and miso paste, garnished with sliced green onions.",
+      "ownerid": 0,
+      "steps": [
+        "Bring dashi stock to a simmer.",
+        "Add cubed tofu and sliced seaweed to the simmering stock.",
+        "Scoop out some of the hot broth and dissolve miso paste into it, then return the mixture to the pot.",
+        "Simmer for a few more minutes, then remove from heat.",
+        "Garnish with sliced green onions and serve hot."
+      ],
+      "ingredients": [
+        { "amount": "4 cups", "ingredient_name": "dashi stock", "ingredientid": 0 },
+        { "amount": "1/2 block", "ingredient_name": "tofu, cubed", "ingredientid": 0 },
+        { "amount": "2 tbsp", "ingredient_name": "miso paste", "ingredientid": 0 },
+        { "amount": "1/4 cup", "ingredient_name": "seaweed, sliced", "ingredientid": 0 },
+        { "amount": "2", "ingredient_name": "green onions, sliced", "ingredientid": 0 }
+      ],
+      "image": "/uploads/miso-soup.jpg"
+    },
+    {
+      "name": "Beef Stroganoff",
+      "description": "A Russian dish made with sautéed beef strips, onions, mushrooms, and sour cream, served over egg noodles.",
+      "ownerid": 0,
+      "steps": [
+        "Sauté thinly sliced beef until browned, then remove from skillet.",
+        "Sauté sliced onions and mushrooms in the same skillet.",
+        "Return beef to skillet, add beef broth and simmer.",
+        "Stir in sour cream and season with salt and pepper.",
+        "Serve over cooked egg noodles."
+      ],
+      "ingredients": [
+        { "amount": "1 lb", "ingredient_name": "beef, thinly sliced", "ingredientid": 0 },
+        { "amount": "1", "ingredient_name": "onion, sliced", "ingredientid": 0 },
+        { "amount": "8 oz", "ingredient_name": "mushrooms, sliced", "ingredientid": 0 },
+        { "amount": "1 cup", "ingredient_name": "beef broth", "ingredientid": 0 },
+        { "amount": "1/2 cup", "ingredient_name": "sour cream", "ingredientid": 0 },
+        { "amount": "to taste", "ingredient_name": "salt and pepper", "ingredientid": 0 },
+        { "amount": "8 oz", "ingredient_name": "egg noodles, cooked", "ingredientid": 0 }
+      ],
+      "image": "/uploads/beef-stroganoff.jpg"
+    },
+    {
+      "name": "Caprese Salad",
+      "description": "A simple Italian salad made with fresh tomatoes, mozzarella cheese, basil leaves, olive oil, and balsamic glaze.",
+      "ownerid": 0,
+      "steps": [
+        "Slice tomatoes and fresh mozzarella cheese into thick slices.",
+        "Arrange tomato and mozzarella slices on a serving platter, alternating them.",
+        "Tuck fresh basil leaves between the tomato and mozzarella slices.",
+        "Drizzle with olive oil and balsamic glaze.",
+        "Season with salt and pepper to taste, and serve immediately."
+      ],
+      "ingredients": [
+        { "amount": "4", "ingredient_name": "tomatoes, sliced", "ingredientid": 0 },
+        { "amount": "8 oz", "ingredient_name": "fresh mozzarella cheese, sliced", "ingredientid": 0 },
+        { "amount": "1/2 cup", "ingredient_name": "fresh basil leaves", "ingredientid": 0 },
+        { "amount": "2 tbsp", "ingredient_name": "olive oil", "ingredientid": 0 }
+      ],
+      "image": "/uploads/caprese.jpg"
+    }
+  ],
+  "ingredients": [
+    { "name": "Tomato", "description": "Red, juicy, used in cooking", "image": "/upload/tomato.jpg", "category": "Vegetable" },
+    { "name": "Cheese", "description": "Dairy product, various types", "image": "/upload/cheese.jpg", "category": "Dairy" },
+    { "name": "Chicken", "description": "Versatile poultry meat", "image": "/upload/chicken.jpg", "category": "Meat" },
+    { "name": "Lettuce", "description": "Leafy green, salad staple", "image": "/upload/lettuce.jpg", "category": "Vegetable" },
+    { "name": "Onion", "description": "Pungent, used in cooking", "image": "/upload/onion.jpg", "category": "Vegetable" },
+    { "name": "Egg", "description": "Protein-rich, versatile ingredient", "image": "/upload/egg.jpg", "category": "Dairy" },
+    { "name": "Beef", "description": "Red meat, various cuts", "image": "/upload/beef.jpg", "category": "Meat" },
+    { "name": "Rice", "description": "Staple grain, many varieties", "image": "/upload/rice.jpg", "category": "Grain" },
+    { "name": "Potato", "description": "Starchy, used in many dishes", "image": "/upload/potato.jpg", "category": "Vegetable" },
+    { "name": "Carrot", "description": "Orange vegetable, commonly grated", "image": "/upload/carrot.jpg", "category": "Vegetable" },
+    { "name": "Spinach", "description": "Leafy green, iron-rich", "image": "/upload/spinach.jpg", "category": "Vegetable" },
+    { "name": "Garlic", "description": "Aromatic, used in cooking", "image": "/upload/garlic.jpg", "category": "Vegetable" },
+    { "name": "Olive Oil", "description": "Healthy fat, cooking oil", "image": "/upload/olive-oil.jpg", "category": "Condiment" },
+    { "name": "Salt", "description": "Essential seasoning, enhances flavor", "image": "/upload/salt.jpg", "category": "Condiment" },
+    { "name": "Pepper", "description": "Spicy seasoning, black variety", "image": "/upload/pepper.jpg", "category": "Condiment" },
+    { "name": "Mushroom", "description": "Fungi, various culinary uses", "image": "/upload/mushroom.jpg", "category": "Vegetable" },
+    { "name": "Bread", "description": "Staple food, many types", "image": "/upload/bread.jpg", "category": "Grain" },
+    { "name": "Butter", "description": "Dairy product, used in cooking", "image": "/upload/butter.jpg", "category": "Dairy" },
+    { "name": "Sugar", "description": "Sweetener, various types available", "image": "/upload/sugar.jpg", "category": "Condiment" },
+    { "name": "Spaghetti", "description": "Long, thin pasta strands", "image": "/uploads/spaghetti.jpg", "category": "Grain" },
+    { "name": "Pancetta", "description": "Italian bacon, cured pork", "image": "/uploads/pancetta.jpg", "category": "Meat" },
+    { "name": "Eggs", "description": "Protein-rich, versatile ingredient", "image": "/uploads/egg.jpg", "category": "Dairy" },
+    { "name": "Parmesan Cheese", "description": "Hard, granular cheese", "image": "/uploads/parmesan-cheese.jpg", "category": "Dairy" },
+    { "name": "Romaine Lettuce", "description": "Crisp, leafy green vegetable", "image": "/uploads/lettuce.jpg", "category": "Vegetable" },
+    { "name": "Croutons", "description": "Small, seasoned bread cubes", "image": "/uploads/croutons.jpg", "category": "Grain" },
+    { "name": "Caesar Dressing", "description": "Creamy dressing with anchovies", "image": "/uploads/caesar-dressing.jpg", "category": "Condiment" },
+    { "name": "Miso Paste", "description": "Fermented soybean paste", "image": "/uploads/miso-paste.jpg", "category": "Condiment" },
+    { "name": "Dashi Stock", "description": "Japanese fish and kelp broth", "image": "/uploads/dashi-stock.jpg", "category": "Condiment" },
+    { "name": "Tofu", "description": "Soybean curd, high protein", "image": "/uploads/tofu.jpg", "category": "Protein" },
+    { "name": "Seaweed", "description": "Edible marine algae", "image": "/uploads/seaweed.jpg", "category": "Vegetable" },
+    { "name": "Pork", "description": "Meat from pig, various cuts", "image": "/uploads/pork.jpg", "category": "Meat" },
+    { "name": "Tortillas", "description": "Thin, flatbread made from corn", "image": "/uploads/tortillas.jpg", "category": "Grain" },
+    { "name": "Pineapple", "description": "Sweet, tropical fruit", "image": "/uploads/pineapple.jpg", "category": "Fruit" },
+    { "name": "Cilantro", "description": "Herb with citrusy flavor", "image": "/uploads/cilantro.jpg", "category": "Herb" },
+    { "name": "Rice Noodles", "description": "Thin noodles made from rice flour", "image": "/uploads/rice-noodles.jpg", "category": "Grain" },
+    { "name": "Peanuts", "description": "Legume, crunchy snack", "image": "/uploads/peanuts.jpg", "category": "Nut" },
+    { "name": "Bean Sprouts", "description": "Sprouted mung beans", "image": "/uploads/bean-sprouts.jpg", "category": "Vegetable" },
+    { "name": "Green Onions", "description": "Young onions with long green stalks", "image": "/uploads/green-onions.jpg", "category": "Vegetable" },
+    { "name": "Basil", "description": "Aromatic herb, used in cooking", "image": "/uploads/basil.jpg", "category": "Herb" },
+    { "name": "Naan", "description": "Soft, leavened flatbread", "image": "/uploads/naan-bread.jpg", "category": "Grain" }
+  ]
+}
