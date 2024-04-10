@@ -7,6 +7,10 @@ const Ingredient = sequelize.define('Ingredient', {
     primaryKey: true,
   },
   description: DataTypes.TEXT,
+  category: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   image: DataTypes.STRING // image storage path
 });
 

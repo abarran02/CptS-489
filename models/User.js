@@ -15,7 +15,6 @@ const User = sequelize.define('User', {
   password: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true
   },
   displayname: {
     type: DataTypes.STRING,
@@ -24,7 +23,7 @@ const User = sequelize.define('User', {
   cart: DataTypes.JSON,
   savedRecipes: DataTypes.JSON,
   portrait: DataTypes.STRING, // image storage path
-  isStore: DataTypes.BOOLEAN
+  controlsStore: DataTypes.INTEGER // gives permission to login on StoreHub
 });
 
 module.exports = User;
