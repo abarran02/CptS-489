@@ -246,5 +246,12 @@
     { "name": "Green Onions", "description": "Young onions with long green stalks", "image": "/uploads/green-onions.jpg", "category": "Vegetable" },
     { "name": "Basil", "description": "Aromatic herb, used in cooking", "image": "/uploads/basil.jpg", "category": "Herb" },
     { "name": "Naan", "description": "Soft, leavened flatbread", "image": "/uploads/naan-bread.jpg", "category": "Grain" }
+  ],
+  "stores": [
+    { "name": "Palouse Pantry", "description": "Local produce and collegiate favorites", "location": "101 Cougar Lane, Pullman, WA" },
+    { "name": "Fresh Harvest Market", "description": "Organic produce and gourmet selections", "location": "123 Main St, Seattle, WA" },
+    { "name": "Cascade Corner Store", "description": "Convenient neighborhood essentials", "location": "789 Pine St, Bellevue, WA" },
+    { "name": "Mountain View Market", "description": "Scenic views with quality provisions", "location": "321 Oak St, Spokane, WA" },
+    { "name": "Harbor Foods", "description": "Nautical-themed offerings by the bay", "location": "543 Marina Ave, Bellingham, WA" }
   ]
 }
