@@ -24,7 +24,8 @@ const User = sequelize.define('User', {
   savedRecipes: DataTypes.JSON,
   portrait: DataTypes.STRING, // image storage path
   controlsStore: DataTypes.INTEGER, // gives permission to login on StoreHub
-  isAdmin: DataTypes.BOOLEAN
+  isAdmin: DataTypes.BOOLEAN,
+  isChef: DataTypes.BOOLEAN
 });
 
 module.exports = User;

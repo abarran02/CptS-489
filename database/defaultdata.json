@@ -253,5 +253,14 @@
     { "name": "Cascade Corner Store", "description": "Convenient neighborhood essentials", "location": "789 Pine St, Bellevue, WA" },
     { "name": "Mountain View Market", "description": "Scenic views with quality provisions", "location": "321 Oak St, Spokane, WA" },
     { "name": "Harbor Foods", "description": "Nautical-themed offerings by the bay", "location": "543 Marina Ave, Bellingham, WA" }
+  ],
+  "users": [
+    {"username": "admin", "password": "admin123", "displayname": "Administrator", "isAdmin": true},
+    {"username": "alice", "password": "12345", "displayname": "Alice"},
+    {"username": "bob", "password": "12345", "displayname": "Bob"},
+    {"username": "christian", "password": "12345", "displayname": "Christian", "isChef": true},
+    {"username": "eva", "password": "12345", "displayname": "Eva", "isChef": true},
+    {"username": "alec", "password": "12345", "displayname": "Alec", "isChef": true},
+    {"username": "john", "password": "12345", "displayname": "John", "isChef": true}
   ]
 }

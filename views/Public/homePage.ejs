@@ -41,16 +41,16 @@
       </div>
       <div class="row">
         <div class="col-6 recipe-in-top">
-          <a href="" class="list-element-title">John Smith</a>
-          <img src="img/chef1.jpg" class="img-square-150">
-          <a href="" class="list-element-title">Eva</a>
-          <img src="img/chef2.jpg" class="img-square-150">
+          <% for(let i = 0; i < chefs.length; i+=2) { %>
+            <a href="/public/users/<%= chefs[i].id %>" class="list-element-title"><%= chefs[i].displayname %></a>
+            <img src="<%= chefs[i].portrait %>" class="img-square-150">
+          <% } %>
         </div>
         <div class="col-6 recipe-in-top">
-          <a href="" class="list-element-title">Christian</a>
-          <img src="img/chef3.jpg" class="img-square-150">
-          <a href="" class="list-element-title">Alec</a>
-          <img src="img/chef4.jpg" class="img-square-150">
+          <% for(let i = 1; i < chefs.length; i+=2) { %>
+            <a href="/public/users/<%= chefs[i].id %>" class="list-element-title"><%= chefs[i].displayname %></a>
+            <img src="<%= chefs[i].portrait %>" class="img-square-150">
+          <% } %>
         </div>
       </div>
 

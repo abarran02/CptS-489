@@ -12,9 +12,18 @@ router.get("/", async (req, res, next) => {
     limit: 4
   });
 
+  const chefs = await User.findAll({
+    where: {
+      isChef: true
+    },
+    attributes: ['id', 'displayname', 'portrait'],
+    limit: 4
+  })
+
   const data = {
     pageTitle: 'Home Page',
     recipes: recipes,
+    chefs: chefs,
     user: req.session.user
   };
 
