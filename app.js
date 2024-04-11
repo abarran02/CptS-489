@@ -11,7 +11,7 @@ var storeRouter = require('./routes/storehub');
 const app = express();
 const port = 3000;
 
-app.set('trust proxy', 1) // trust first proxy
+app.set('trust proxy', 1); // trust first proxy
 app.use(session({
   name: 'huntergather',
   secret: 'secret',
@@ -35,6 +35,32 @@ app.use('/uploads', express.static('./public/uploads'));
 
 app.get('/', (req, res) => {
   res.redirect('/public');
+});
+
+app.post('/login', async (req, res, next) => {
+  try {
+    const user = await models.User.findOne({
+      where: {
+        username: req.body.username,
+        password: req.body.passwd
+      },
+      attributes: ['id', 'username', 'displayname']
+    });
+
+    req.session.user = user;
+    res.redirect('/');
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+});
+
+app.get('/logout', (req, res, next) =>{
+  if (req.session.user) {
+    req.session.destroy();
+  }
+
+  res.redirect('/');
 });
 
 // create default Recipe in database

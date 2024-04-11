@@ -66,30 +66,4 @@ router.get("/recipes/:id", async (req, res, next) => {
   }
 });
 
-router.post('/login', async (req, res, next) => {
-  try {
-    const user = await User.findOne({
-      where: {
-        username: req.body.username,
-        password: req.body.passwd
-      },
-      attributes: ['username', 'displayname']
-    });
-
-    req.session.user = user;
-    res.redirect('/');
-  } catch (error) {
-    console.log(error);
-    res.status(500).json(error);
-  }
-});
-
-router.get('/logout', (req, res, next) =>{
-  if (req.session.user) {
-    req.session.destroy();
-  }
-
-  res.redirect('/');
-});
-
 module.exports = router;

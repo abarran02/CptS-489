@@ -6,7 +6,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form class="login-modal" method="POST" action="/public/login" id="login">
+        <form class="login-modal" method="POST" action="/login" id="login">
           <label for="username"><b>Username</b></label>
           <input type="text" placeholder="Enter Username" name="username" required />
           <br />
@@ -37,7 +37,7 @@
       <div class="col-2 navbar-login">
         <!-- Button trigger modal -->
         <% if (user) { %>
-          <a href="/public/logout">
+          <a href="/logout">
             <button type="button" class="btn btn-primary">
               Sign Out
             </button>
