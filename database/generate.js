@@ -39,9 +39,23 @@ async function insertStores() {
   }
 }
 
+async function insertUsers() {
+  for (let i = 0; i < arrayData.users.length; i++) {
+    const element = arrayData.users[i];
+    await models.User.create({
+      username: element.username,
+      password: element.password,
+      displayname: element.displayname,
+      isAdmin: (element.isAdmin === undefined) ? false : element.isAdmin,
+      isChef: (element.isChef === undefined) ? false : element.isChef
+    });
+  }
+}
+
 sequelize.sync({ force: false }).then( async () => {
   console.log("Sequelize Sync Completed...");
   await insertRecipes();
   await insertIngredients();
   await insertStores();
+  await insertUsers();
 });

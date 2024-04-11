@@ -11,7 +11,8 @@ const Ingredient = sequelize.define('Ingredient', {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  image: DataTypes.STRING // image storage path
+  image: DataTypes.STRING, // image storage path
+  category: DataTypes.STRING
 });
 
 module.exports = Ingredient;

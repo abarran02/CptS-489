@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include("./shared/styles") %>
+  <title><%= pageTitle %></title>
+</head>
+<body>
+  <%- include("./shared/header") %>
+
+  <div class="container-fluid backgroundColor">
+    <div class="container">
+      <%- include("./shared/banner") %>
+      
+      <div class="row green-line"></div>
+      <div class="row ht200">
+        <div class="col-4 topRecipes">
+          <p>All Users</p>
+        </div>
+        <div class="col-6"></div>
+        <!-- <div class="col-2 sort-recipes">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Sort By
+          </button>
+        </div> -->
+      </div>
+      <div class="row" style="margin-bottom:30px;">
+        <div class="col-6 recipe-in-top">
+          <% for(let i = 0; i < users.length; i+=2) { %>
+            <a href="/public/users/<%= users[i].id %>" class="list-element-title"><%= users[i].displayname %></a>
+            <img src="<%= users[i].image %>" class="img-square-150">
+          <% } %>
+        </div>
+        <div class="col-6 recipe-in-top">
+          <% for(let i = 1; i < users.length; i+=2) { %>
+            <a href="/public/users/<%= users[i].id %>" class="list-element-title"><%= users[i].displayname %></a>
+            <img src="<%= users[i].image %>" class="img-square-150">
+
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include("./shared/footer") %>
+</body>
+</html>
