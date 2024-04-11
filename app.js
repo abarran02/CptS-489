@@ -1,7 +1,8 @@
 const express = require('express');
-const sequelize = require('./db');
 const models = require('./models/models');
-const path = require('path');
+const sequelize = require('./db');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 
 var apiRouter = require('./routes/api');
 var publicRouter = require('./routes/public');
@@ -10,8 +11,21 @@ var storeRouter = require('./routes/storehub');
 const app = express();
 const port = 3000;
 
+app.set('trust proxy', 1) // trust first proxy
+app.use(session({
+  name: 'huntergather',
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: false,
+    maxAge: 86400000 // 1 day
+  }
+}));
+
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended: false}));
+app.use(cookieParser());
 app.use('/api', apiRouter);
 app.use('/public', publicRouter);
 app.use('/public', express.static('./public/Public'));
@@ -58,11 +72,6 @@ sequelize.sync({ force: false }).then(()=>{
   console.log("Sequelize Sync Completed...");
   setup().then(()=> console.log("Setup complete"));
 });
-
-// app.post('/', async (req, res) => {
-//   const postData = req.body;
-//   console.log(postData);
-// });
 
 app.listen(port, () => {
   console.log(`App available at http://localhost:${port}`);

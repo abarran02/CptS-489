@@ -22,14 +22,14 @@
 
         <div class="col-6 recipe-in-top">
           <% for(let i = 0; i < recipes.length; i+=2) { %>
-            <a href="public/recipes/<%= recipes[i].id %>" style="color:black;"><%= recipes[i].name %></a>
-            <img src="<%= recipes[i].image %>" height="150px" width="150px">
+            <a href="/public/recipes/<%= recipes[i].id %>" class="list-element-title"><%= recipes[i].name %></a>
+            <img src="<%= recipes[i].image %>" class="img-square-150">
           <% } %>
         </div>
         <div class="col-6 recipe-in-top">
           <% for(let i = 1; i < recipes.length; i+=2) { %>
-            <a href="public/recipes/<%= recipes[i].id %>" style="color:black;"><%= recipes[i].name %></a>
-            <img src="<%= recipes[i].image %>" height="150px" width="150px">
+            <a href="/public/recipes/<%= recipes[i].id %>" class="list-element-title"><%= recipes[i].name %></a>
+            <img src="<%= recipes[i].image %>" class="img-square-150">
           <% } %>
         </div>
       </div>
@@ -41,16 +41,16 @@
       </div>
       <div class="row">
         <div class="col-6 recipe-in-top">
-          <a href="" style="color:black;">John Smith</a>
-          <img src="img/chef1.jpg" height="150px" width="150px">
-          <a href="" style="color:black;">Eva</a>
-          <img src="img/chef2.jpg" height="150px" width="150px">
+          <a href="" class="list-element-title">John Smith</a>
+          <img src="img/chef1.jpg" class="img-square-150">
+          <a href="" class="list-element-title">Eva</a>
+          <img src="img/chef2.jpg" class="img-square-150">
         </div>
         <div class="col-6 recipe-in-top">
-          <a href="" style="color:black;">Christian</a>
-          <img src="img/chef3.jpg" height="150px" width="150px">
-          <a href="" style="color:black;">Alec</a>
-          <img src="img/chef4.jpg" height="150px" width="150px">
+          <a href="" class="list-element-title">Christian</a>
+          <img src="img/chef3.jpg" class="img-square-150">
+          <a href="" class="list-element-title">Alec</a>
+          <img src="img/chef4.jpg" class="img-square-150">
         </div>
       </div>
 
@@ -58,7 +58,5 @@
   </div>
 
   <%- include("./shared/footer") %>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>
