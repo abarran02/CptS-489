@@ -24,7 +24,7 @@ router.get("/", async (req, res, next) => {
     pageTitle: 'Home Page',
     recipes: recipes,
     chefs: chefs,
-    user: req.session.user
+    session: req.session.user
   };
 
   res.render('Public/homePage', data);
@@ -38,10 +38,10 @@ router.get("/recipes", async (req, res, next) => {
   const data = {
     pageTitle: 'All Recipes',
     recipes: recipes,
-    user: req.session.user
+    session: req.session.user
   }
 
-  res.render('Public/recipeList', data);
+  res.render('Public/recipeIndex', data);
 });
 
 router.get("/recipes/:id", async (req, res, next) => {
@@ -57,10 +57,46 @@ router.get("/recipes/:id", async (req, res, next) => {
     const data = {
       pageTitle: recipe.dataValues.name,
       recipe: recipe.dataValues,
-      user: req.session.user
+      session: req.session.user
     }
 
     res.render('Public/recipe', data);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+router.get("/users", async (req, res, next) => {
+  const users = await User.findAll({
+    attributes: ['id', 'displayname', 'portrait']
+  });
+
+  const data = {
+    pageTitle: 'All Users',
+    users: users,
+    session: req.session.user
+  }
+
+  res.render('Public/userIndex', data);
+});
+
+router.get("/users/:id", async (req, res, next) => {
+  const id = req.params.id;
+  try {
+    const user = await User.findOne({
+      where: {
+        id: id
+      },
+      attributes: ['displayname', 'portrait', 'savedRecipes']
+    });
+
+    const data = {
+      pageTitle: user.dataValues.name,
+      user: user.dataValues,
+      session: req.session.user
+    }
+
+    res.render('Public/user', data);
   } catch (error) {
     res.status(500).json(error);
   }

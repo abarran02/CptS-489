@@ -4,20 +4,26 @@
   <%- include("./shared/styles") %>
   <title><%= pageTitle %></title>
 </head>
+<body>
   <%- include("./shared/header") %>
 
   <div class="container-fluid backgroundColor">
     <div class="container">
       <%- include("./shared/banner") %>
-      
+
       <div class="row green-line"></div>
       <div class="row ht200">
         <div class="col-4 topRecipes">
-          <p>Top Recipes</p>
+          <p>All Recipes</p>
         </div>
+        <div class="col-6"></div>
+        <!-- <div class="col-2 sort-recipes">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Sort By
+          </button>
+        </div> -->
       </div>
-      <div class="row">
-
+      <div class="row" style="margin-bottom:30px;">
         <div class="col-6 recipe-in-top">
           <% for(let i = 0; i < recipes.length; i+=2) { %>
             <a href="/public/recipes/<%= recipes[i].id %>" class="list-element-title"><%= recipes[i].name %></a>
@@ -28,30 +34,10 @@
           <% for(let i = 1; i < recipes.length; i+=2) { %>
             <a href="/public/recipes/<%= recipes[i].id %>" class="list-element-title"><%= recipes[i].name %></a>
             <img src="<%= recipes[i].image %>" class="img-square-150">
-          <% } %>
-        </div>
-      </div>
-      <div class="row green-line"></div>
-      <div class="row">
-        <div class="col-4 topRecipes">
-          <p>Meet the Chefs</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-6 recipe-in-top">
-          <% for(let i = 0; i < chefs.length; i+=2) { %>
-            <a href="/public/users/<%= chefs[i].id %>" class="list-element-title"><%= chefs[i].displayname %></a>
-            <img src="<%= chefs[i].portrait %>" class="img-square-150">
-          <% } %>
-        </div>
-        <div class="col-6 recipe-in-top">
-          <% for(let i = 1; i < chefs.length; i+=2) { %>
-            <a href="/public/users/<%= chefs[i].id %>" class="list-element-title"><%= chefs[i].displayname %></a>
-            <img src="<%= chefs[i].portrait %>" class="img-square-150">
-          <% } %>
-        </div>
-      </div>
 
+          <% } %>
+        </div>
+      </div>
     </div>
   </div>
 

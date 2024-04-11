@@ -9,39 +9,35 @@
 
   <div class="container-fluid backgroundColor">
     <div class="container">
-      <div class="row">
-        <img src="/public/img/foodBanner.jpg" alt="" height="350" width="1140">
-        <div class="hunterGather">Hunter Gather</div>
-      </div>
+      <%- include("./shared/banner") %>
+      
       <div class="row green-line"></div>
       <div class="row ht200">
         <div class="col-4 topRecipes">
-          <p>All Recipes</p>
+          <p>All Users</p>
         </div>
         <div class="col-6"></div>
-        <div class="col-2 sort-recipes">
+        <!-- <div class="col-2 sort-recipes">
           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Sort By
           </button>
-          </div>
+        </div> -->
       </div>
       <div class="row" style="margin-bottom:30px;">
         <div class="col-6 recipe-in-top">
-          <% for(let i = 0; i < recipes.length; i+=2) { %>
-            <a href="recipes/<%= recipes[i].id %>" class="list-element-title"><%= recipes[i].name %></a>
-            <img src="<%= recipes[i].image %>" class="img-square-150">
+          <% for(let i = 0; i < users.length; i+=2) { %>
+            <a href="/public/users/<%= users[i].id %>" class="list-element-title"><%= users[i].displayname %></a>
+            <img src="<%= users[i].image %>" class="img-square-150">
           <% } %>
         </div>
         <div class="col-6 recipe-in-top">
-          <% for(let i = 1; i < recipes.length; i+=2) { %>
-            <a href="recipes/<%= recipes[i].id %>" class="list-element-title"><%= recipes[i].name %></a>
-            <img src="<%= recipes[i].image %>" class="img-square-150">
+          <% for(let i = 1; i < users.length; i+=2) { %>
+            <a href="/public/users/<%= users[i].id %>" class="list-element-title"><%= users[i].displayname %></a>
+            <img src="<%= users[i].image %>" class="img-square-150">
 
           <% } %>
         </div>
       </div>
-      </div>
-
     </div>
   </div>
 

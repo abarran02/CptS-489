@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include("./shared/styles") %>
+  <title><%= pageTitle %></title>
+</head>
+<body>
+  <%- include("./shared/header") %>
+  <div class="container-fluid backgroundColor">
+    <div class="container">
+      <div class="row" style="margin-top:100px">
+        <img src="<%= user.portrait %>" alt="<%= user.displayname %>" class="recipe-img">
+      </div>
+      <div class="row">
+        <div class="col-3 green-line"></div>
+      </div>
+      <div class="row ht200">
+        <div class="col-4 topRecipes">
+          <p><%= user.displayname %></p>
+        </div>
+      </div>
+      <!-- Lists of user's saved or created recipes -->
+    </div>
+  </div>
+
+  <%- include("./shared/footer") %>
+</body>
+</html>
