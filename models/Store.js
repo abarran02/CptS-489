@@ -18,6 +18,7 @@ const Store = sequelize.define('Store', {
     unique: true
   },
   products: DataTypes.JSON,
+  image: DataTypes.STRING // image storage path
 });
 
 module.exports = Store;

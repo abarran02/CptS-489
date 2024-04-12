@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include("./shared/styles") %>
+  <title><%= pageTitle %></title>
+</head>
+<body>
+  <%- include("./shared/header") %>
+  <div class="container-fluid backgroundColor">
+    <div class="container">
+      <div class="row" style="margin-top:100px">
+        <img src="<%= store.image %>" alt="<%= store.name %>" class="recipe-img">
+      </div>
+      <div class="row">
+        <div class="col-3 green-line"></div>
+      </div>
+      <div class="row ht200">
+        <div class="col-4 topRecipes">
+          <p><%= store.name %></p>
+        </div>
+      </div>
+      <div class="row"></div>
+        <div class="col-4 location">
+          <p><%= store.location %></p>
+        </div>
+      <div class="row ht200"></div>
+      <div class="row" style="margin-bottom:30px;">
+        <div class="col-6 secondHeader">
+          <p style="font-weight:bold">Products:
+            <ul>
+              <% for( let i = 0; i < products.length; i++ ) { %>
+                <li>
+                  <a href="<%= `/public/products/${products[i].id}` %>"><%= `${products[i].ingredientname} $${products[i].price}` %></a>
+                </li>
+              <% } %>
+            </ul>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include("./shared/footer") %>
+</body>
+</html>

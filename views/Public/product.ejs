@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include("./shared/styles") %>
+  <title><%= pageTitle %></title>
+</head>
+<body>
+  <%- include("./shared/header") %>
+  
+  <div class="container-fluid backgroundColor">
+    <div class="container">
+      <div class="row" style="margin-top:100px">
+        <img src="<%= product.image %>" alt="<%= product.name %>" class="recipe-img">
+      </div>
+      <div class="row">
+        <div class="col-3 green-line"></div>
+      </div>
+      <div class="row ht200">
+        <div class="col-4 topRecipes">
+          <p><%= product.name %></p>
+        </div>
+      </div>
+      <div class="row" style="margin-bottom:30px;">
+        <div class="col-6 secondHeader">
+          <p style="font-weight:bold">
+            Product information: 
+            <%= product.amount %> <%= product.unit %>
+          </p>
+          <p style="font-weight:bold">
+            Available from: 
+            <a href="<%= `/public/stores/${product.storeid}` %>"><%= store.name %></a> <%= `for ${product.price} with ${product.stock} in stock` %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include("./shared/footer") %>
+</body>
+</html>

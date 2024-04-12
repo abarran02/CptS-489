@@ -9,10 +9,9 @@ const Ingredient = sequelize.define('Ingredient', {
   description: DataTypes.TEXT,
   category: {
     type: DataTypes.STRING,
-    allowNull: true,
+    allowNull: false,
   },
   image: DataTypes.STRING, // image storage path
-  category: DataTypes.STRING
 });
 
 module.exports = Ingredient;
