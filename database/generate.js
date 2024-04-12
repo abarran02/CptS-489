@@ -52,10 +52,25 @@ async function insertUsers() {
   }
 }
 
+async function insertProducts() {
+  for (let i = 0; i < arrayData.products.length; i++) {
+    const element = arrayData.products[i];
+    await models.Product.create({
+      storeid: element.storeid,
+      ingredientname: element.ingredientname,
+      price: element.price,
+      stock: element.stock,
+      amount: element.amount,
+      unit: element.unit
+    });
+  }
+}
+
 sequelize.sync({ force: false }).then( async () => {
   console.log("Sequelize Sync Completed...");
   await insertRecipes();
   await insertIngredients();
   await insertStores();
   await insertUsers();
+  await insertProducts();
 });

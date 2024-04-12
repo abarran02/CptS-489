@@ -13,10 +13,10 @@
         "Serve immediately."
       ],
       "ingredients": [
-        { "amount": "8 oz", "ingredient_name": "spaghetti", "ingredientid": 0 },
-        { "amount": "4 oz", "ingredient_name": "pancetta", "ingredientid": 0 },
-        { "amount": "2", "ingredient_name": "eggs", "ingredientid": 0 },
-        { "amount": "1/2 cup", "ingredient_name": "grated cheese", "ingredientid": 0 }
+        { "amount": "8 oz", "ingredientdisplayname": "spaghetti", "ingredientname": "Spaghetti" },
+        { "amount": "4 oz", "ingredientdisplayname": "pancetta", "ingredientname": "Pancetta" },
+        { "amount": "2", "ingredientdisplayname": "eggs", "ingredientname": "Egg" },
+        { "amount": "1/2 cup", "ingredientdisplayname": "grated cheese", "ingredientname": "Parmesan Cheese" }
       ],
       "image": "/uploads/spaghetti-carbonara.jpg"
     },
@@ -33,12 +33,12 @@
         "Serve with soy sauce, wasabi, and pickled ginger."
       ],
       "ingredients": [
-        { "amount": "2 cups", "ingredient_name": "sushi rice", "ingredientid": 0 },
-        { "amount": "4 sheets", "ingredient_name": "nori (seaweed)", "ingredientid": 0 },
-        { "amount": "8 oz", "ingredient_name": "fresh fish", "ingredientid": 0 },
-        { "amount": "1/4 cup", "ingredient_name": "rice vinegar", "ingredientid": 0 },
-        { "amount": "2 tbsp", "ingredient_name": "sugar", "ingredientid": 0 },
-        { "amount": "1 tsp", "ingredient_name": "salt", "ingredientid": 0 }
+        { "amount": "2 cups", "ingredientdisplayname": "sushi rice", "ingredientname": "Rice" },
+        { "amount": "4 sheets", "ingredientdisplayname": "nori (seaweed)", "ingredientname": "Seaweed" },
+        { "amount": "8 oz", "ingredientdisplayname": "fresh fish" },
+        { "amount": "1/4 cup", "ingredientdisplayname": "rice vinegar" },
+        { "amount": "2 tbsp", "ingredientdisplayname": "sugar", "ingredientname": "Sugar" },
+        { "amount": "1 tsp", "ingredientdisplayname": "salt", "ingredientname": "Salt" }
       ],
       "image": "/uploads/sushi.jpg"
     },
@@ -53,10 +53,10 @@
         "Serve on warm tortillas with pineapple, onion, cilantro, and salsa."
       ],
       "ingredients": [
-        { "amount": "2 lbs", "ingredient_name": "pork shoulder", "ingredientid": 0 },
-        { "amount": "1 cup", "ingredient_name": "pineapple juice", "ingredientid": 0 },
-        { "amount": "1/4 cup", "ingredient_name": "white vinegar", "ingredientid": 0 },
-        { "amount": "2 tbsp", "ingredient_name": "achiote paste", "ingredientid": 0 }
+        { "amount": "2 lbs", "ingredientdisplayname": "pork shoulder", "ingredientname": "Pork" },
+        { "amount": "1 cup", "ingredientdisplayname": "pineapple juice", "ingredientname": "Pineapple" },
+        { "amount": "1/4 cup", "ingredientdisplayname": "white vinegar" },
+        { "amount": "2 tbsp", "ingredientdisplayname": "achiote paste" }
       ],
       "image": "/uploads/tacos-al-pastor.jpg"
     },
@@ -71,11 +71,11 @@
         "Serve hot."
       ],
       "ingredients": [
-        { "amount": "8 oz", "ingredient_name": "rice noodles", "ingredientid": 0 },
-        { "amount": "8 oz", "ingredient_name": "shrimp or chicken", "ingredientid": 0 },
-        { "amount": "2", "ingredient_name": "eggs", "ingredientid": 0 },
-        { "amount": "1/2 cup", "ingredient_name": "tofu", "ingredientid": 0 },
-        { "amount": "1/4 cup", "ingredient_name": "peanuts", "ingredientid": 0 }
+        { "amount": "8 oz", "ingredientdisplayname": "rice noodles" },
+        { "amount": "8 oz", "ingredientdisplayname": "shrimp or chicken", "ingredientname": "Chicken" },
+        { "amount": "2", "ingredientdisplayname": "eggs", "ingredientname": "Egg" },
+        { "amount": "1/2 cup", "ingredientdisplayname": "tofu", "ingredientname": "Tofu" },
+        { "amount": "1/4 cup", "ingredientdisplayname": "peanuts" }
       ],
       "image": "/uploads/pad-thai.jpg"
     },
@@ -92,12 +92,12 @@
         "Serve with rice or naan."
       ],
       "ingredients": [
-        { "amount": "1 lb", "ingredient_name": "chicken pieces", "ingredientid": 0 },
-        { "amount": "1 cup", "ingredient_name": "yogurt", "ingredientid": 0 },
-        { "amount": "2 cups", "ingredient_name": "tomato sauce", "ingredientid": 0 },
-        { "amount": "1/2 cup", "ingredient_name": "cream", "ingredientid": 0 },
-        { "amount": "1", "ingredient_name": "onion", "ingredientid": 0 },
-        { "amount": "2 cloves", "ingredient_name": "garlic", "ingredientid": 0 }
+        { "amount": "1 lb", "ingredientdisplayname": "chicken pieces", "ingredientname": "Chicken" },
+        { "amount": "1 cup", "ingredientdisplayname": "yogurt" },
+        { "amount": "2 cups", "ingredientdisplayname": "tomato sauce", "ingredientname": "Tomato" },
+        { "amount": "1/2 cup", "ingredientdisplayname": "cream" },
+        { "amount": "1", "ingredientdisplayname": "onion", "ingredientname": "Onion" },
+        { "amount": "2 cloves", "ingredientdisplayname": "garlic", "ingredientname": "Garlic" }
       ],
       "image": "/uploads/chicken-tikka-masala.jpg"
     },
@@ -113,13 +113,13 @@
         "Serve hot."
       ],
       "ingredients": [
-        { "amount": "1 lb", "ingredient_name": "ground beef", "ingredientid": 0 },
-        { "amount": "4", "ingredient_name": "hamburger buns", "ingredientid": 0 },
-        { "amount": "4", "ingredient_name": "lettuce leaves", "ingredientid": 0 },
-        { "amount": "4", "ingredient_name": "slices tomato", "ingredientid": 0 },
-        { "amount": "4", "ingredient_name": "slices onion", "ingredientid": 0 },
-        { "amount": "4", "ingredient_name": "slices cheese", "ingredientid": 0 },
-        { "amount": "to taste", "ingredient_name": "condiments", "ingredientid": 0 }
+        { "amount": "1 lb", "ingredientdisplayname": "ground beef", "ingredientname": "Beef" },
+        { "amount": "4", "ingredientdisplayname": "hamburger buns", "ingredientname": "Bread" },
+        { "amount": "4", "ingredientdisplayname": "lettuce leaves", "ingredientname": "Lettuce" },
+        { "amount": "4", "ingredientdisplayname": "slices tomato", "ingredientname": "Tomato" },
+        { "amount": "4", "ingredientdisplayname": "slices onion", "ingredientname": "Onion" },
+        { "amount": "4", "ingredientdisplayname": "slices cheese", "ingredientname": "Cheese" },
+        { "amount": "to taste", "ingredientdisplayname": "condiments" }
       ],
       "image": "/uploads/hamburger.jpg"
     },
@@ -135,11 +135,11 @@
         "Serve immediately."
       ],
       "ingredients": [
-        { "amount": "2", "ingredient_name": "chicken breasts", "ingredientid": 0 },
-        { "amount": "1 head", "ingredient_name": "romaine lettuce", "ingredientid": 0 },
-        { "amount": "1 cup", "ingredient_name": "croutons", "ingredientid": 0 },
-        { "amount": "1/2 cup", "ingredient_name": "grated Parmesan cheese", "ingredientid": 0 },
-        { "amount": "1/4 cup", "ingredient_name": "Caesar dressing", "ingredientid": 0 }
+        { "amount": "2", "ingredientdisplayname": "chicken breasts", "ingredientname": "Chicken" },
+        { "amount": "1 head", "ingredientdisplayname": "romaine lettuce", "ingredientname": "Lettuce" },
+        { "amount": "1 cup", "ingredientdisplayname": "croutons", "ingredientname": "Croutons" },
+        { "amount": "1/2 cup", "ingredientdisplayname": "grated Parmesan cheese", "ingredientname": "Parmesan Cheese" },
+        { "amount": "1/4 cup", "ingredientdisplayname": "Caesar dressing", "ingredientname": "Caesar Dressing" }
       ],
       "image": "/uploads/chicken-caesar-salad.jpg"
     },
@@ -155,11 +155,11 @@
         "Garnish with sliced green onions and serve hot."
       ],
       "ingredients": [
-        { "amount": "4 cups", "ingredient_name": "dashi stock", "ingredientid": 0 },
-        { "amount": "1/2 block", "ingredient_name": "tofu, cubed", "ingredientid": 0 },
-        { "amount": "2 tbsp", "ingredient_name": "miso paste", "ingredientid": 0 },
-        { "amount": "1/4 cup", "ingredient_name": "seaweed, sliced", "ingredientid": 0 },
-        { "amount": "2", "ingredient_name": "green onions, sliced", "ingredientid": 0 }
+        { "amount": "4 cups", "ingredientdisplayname": "dashi stock", "ingredientname": "Dashi Stock" },
+        { "amount": "1/2 block", "ingredientdisplayname": "tofu, cubed", "ingredientname": "Tofu" },
+        { "amount": "2 tbsp", "ingredientdisplayname": "miso paste", "ingredientname": "Miso Paste" },
+        { "amount": "1/4 cup", "ingredientdisplayname": "seaweed, sliced", "ingredientname": "Seaweed" },
+        { "amount": "2", "ingredientdisplayname": "green onions, sliced", "ingredientname": "Onion" }
       ],
       "image": "/uploads/miso-soup.jpg"
     },
@@ -175,13 +175,13 @@
         "Serve over cooked egg noodles."
       ],
       "ingredients": [
-        { "amount": "1 lb", "ingredient_name": "beef, thinly sliced", "ingredientid": 0 },
-        { "amount": "1", "ingredient_name": "onion, sliced", "ingredientid": 0 },
-        { "amount": "8 oz", "ingredient_name": "mushrooms, sliced", "ingredientid": 0 },
-        { "amount": "1 cup", "ingredient_name": "beef broth", "ingredientid": 0 },
-        { "amount": "1/2 cup", "ingredient_name": "sour cream", "ingredientid": 0 },
-        { "amount": "to taste", "ingredient_name": "salt and pepper", "ingredientid": 0 },
-        { "amount": "8 oz", "ingredient_name": "egg noodles, cooked", "ingredientid": 0 }
+        { "amount": "1 lb", "ingredientdisplayname": "beef, thinly sliced", "ingredientname": "Beef" },
+        { "amount": "1", "ingredientdisplayname": "onion, sliced", "ingredientname": "Onion" },
+        { "amount": "8 oz", "ingredientdisplayname": "mushrooms, sliced", "ingredientname": "Mushroom" },
+        { "amount": "1 cup", "ingredientdisplayname": "beef broth" },
+        { "amount": "1/2 cup", "ingredientdisplayname": "sour cream" },
+        { "amount": "to taste", "ingredientdisplayname": "salt and pepper", "ingredientname": "Salt" },
+        { "amount": "8 oz", "ingredientdisplayname": "egg noodles, cooked" }
       ],
       "image": "/uploads/beef-stroganoff.jpg"
     },
@@ -197,10 +197,10 @@
         "Season with salt and pepper to taste, and serve immediately."
       ],
       "ingredients": [
-        { "amount": "4", "ingredient_name": "tomatoes, sliced", "ingredientid": 0 },
-        { "amount": "8 oz", "ingredient_name": "fresh mozzarella cheese, sliced", "ingredientid": 0 },
-        { "amount": "1/2 cup", "ingredient_name": "fresh basil leaves", "ingredientid": 0 },
-        { "amount": "2 tbsp", "ingredient_name": "olive oil", "ingredientid": 0 }
+        { "amount": "4", "ingredientdisplayname": "tomatoes, sliced", "ingredientname": "Tomato" },
+        { "amount": "8 oz", "ingredientdisplayname": "fresh mozzarella cheese, sliced", "ingredientname": "Cheese" },
+        { "amount": "1/2 cup", "ingredientdisplayname": "fresh basil leaves" },
+        { "amount": "2 tbsp", "ingredientdisplayname": "olive oil", "ingredientname": "Olive Oil" }
       ],
       "image": "/uploads/caprese.jpg"
     }
@@ -227,9 +227,7 @@
     { "name": "Sugar", "description": "Sweetener, various types available", "image": "/upload/sugar.jpg", "category": "Condiment" },
     { "name": "Spaghetti", "description": "Long, thin pasta strands", "image": "/uploads/spaghetti.jpg", "category": "Grain" },
     { "name": "Pancetta", "description": "Italian bacon, cured pork", "image": "/uploads/pancetta.jpg", "category": "Meat" },
-    { "name": "Eggs", "description": "Protein-rich, versatile ingredient", "image": "/uploads/egg.jpg", "category": "Dairy" },
     { "name": "Parmesan Cheese", "description": "Hard, granular cheese", "image": "/uploads/parmesan-cheese.jpg", "category": "Dairy" },
-    { "name": "Romaine Lettuce", "description": "Crisp, leafy green vegetable", "image": "/uploads/lettuce.jpg", "category": "Vegetable" },
     { "name": "Croutons", "description": "Small, seasoned bread cubes", "image": "/uploads/croutons.jpg", "category": "Grain" },
     { "name": "Caesar Dressing", "description": "Creamy dressing with anchovies", "image": "/uploads/caesar-dressing.jpg", "category": "Condiment" },
     { "name": "Miso Paste", "description": "Fermented soybean paste", "image": "/uploads/miso-paste.jpg", "category": "Condiment" },
@@ -262,5 +260,67 @@
     {"username": "eva", "password": "12345", "displayname": "Eva", "isChef": true},
     {"username": "alec", "password": "12345", "displayname": "Alec", "isChef": true},
     {"username": "john", "password": "12345", "displayname": "John", "isChef": true}
+  ],
+  "products": [
+    { "storeid": 1, "ingredientname": "Tomato", "price": 1.99, "stock": 75, "amount": 1, "unit": "count" },
+    { "storeid": 1, "ingredientname": "Tomato", "price": 1.49, "stock": 65, "amount": 3, "unit": "lbs" },
+    { "storeid": 1, "ingredientname": "Cheese", "price": 4.99, "stock": 80, "amount": 8, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Cheese", "price": 7.99, "stock": 60, "amount": 16, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Chicken", "price": 6.49, "stock": 80, "amount": 2, "unit": "lbs" },
+    { "storeid": 1, "ingredientname": "Chicken", "price": 7.99, "stock": 70, "amount": 1, "unit": "lb" },
+    { "storeid": 1, "ingredientname": "Lettuce", "price": 2.99, "stock": 55, "amount": 1, "unit": "head" },
+    { "storeid": 1, "ingredientname": "Lettuce", "price": 5.99, "stock": 65, "amount": 3, "unit": "head" },
+    { "storeid": 1, "ingredientname": "Onion", "price": 1.99, "stock": 70, "amount": 1, "unit": "lb" },
+    { "storeid": 1, "ingredientname": "Onion", "price": 0.49, "stock": 85, "amount": 1, "unit": "count" },
+    { "storeid": 1, "ingredientname": "Egg", "price": 2.49, "stock": 95, "amount": 12, "unit": "count" },
+    { "storeid": 1, "ingredientname": "Egg", "price": 4.99, "stock": 90, "amount": 18, "unit": "count" },
+    { "storeid": 1, "ingredientname": "Beef", "price": 8.99, "stock": 65, "amount": 2, "unit": "lbs" },
+    { "storeid": 1, "ingredientname": "Beef", "price": 5.99, "stock": 60, "amount": 1, "unit": "lb" },
+    { "storeid": 1, "ingredientname": "Rice", "price": 2.49, "stock": 95, "amount": 5, "unit": "lbs" },
+    { "storeid": 1, "ingredientname": "Rice", "price": 1.99, "stock": 85, "amount": 16, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Potato", "price": 5.99, "stock": 85, "amount": 5, "unit": "lbs" },
+    { "storeid": 1, "ingredientname": "Potato", "price": 1.99, "stock": 80, "amount": 1, "unit": "count" },
+    { "storeid": 1, "ingredientname": "Carrot", "price": 2.99, "stock": 70, "amount": 1, "unit": "lb" },
+    { "storeid": 1, "ingredientname": "Carrot", "price": 0.49, "stock": 75, "amount": 1, "unit": "count" },
+    { "storeid": 1, "ingredientname": "Spinach", "price": 2.99, "stock": 60, "amount": 12, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Spinach", "price": 2.99, "stock": 85, "amount": 1, "unit": "lb" },
+    { "storeid": 1, "ingredientname": "Garlic", "price": 0.49, "stock": 80, "amount": 3, "unit": "bulb" },
+    { "storeid": 1, "ingredientname": "Garlic", "price": 0.25, "stock": 90, "amount": 1, "unit": "bulb" },
+    { "storeid": 1, "ingredientname": "Olive Oil", "price": 5.99, "stock": 70, "amount": 16, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Olive Oil", "price": 5.99, "stock": 70, "amount": 16, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Salt", "price": 1.25, "stock": 75, "amount": 16, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Salt", "price": 0.25, "stock": 80, "amount": 1, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Pepper", "price": 1.49, "stock": 85, "amount": 8, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Pepper", "price": 0.49, "stock": 85, "amount": 1, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Mushroom", "price": 4.99, "stock": 60, "amount": 12, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Mushroom", "price": 3.99, "stock": 75, "amount": 8, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Bread", "price": 2.99, "stock": 75, "amount": 1, "unit": "loaf" },
+    { "storeid": 1, "ingredientname": "Bread", "price": 2.99, "stock": 90, "amount": 1, "unit": "loaf" },
+    { "storeid": 1, "ingredientname": "Butter", "price": 3.49, "stock": 65, "amount": 16, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Butter", "price": 3.99, "stock": 85, "amount": 8, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Sugar", "price": 2.99, "stock": 80, "amount": 32, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Sugar", "price": 1.99, "stock": 70, "amount": 16, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Spaghetti", "price": 1.49, "stock": 90, "amount": 16, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Spaghetti", "price": 2.99, "stock": 90, "amount": 40, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Pancetta", "price": 7.99, "stock": 55, "amount": 12, "unit": "oz" },    
+    { "storeid": 1, "ingredientname": "Pancetta", "price": 6.99, "stock": 75, "amount": 8, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Parmesan Cheese", "price": 3.99, "stock": 80, "amount": 8, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Parmesan Cheese", "price": 5.99, "stock": 75, "amount": 12, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Croutons", "price": 1.49, "stock": 60, "amount": 5, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Croutons", "price": 2.99, "stock": 55, "amount": 8, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Caesar Dressing", "price": 4.99, "stock": 85, "amount": 16, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Caesar Dressing", "price": 6.99, "stock": 80, "amount": 24, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Miso Paste", "price": 3.49, "stock": 75, "amount": 16, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Miso Paste", "price": 5.99, "stock": 70, "amount": 24, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Dashi Stock", "price": 3.99, "stock": 80, "amount": 32, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Dashi Stock", "price": 4.49, "stock": 75, "amount": 48, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Tofu", "price": 2.99, "stock": 90, "amount": 14, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Tofu", "price": 3.99, "stock": 85, "amount": 24, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Seaweed", "price": 4.99, "stock": 70, "amount": 8, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Seaweed", "price": 6.99, "stock": 65, "amount": 16, "unit": "oz" },
+    { "storeid": 1, "ingredientname": "Pork", "price": 6.99, "stock": 80, "amount": 2, "unit": "lbs" },
+    { "storeid": 1, "ingredientname": "Pork", "price": 9.99, "stock": 75, "amount": 3, "unit": "lbs" },
+    { "storeid": 1, "ingredientname": "Tortillas", "price": 2.49, "stock": 85, "amount": 10, "unit": "count" },
+    { "storeid": 1, "ingredientname": "Tortillas", "price": 3.49, "stock": 80, "amount": 16, "unit": "count" }
   ]
 }
