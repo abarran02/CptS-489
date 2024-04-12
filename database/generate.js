@@ -57,6 +57,7 @@ async function insertProducts() {
     const element = arrayData.products[i];
     await models.Product.create({
       storeid: element.storeid,
+      name: element.ingredientname,
       ingredientname: element.ingredientname,
       price: element.price,
       stock: element.stock,

@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var cors = require("cors");
 const models = require('../models/models');
+const sessionChecker = require('./sessionChecker');
 
 router.use(cors());
 
@@ -221,6 +222,23 @@ router.get("/ingredients/:id", async (req, res, next) => {
   } catch (error) {
     res.status(500).json(error);
   }
+});
+
+router.get("/cart", sessionChecker, async (req, res, next) => {
+  const cart = await models.User.findOne({
+    where: {
+      id: req.session.user.id
+    },
+    attributes: ['cart']
+  });
+
+  const data = {
+    pageTitle: 'User Cart',
+    cart: cart,
+    session: req.session.user
+  }
+
+  res.render('Public/cart', data);
 });
 
 module.exports = router;
