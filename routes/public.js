@@ -3,6 +3,7 @@ var router = express.Router();
 var cors = require("cors");
 const models = require('../models/models');
 const sessionChecker = require('./sessionChecker');
+const { Op } = require('sequelize');
 
 router.use(cors());
 
@@ -232,13 +233,57 @@ router.get("/cart", sessionChecker, async (req, res, next) => {
     attributes: ['cart']
   });
 
-  const data = {
-    pageTitle: 'User Cart',
-    cart: cart,
-    session: req.session.user
+  let cartproducts = [];
+  let cartTotal = 0;
+  // inefficient but handles duplicates unlike findAll()
+  for (let i = 0; i < cart.cart.length; i++) {
+    let product = await models.Product.findOne({
+      where: {
+        id: cart.cart[i]
+      },
+      raw: true
+    });
+    cartproducts.push(product);
+    cartTotal += product.price;
   }
 
+  const data = {
+    pageTitle: 'User Cart',
+    cart: cartproducts,
+    cartTotal: cartTotal,
+    session: req.session.user
+  }
   res.render('Public/cart', data);
+});
+
+router.post("/cart/add", sessionChecker, async (req, res, next) => {
+  const productid = req.body.id;
+
+  try {
+    const product = await models.Product.findOne({
+      where: {
+        id: productid
+      }
+    });
+
+    const user = await models.User.findOne({
+      where: {
+        id: req.session.user.id
+      }
+    })
+
+    if (user.cart) {
+      user.cart.push(productid);;
+    } else {
+      user.cart = [productid, productid];
+    }
+    
+    user.changed('cart', true);
+    await user.save();
+    res.status(200);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 });
 
 module.exports = router;

@@ -30,11 +30,38 @@
             Available from: 
             <a href="<%= `/public/stores/${product.storeid}` %>"><%= store.name %></a> <%= `for ${product.price} with ${product.stock} in stock` %>
           </p>
+          <button id="addToCartBtn" class="btn btn-secondary">Add to Cart</button>
         </div>
       </div>
     </div>
   </div>
 
   <%- include("./shared/footer") %>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      let addToCartBtn = document.getElementById("addToCartBtn");
+
+      addToCartBtn.addEventListener("click", function() {
+        const productId = <%= product.id %>;
+    
+        // new POST request
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/public/cart/add", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+    
+        // product ID as JSON
+        xhr.send(JSON.stringify({ id: productId }));
+    
+        // handle the response
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            console.log("Product added to cart successfully");
+          } else {
+            console.error("Failed to add product to cart");
+          }
+        };
+      });
+    });
+    </script>
 </body>
 </html>
