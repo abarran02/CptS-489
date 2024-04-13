@@ -7,27 +7,34 @@
 }
 
 .topRecipes {
-    color: black;
+  color: black;
+  font-size: 30px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+}
 
-    font-size: 30px;
-    font-weight: 400;
-    display: flex;
-    align-items: center;
+.location {
+  color: black;
+  font-size: 10px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
 }
 
 .recipe-in-top {
-    color:black;
-    font-size: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
+  color:black;
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
 .green-line {
-    height: 5px;
-    background-color: #a6cba4;
-    margin-top: 10px;
-    margin-bottom: 10px;
+  height: 5px;
+  background-color: #a6cba4;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .sort-recipes {

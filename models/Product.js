@@ -18,8 +18,12 @@ const Product = sequelize.define('Product', {
     type: DataTypes.INTEGER,
     allowNull: false
   },
-  ingredientid: {
-    type: DataTypes.INTEGER,
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  ingredientname: {
+    type: DataTypes.STRING,
     allowNull: false
   },
   price: {

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include("./shared/styles") %>
+  <title><%= pageTitle %></title>
+</head>
+<body>
+  <%- include("./shared/header") %>
+  
+  <div class="container-fluid backgroundColor">
+    <div class="container">
+      <div class="row" style="margin-top:100px">
+        Your Cart:
+      </div>
+      <ul>
+        <% if (cart.length == 0) { %>
+          <li>No items in cart</li>
+        <% } else { %>
+          <% for(let i = 0; i < cart.length; i++) { %>
+            <li>
+              <a href="/public/products/<%= cart[i].id %>"><%= `${cart[i].name}, ${cart[i].amount} ${cart[i].unit} for $${cart[i].price}` %></a>
+            </li>
+          <% } %>
+        <% } %>
+      </ul>
+      <div class="row" style="margin-top:100px">
+        Total cost: $<%= cartTotal.toFixed(2) %>
+      </div>
+    </div>
+  </div>
+
+  <%- include("./shared/footer") %>
+</body>
+</html>

@@ -26,6 +26,7 @@ app.use(session({
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
+app.use(express.json());
 app.use('/api', apiRouter);
 app.use('/public', publicRouter);
 app.use('/public', express.static('./public/Public'));

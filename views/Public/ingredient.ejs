@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include("./shared/styles") %>
+  <title><%= pageTitle %></title>
+</head>
+<body>
+  <%- include("./shared/header") %>
+  <div class="container-fluid backgroundColor">
+    <div class="container">
+      <div class="row" style="margin-top:100px">
+        <img src="<%= ingredient.image %>" alt="<%= ingredient.name %>" class="recipe-img">
+      </div>
+      <div class="row">
+        <div class="col-3 green-line"></div>
+      </div>
+      <div class="row ht200">
+        <div class="col-4 topRecipes">
+          <p>
+            <%= ingredient.name %>, <%= ingredient.category %>
+          </p>
+        </div>
+      </div>
+      <div class="row" style="margin-bottom:30px;">
+        <div class="col-6 secondHeader">
+          <p style="font-weight:bold">
+            Product information: 
+            <%= ingredient.description %>
+          </p>
+          <p style="font-weight:bold">
+            Available as: 
+            <ul>
+              <% if (products.length == 0) { %>
+                <li>Out of stock</li>
+              <% } else { %>
+                <% for(let i = 0; i < products.length; i++) { %>
+                  <li>
+                    <a href="/public/products/<%= products[i].id %>"><%= `${products[i].name}, ${products[i].amount} ${products[i].unit}` %></a>
+                  </li>
+                <% } %>
+              <% } %>
+            </ul>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include("./shared/footer") %>
+</body>
+</html>

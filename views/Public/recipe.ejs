@@ -24,7 +24,13 @@
           <p style="font-weight:bold">Ingredients:
             <ul>
               <% for( let i = 0; i < recipe.ingredients.length; i++ ) { %>
-                <li><%= `${recipe.ingredients[i].amount} ${recipe.ingredients[i].ingredient_id}` %></li>
+                <li>
+                  <% if (recipe.ingredients[i].ingredientname) { %>
+                    <a href="<%= `/public/ingredients/${recipe.ingredients[i].ingredientname}` %>"><%= `${recipe.ingredients[i].amount} ${recipe.ingredients[i].ingredientdisplayname}` %></a>
+                  <% } else { %>
+                    <%= `${recipe.ingredients[i].amount} ${recipe.ingredients[i].ingredientdisplayname}` %>
+                  <% } %>
+                </li>
               <% } %>
             </ul>
           </p>

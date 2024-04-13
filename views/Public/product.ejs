@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include("./shared/styles") %>
+  <title><%= pageTitle %></title>
+</head>
+<body>
+  <%- include("./shared/header") %>
+  
+  <div class="container-fluid backgroundColor">
+    <div class="container">
+      <div class="row" style="margin-top:100px">
+        <img src="<%= product.image %>" alt="<%= product.name %>" class="recipe-img">
+      </div>
+      <div class="row">
+        <div class="col-3 green-line"></div>
+      </div>
+      <div class="row ht200">
+        <div class="col-4 topRecipes">
+          <p><%= product.name %></p>
+        </div>
+      </div>
+      <div class="row" style="margin-bottom:30px;">
+        <div class="col-6 secondHeader">
+          <p style="font-weight:bold">
+            Product information: 
+            <%= product.amount %> <%= product.unit %>
+          </p>
+          <p style="font-weight:bold">
+            Available from: 
+            <a href="<%= `/public/stores/${product.storeid}` %>"><%= store.name %></a> <%= `for ${product.price} with ${product.stock} in stock` %>
+          </p>
+          <button id="addToCartBtn" class="btn btn-secondary">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include("./shared/footer") %>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      let addToCartBtn = document.getElementById("addToCartBtn");
+
+      addToCartBtn.addEventListener("click", function() {
+        const productId = <%= product.id %>;
+    
+        // new POST request
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/public/cart/add", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+    
+        // product ID as JSON
+        xhr.send(JSON.stringify({ id: productId }));
+    
+        // handle the response
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            console.log("Product added to cart successfully");
+          } else {
+            console.error("Failed to add product to cart");
+          }
+        };
+      });
+    });
+    </script>
+</body>
+</html>
