@@ -25,7 +25,7 @@
 <header>
   <div class="container-fluid">
     <div class="row navbar">
-      <div class="col-10">
+      <div class="col-8">
         <img src="/public/img/bow.png" alt="" id="logo">
         <a href="/public/" class="my-anchor">Home</a>
         <a href="/public/recipes" class="my-anchor">Recipes</a>
@@ -33,15 +33,31 @@
         <a href="/public/stores" class="my-anchor">Stores</a>
         <a href="/public/users" class="my-anchor">Users</a>
       </div>
+
+      <!-- <div class="col-1" id="navbarSupportedContent">
+        <a class="navbar-brand" href="#">
+          <img src="/public/img/user.png" alt="Logo">
+        </a>
+      </div> -->
       <div class="col-2 navbar-login">
-        <!-- Button trigger modal -->
         <% if (session) { %>
-          <a href="/logout">
-            <button type="button" class="btn btn-primary">
-              Sign Out
-            </button>
-          </a>
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Account
+              </a>
+              <div class="dropdown-menu position-absolute dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/public/cart">Cart</a>
+                <a class="dropdown-item" href="/public/orders">Orders</a>
+                <a class="dropdown-item" href="/public/myrecipes">My Recipes</a>
+                <a class="dropdown-item" href="/public/settings">Settings</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/logout">Sign Out</a>
+              </div>
+            </li>
+          </ul>
         <% } else { %>
+          <!-- Button trigger modal -->
           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
             Sign In
           </button>
