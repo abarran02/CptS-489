@@ -3,7 +3,6 @@ var router = express.Router();
 var cors = require("cors");
 const models = require('../models/models');
 const sessionChecker = require('./sessionChecker');
-const { Op } = require('sequelize');
 
 router.use(cors());
 
@@ -270,17 +269,64 @@ router.post("/cart/add", sessionChecker, async (req, res, next) => {
       where: {
         id: req.session.user.id
       }
-    })
+    });
 
     if (user.cart) {
       user.cart.push(productid);;
     } else {
-      user.cart = [productid, productid];
+      user.cart = [productid];
     }
     
     user.changed('cart', true);
     await user.save();
-    res.status(200);
+    res.sendStatus(200);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+router.get("/settings", sessionChecker, async (req, res, next) => {
+  const user = await models.User.findOne({
+    where: {
+      id: req.session.user.id
+    },
+    attributes: ['username', 'displayname', 'portrait']
+  });
+  
+  const data = {
+    pageTitle: 'Account Settings',
+    user: user,
+    session: req.session.user
+  }
+
+  res.render('Public/settings', data);
+});
+
+router.post("/settings/change", sessionChecker, async (req, res, next) => {
+  try {
+    const user = await models.User.findOne({
+      where: {
+        id: req.session.user.id
+      }
+    });
+
+    // check user password
+    if (req.body.curpasswd != user.password) {
+      res.sendStatus(403);
+    } else {
+      // check for changed values
+      if (req.body.newpasswd && req.body.newpasswd != user.password) {
+        user.password = req.body.newpasswd;
+        user.changed('password', true);
+      }
+      if (req.body.displayname && req.body.displayname != user.displayname) {
+        user.displayname = req.body.displayname;
+        user.changed('displayname', true);
+      }
+
+      await user.save();
+      res.sendStatus(200);
+    }
   } catch (error) {
     res.status(500).json(error);
   }
