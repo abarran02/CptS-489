@@ -225,7 +225,7 @@ router.get("/ingredients/:id", async (req, res, next) => {
 });
 
 router.get("/cart", sessionChecker, async (req, res, next) => {
-  const cart = await models.User.findOne({
+  const user = await models.User.findOne({
     where: {
       id: req.session.user.id
     },
@@ -234,16 +234,18 @@ router.get("/cart", sessionChecker, async (req, res, next) => {
 
   let cartproducts = [];
   let cartTotal = 0;
-  // inefficient but handles duplicates unlike findAll()
-  for (let i = 0; i < cart.cart.length; i++) {
-    let product = await models.Product.findOne({
-      where: {
-        id: cart.cart[i]
-      },
-      raw: true
-    });
-    cartproducts.push(product);
-    cartTotal += product.price;
+  if (user.cart) {
+    // inefficient but handles duplicates unlike findAll()
+    for (let i = 0; i < user.cart.length; i++) {
+      let product = await models.Product.findOne({
+        where: {
+          id: user.cart[i]
+        },
+        raw: true
+      });
+      cartproducts.push(product);
+      cartTotal += product.price;
+    }
   }
 
   const data = {
@@ -334,12 +336,17 @@ router.post("/settings/change", sessionChecker, async (req, res, next) => {
 
 router.get("/administration", adminChecker, async (req, res, next) => {
   const users = await models.User.findAll({
-    attributes: ["id", "username", "displayname", "isAdmin", "isChef"]
+    attributes: ["id", "username", "displayname", "controlsStore", "isAdmin", "isChef"]
+  });
+
+  const stores = await models.Store.findAll({
+    attributes: ["id", "name"]
   });
 
   const data = {
     pageTitle: 'Administration',
     users: users,
+    stores: stores,
     session: req.session.user
   }
 
@@ -356,6 +363,45 @@ router.post("/ban", adminChecker, async (req, res, next) => {
       }
     })
 
+    res.sendStatus(200);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+router.post("/change/:id", adminChecker, async (req, res, next) => {
+  const id = req.params.id;
+
+  try {
+    const user = await models.User.findOne({
+      where: {
+        id: id
+      }
+    });
+
+    // this may seem too verbose but no reason to set user.changed unless it actually changes
+    // check whether controlsStore is changed
+    const setStores = (req.body.stores === 'none') ? null : req.body.stores;
+    if (req.body.stores != setStores) {
+      user.controlsStore = setStores;
+      user.changed('controlsStore', true);
+    }
+
+    // check whether isChef is changed
+    const setChef = req.body.chefbox === 'on';
+    if (user.isChef != setChef) {
+      user.isChef = setChef;
+      user.changed('isChef', true);
+    }
+
+    // check whether isAdmin is changed
+    const setAdmin = req.body.adminbox === 'on';
+    if (user.isAdmin != setAdmin) {
+      user.isAdmin = setAdmin;
+      user.changed('isAdmin', true);
+    }
+
+    await user.save();
     res.sendStatus(200);
   } catch (error) {
     res.status(500).json(error);
