@@ -7,6 +7,10 @@ Install the project dependencies using [npm](https://www.npmjs.com/):
 ```bash
 npm install
 ```
+Generate the default database:
+```bash
+node database/generate.js
+```
 Then run the web server:
 ```bash
 npm start
