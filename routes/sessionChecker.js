@@ -1,4 +1,4 @@
-var sessionChecker = (req, res, next) => {    
+const sessionChecker = (req, res, next) => {
   if (req.session.user) {
       next();
   } else {
@@ -6,4 +6,17 @@ var sessionChecker = (req, res, next) => {
   }
 };
 
-module.exports = sessionChecker;
+const adminChecker = (req, res, next) => {
+  sessionChecker(req, res, () => {
+    if (req.session.user.isAdmin) {
+      next();
+    } else {
+      res.redirect('/');
+    }
+  });
+};
+
+module.exports = {
+  sessionChecker,
+  adminChecker
+};

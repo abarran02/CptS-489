@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include("./shared/styles") %>
+  <title><%= pageTitle %></title>
+</head>
+<body>
+  <%- include("./shared/header") %>
+
+  <div class="container-fluid backgroundColor">
+    <div class="container">
+      <div class="row">
+        <h2>User Administration</h2>
+        <div class="col-3 green-line"></div>
+      </div>
+      <div class="row ht200">
+        <div class="col-4">
+          <div class="container">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Username</th>
+                  <th scope="col">Display Name</th>
+                  <th scope="col">isChef</th>
+                  <th scope="col">isAdmin</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% users.forEach(user => { %>
+                  <tr>
+                    <td><%= user.username %></td>
+                    <td><%= user.displayname %></td>
+
+                    <% if (user.isChef) { %>
+                      <td><input class="form-check-input" type="checkbox" id="chefbox<%= user.id %>" checked disabled></td>
+                    <% } else { %>
+                      <td><input class="form-check-input" type="checkbox" id="chefbox<%= user.id %>" disabled></td>
+                    <% } %>
+
+                    <% if (user.isAdmin) { %>
+                      <td><input class="form-check-input" type="checkbox" id="adminbox<%= user.id %>" checked disabled></td>
+                    <% } else { %>
+                      <td><input class="form-check-input" type="checkbox" id="adminbox<%= user.id %>" disabled></td>
+                    <% } %>
+
+                    <% if (user.id != session.id) { %>
+                      <td><button type="submit" class="btn btn-danger" onclick="sendPostRequest(<%= user.id %>)">Ban</button></td>
+                    <% } else { %>
+                      <td><button type="submit" class="btn btn-danger" disabled >Ban</button></td>
+                    <% } %>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include("./shared/footer") %>
+
+  <script>
+    function sendPostRequest(userid) {
+      let xhr = new XMLHttpRequest();
+
+      xhr.open("POST", "/public/ban");
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.send(JSON.stringify({ userid: userid }));
+
+      // handle server response
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          console.log("User successfully banned");
+          location.reload();
+        } else if (xhr.status === 403) {
+          console.error("Access forbidden");
+        } else {
+          console.error("Unexpected response:", xhr.status);
+        }
+      }
+    }
+  </script>
+</body>
+</html>

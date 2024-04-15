@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 var cors = require("cors");
 const models = require('../models/models');
-const sessionChecker = require('./sessionChecker');
+const { sessionChecker, adminChecker } = require('./sessionChecker');
 
 router.use(cors());
 
@@ -276,7 +276,7 @@ router.post("/cart/add", sessionChecker, async (req, res, next) => {
     } else {
       user.cart = [productid];
     }
-    
+
     user.changed('cart', true);
     await user.save();
     res.sendStatus(200);
@@ -292,7 +292,7 @@ router.get("/settings", sessionChecker, async (req, res, next) => {
     },
     attributes: ['username', 'displayname', 'portrait']
   });
-  
+
   const data = {
     pageTitle: 'Account Settings',
     user: user,
@@ -327,6 +327,36 @@ router.post("/settings/change", sessionChecker, async (req, res, next) => {
       await user.save();
       res.sendStatus(200);
     }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+router.get("/administration", adminChecker, async (req, res, next) => {
+  const users = await models.User.findAll({
+    attributes: ["id", "username", "displayname", "isAdmin", "isChef"]
+  });
+
+  const data = {
+    pageTitle: 'Administration',
+    users: users,
+    session: req.session.user
+  }
+
+  res.render("Public/admin", data);
+});
+
+router.post("/ban", adminChecker, async (req, res, next) => {
+  const userid = req.body.userid;
+
+  try {
+    models.User.destroy({
+      where: {
+        id: userid
+      }
+    })
+
+    res.sendStatus(200);
   } catch (error) {
     res.status(500).json(error);
   }
