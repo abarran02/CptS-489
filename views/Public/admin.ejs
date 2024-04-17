@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include("./shared/styles") %>
+  <title><%= pageTitle %></title>
+</head>
+<body>
+  <%- include("./shared/header") %>
+
+  <!-- Confirmation Modal -->
+  <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmModalLabel">Confirm Submission</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to change the user settings?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" onclick="submitForm()">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ban Confirmation Modal -->
+  <div class="modal fade" id="banModal" tabindex="-1" aria-labelledby="banModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="banModalLabel">Confirm Ban</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to ban this user? This action cannot be undone.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger" onclick="submitBan()">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid backgroundColor">
+    <div class="container">
+      <div class="row">
+        <h2>User Administration</h2>
+        <div class="col-3 green-line"></div>
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Username</th>
+                <th scope="col">Display Name</th>
+                <th scope="col">controlsStore </th>
+                <th scope="col">isChef</th>
+                <th scope="col">isAdmin</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% users.forEach(user => { %>
+                <tr>
+                  <form action="/public/change/<%= user.id %>" method="POST" id="userform<%= user.id %>">
+                    <td><%= user.username %></td>
+                    <td><%= user.displayname %></td>
+
+                    <td>
+                      <select name="stores" onchange="enableButton('btn<%= user.id %>')">
+                        <option value="none"></option>
+                        <% stores.forEach(function(store) { %>
+                          <option value="<%= store.id %>" <% if (user.controlsStore === store.id) { %> selected <% } %>><%= store.name %></option>
+                        <% }); %>
+                      </select>
+                    </td>
+
+                    <td><input class="form-check-input" type="checkbox" name="chefbox" <% if (user.isChef) { %> checked <% } %> onchange="enableButton('btn<%= user.id %>')"></td>
+
+                    <% if (user.id == session.id) { %>
+                      <td><input class="form-check-input" type="checkbox" name="adminbox" checked disabled></td>
+                    <% } else { %>
+                      <td><input class="form-check-input" type="checkbox" name="adminbox" <% if (user.isAdmin) { %> checked <% } %> onchange="enableButton('btn<%= user.id %>')"></td>
+                    <% } %>
+
+                    <td>
+                      <button id="btn<%= user.id %>" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#confirmationModal" onclick="setModalData('confirmationModal', 'userform<%= user.id %>')" disabled>Change</button>
+                      <% if (user.id != session.id) { %>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#banModal" onclick="setModalData('banModal', 'ban<%= user.id %>')">Ban</button>
+                      <% } else { %>
+                        <button type="button" class="btn btn-danger" disabled>Ban</button>
+                      <% } %>
+                    </td>
+                  </form>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include("./shared/footer") %>
+
+  <script>
+    function enableButton(btnId) {
+      const button = document.getElementById(btnId);
+      button.disabled = false;
+    }
+
+    function setModalData(id, value) {
+      const element = document.getElementById(id);
+      element.setAttribute("data-form-name", value);
+    }
+
+    function submitForm() {
+      const formName = document.getElementById("confirmationModal").getAttribute("data-form-name");
+      const form = document.getElementById(formName);
+      const formData = new FormData(form);
+      let xhr = new XMLHttpRequest();
+
+      // send Form data to server
+      xhr.open("POST", form.action);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.send(JSON.stringify({
+        stores: formData.get("stores"),
+        chefbox: formData.get("chefbox"),
+        adminbox: formData.get("adminbox")
+      }));
+
+      // handle server response
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          location.reload();
+          console.log("User settings changed successfully");
+        } else if (xhr.status === 403) {
+          console.error("Access forbidden");
+        } else {
+          console.error("Unexpected response:", xhr.status);
+        }
+      };
+    }
+
+    function submitBan() {
+      const formName = document.getElementById("banModal").getAttribute("data-form-name");
+      const userid = formName.replace(/^ban/, "");
+      sendPostRequest(userid);
+    }
+
+    function sendPostRequest(userid) {
+      let xhr = new XMLHttpRequest();
+
+      xhr.open("POST", "/public/ban");
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.send(JSON.stringify({ userid: userid }));
+
+      // handle server response
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          console.log("User successfully banned");
+          location.reload();
+        } else if (xhr.status === 403) {
+          console.error("Access forbidden");
+        } else {
+          console.error("Unexpected response:", xhr.status);
+        }
+      }
+    }
+  </script>
+</body>
+</html>

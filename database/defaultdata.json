@@ -254,11 +254,11 @@
   ],
   "users": [
     {"username": "admin", "password": "admin123", "displayname": "Administrator", "isAdmin": true},
-    {"username": "alice", "password": "12345", "displayname": "Alice"},
+    {"username": "alice", "password": "12345", "displayname": "Alice", "controlsStore": 1},
     {"username": "bob", "password": "12345", "displayname": "Bob"},
     {"username": "christian", "password": "12345", "displayname": "Christian", "isChef": true},
     {"username": "eva", "password": "12345", "displayname": "Eva", "isChef": true},
-    {"username": "alec", "password": "12345", "displayname": "Alec", "isChef": true},
+    {"username": "alec", "password": "12345", "displayname": "Alec", "isChef": true, "controlsStore": 2},
     {"username": "john", "password": "12345", "displayname": "John", "isChef": true}
   ],
   "products": [
@@ -302,7 +302,7 @@
     { "storeid": 2, "ingredientname": "Sugar", "price": 1.99, "stock": 70, "amount": 16, "unit": "oz" },
     { "storeid": 1, "ingredientname": "Spaghetti", "price": 1.49, "stock": 90, "amount": 16, "unit": "oz" },
     { "storeid": 2, "ingredientname": "Spaghetti", "price": 2.99, "stock": 90, "amount": 40, "unit": "oz" },
-    { "storeid": 1, "ingredientname": "Pancetta", "price": 7.99, "stock": 55, "amount": 12, "unit": "oz" },    
+    { "storeid": 1, "ingredientname": "Pancetta", "price": 7.99, "stock": 55, "amount": 12, "unit": "oz" },
     { "storeid": 2, "ingredientname": "Pancetta", "price": 6.99, "stock": 75, "amount": 8, "unit": "oz" },
     { "storeid": 1, "ingredientname": "Parmesan Cheese", "price": 3.99, "stock": 80, "amount": 8, "unit": "oz" },
     { "storeid": 2, "ingredientname": "Parmesan Cheese", "price": 5.99, "stock": 75, "amount": 12, "unit": "oz" },

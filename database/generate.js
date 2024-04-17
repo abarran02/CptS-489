@@ -46,6 +46,7 @@ async function insertUsers() {
       username: element.username,
       password: element.password,
       displayname: element.displayname,
+      controlsStore: element.controlsStore,
       isAdmin: (element.isAdmin === undefined) ? false : element.isAdmin,
       isChef: (element.isChef === undefined) ? false : element.isChef
     });

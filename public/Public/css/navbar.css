@@ -1,0 +1,92 @@
+:root {
+  --primary-color: #a6cba4;
+  --secondary-color: #faf9f6;
+  --tertiary-color: #86b884;
+}
+
+.dropdown-menu {
+  display: none;
+  background-color: #f9f9f9;
+  max-width: 200px;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+#navbarDropdown {
+  color: white;
+}
+
+.my-anchor {
+  display: inline;
+  background-color: transparent;
+  border: none;
+  color: white;
+  padding: 10px 10px;
+  margin-left: 2px;
+  margin-right: 2px;
+  text-decoration: none;
+  transition: color 0.3s;
+  height: 100%;
+}
+
+.my-anchor:hover {
+  border: 2px solid var(--secondary-color);
+  margin: 0;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  color: var(--secondary-color);
+  background-color: var(--primary-color);
+  min-height: 56px;
+}
+
+.navbar-login {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.login-modal input[type=text],
+.login-modal input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background-color: #f1f1f1;
+}
+
+.login-modal button {
+  justify-content: right;
+}
+
+#logo {
+  height: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: var(--tertiary-color);
+  border-color: var(--tertiary-color);
+}
+
+footer {
+  margin-top: auto;
+}
+
+.footer-links {
+  background-color: var(--tertiary-color);
+  display: flex;
+  text-align: center;
+  align-items: center;
+}
+
+.footer-links i {
+  margin-right: 5px;
+}

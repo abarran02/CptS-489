@@ -2,8 +2,7 @@ var express = require("express");
 var router = express.Router();
 var cors = require("cors");
 const models = require('../models/models');
-const sessionChecker = require('./sessionChecker');
-const { Op } = require('sequelize');
+const { sessionChecker, adminChecker } = require('./sessionChecker');
 
 router.use(cors());
 
@@ -52,7 +51,7 @@ router.get("/recipes/:id", async (req, res, next) => {
       where: {
         id: id
       },
-      attributes: ['name', 'image', 'ingredients', 'steps']
+      attributes: ['id', 'name', 'image', 'ingredients', 'steps']
     });
 
     const data = {
@@ -62,6 +61,22 @@ router.get("/recipes/:id", async (req, res, next) => {
     }
 
     res.render('Public/recipe', data);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+router.post("/recipes/delete/:id", adminChecker, async (req, res, next) => {
+  const id = req.params.id;
+
+  try {
+    models.Recipe.destroy({
+      where: {
+        id: id
+      }
+    });
+
+    res.redirect('/public/recipes')
   } catch (error) {
     res.status(500).json(error);
   }
@@ -226,7 +241,7 @@ router.get("/ingredients/:id", async (req, res, next) => {
 });
 
 router.get("/cart", sessionChecker, async (req, res, next) => {
-  const cart = await models.User.findOne({
+  const user = await models.User.findOne({
     where: {
       id: req.session.user.id
     },
@@ -235,16 +250,18 @@ router.get("/cart", sessionChecker, async (req, res, next) => {
 
   let cartproducts = [];
   let cartTotal = 0;
-  // inefficient but handles duplicates unlike findAll()
-  for (let i = 0; i < cart.cart.length; i++) {
-    let product = await models.Product.findOne({
-      where: {
-        id: cart.cart[i]
-      },
-      raw: true
-    });
-    cartproducts.push(product);
-    cartTotal += product.price;
+  if (user.cart) {
+    // inefficient but handles duplicates unlike findAll()
+    for (let i = 0; i < user.cart.length; i++) {
+      let product = await models.Product.findOne({
+        where: {
+          id: user.cart[i]
+        },
+        raw: true
+      });
+      cartproducts.push(product);
+      cartTotal += product.price;
+    }
   }
 
   const data = {
@@ -270,17 +287,138 @@ router.post("/cart/add", sessionChecker, async (req, res, next) => {
       where: {
         id: req.session.user.id
       }
-    })
+    });
 
     if (user.cart) {
       user.cart.push(productid);;
     } else {
-      user.cart = [productid, productid];
+      user.cart = [productid];
     }
-    
+
     user.changed('cart', true);
     await user.save();
-    res.status(200);
+    res.sendStatus(200);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+router.get("/settings", sessionChecker, async (req, res, next) => {
+  const user = await models.User.findOne({
+    where: {
+      id: req.session.user.id
+    },
+    attributes: ['username', 'displayname', 'portrait']
+  });
+
+  const data = {
+    pageTitle: 'Account Settings',
+    user: user,
+    session: req.session.user
+  }
+
+  res.render('Public/settings', data);
+});
+
+router.post("/settings/change", sessionChecker, async (req, res, next) => {
+  try {
+    const user = await models.User.findOne({
+      where: {
+        id: req.session.user.id
+      }
+    });
+
+    // check user password
+    if (req.body.curpasswd != user.password) {
+      res.sendStatus(403);
+    } else {
+      // check for changed values
+      if (req.body.newpasswd && req.body.newpasswd != user.password) {
+        user.password = req.body.newpasswd;
+        user.changed('password', true);
+      }
+      if (req.body.displayname && req.body.displayname != user.displayname) {
+        user.displayname = req.body.displayname;
+        user.changed('displayname', true);
+      }
+
+      await user.save();
+      res.sendStatus(200);
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+router.get("/administration", adminChecker, async (req, res, next) => {
+  const users = await models.User.findAll({
+    attributes: ["id", "username", "displayname", "controlsStore", "isAdmin", "isChef"]
+  });
+
+  const stores = await models.Store.findAll({
+    attributes: ["id", "name"]
+  });
+
+  const data = {
+    pageTitle: 'Administration',
+    users: users,
+    stores: stores,
+    session: req.session.user
+  }
+
+  res.render("Public/admin", data);
+});
+
+router.post("/ban", adminChecker, async (req, res, next) => {
+  const userid = req.body.userid;
+
+  try {
+    models.User.destroy({
+      where: {
+        id: userid
+      }
+    })
+
+    res.sendStatus(200);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+router.post("/change/:id", adminChecker, async (req, res, next) => {
+  const id = req.params.id;
+
+  try {
+    const user = await models.User.findOne({
+      where: {
+        id: id
+      }
+    });
+
+    // this may seem too verbose but no reason to set user.changed unless it actually changes
+    // check whether controlsStore is changed
+    const setStores = (req.body.stores === 'none') ? null : req.body.stores;
+    if (req.body.stores != setStores) {
+      user.controlsStore = setStores;
+      user.changed('controlsStore', true);
+    }
+
+    // check whether isChef is changed
+    const setChef = req.body.chefbox === 'on';
+    if (user.isChef != setChef) {
+      user.isChef = setChef;
+      user.changed('isChef', true);
+    }
+
+    // check whether isAdmin is changed
+    const setAdmin = req.body.adminbox === 'on';
+    if (user.isAdmin != setAdmin) {
+      user.isAdmin = setAdmin;
+      user.changed('isAdmin', true);
+    }
+
+    await user.save();
+    res.sendStatus(200);
   } catch (error) {
     res.status(500).json(error);
   }

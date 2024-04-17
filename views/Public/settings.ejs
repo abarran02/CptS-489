@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include("./shared/styles") %>
+  <title><%= pageTitle %></title>
+</head>
+<body>
+  <%- include("./shared/header") %>
+
+  <div class="container-fluid backgroundColor">
+    <div class="container">
+      <div class="row" style="margin-top:100px">
+        <img src="<%= user.portrait %>" alt="<%= user.username %>" class="recipe-img">
+      </div>
+      <div class="row">
+        <div class="col-3 green-line"></div>
+      </div>
+      <div class="row ht200">
+        <div class="col-4">
+          <form class="" method="POST" action="/public/settings/change" id="settings">
+            <table>
+              <tr>
+                <td><label for="username"><b>Username</b></label></td>
+                <td><input type="text" placeholder="<%= user.username %>" name="username" disabled /></td>
+              </tr>
+              <tr>
+                <td><label for="displayname"><b>Display name</b></label></td>
+                <td><input type="text" placeholder="<%= user.displayname %>" name="displayname" /></td>
+              </tr>
+              <tr>
+                <td><label for="curpasswd"><b>Current password</b><span style="color:red;"> * </span></label></td>
+                <td><input type="password" name="curpasswd" required /></td>
+              </tr>
+              <tr>
+                <td><label for="newpasswd"><b>New password</b></label></td>
+                <td><input type="password" name="newpasswd" /></td>
+              </tr>
+            </table>
+          </form>
+          <span style="color:red;"> * indicates required </span>
+          <br />
+          <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include("./shared/footer") %>
+  <script>
+    document.getElementById("submitButton").addEventListener("click", function() {
+      let form = document.getElementById("settings");
+      let formData = new FormData(form);
+      let xhr = new XMLHttpRequest();
+      
+      // send Form data to server
+      xhr.open("POST", form.action);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.send(JSON.stringify({
+        curpasswd: formData.get("curpasswd"),
+        newpasswd: formData.get("newpasswd"),
+        displayname: formData.get("displayname")
+      }));
+      
+      // handle server response
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          form.reset();
+          console.log("Settings submitted successfully");
+        } else if (xhr.status === 403) {
+          console.error("Access forbidden");
+        } else {
+          console.error("Unexpected response:", xhr.status);
+        }
+      };
+    });
+  </script>
+</body>
+</html>
