@@ -1,0 +1,70 @@
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="loginModalLabel">Log In</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="login-modal" method="POST" action="/login" id="login">
+          <label for="username"><b>Username</b></label>
+          <input type="text" placeholder="Enter Username" name="username" required />
+          <br />
+          <label for="passwd"><b>Password</b></label>
+          <input type="password" placeholder="Enter Password" name="passwd" required />
+        </form>
+        <div style="font-size:14px;">
+          Need an account? <a href="/public/signup">Sign up here</a>
+        </div>
+        <br/>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button type="submit" class="btn btn-primary" form="login">Log In</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="container-fluid">
+    <div class="row navbar">
+      <div class="col-8">
+        <img src="/public/img/bow.png" alt="" id="logo">
+        <a href="/public/" class="my-anchor">Home</a>
+        <a href="/public/recipes" class="my-anchor">Recipes</a>
+        <a href="/public/products" class="my-anchor">Best Sellers</a>
+        <a href="/public/stores" class="my-anchor">Stores</a>
+        <a href="/public/users" class="my-anchor">Users</a>
+      </div>
+
+      <div class="col-2 navbar-login">
+        <% if (session) { %>
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Account
+              </a>
+              <div class="dropdown-menu position-absolute dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/public/cart">Cart</a>
+                <a class="dropdown-item" href="/public/orders">Orders</a>
+                <a class="dropdown-item" href="/public/myrecipes">My Recipes</a>
+                <% if (session.isAdmin) { %>
+                  <a class="dropdown-item" href="/public/administration">Administration</a>
+                <% } %>
+                <a class="dropdown-item" href="/public/settings">Settings</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/logout">Sign Out</a>
+              </div>
+            </li>
+          </ul>
+        <% } else { %>
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
+            Sign In
+          </button>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</header>
