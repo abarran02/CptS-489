@@ -51,7 +51,7 @@ router.get("/recipes/:id", async (req, res, next) => {
       where: {
         id: id
       },
-      attributes: ['name', 'image', 'ingredients', 'steps']
+      attributes: ['id', 'name', 'image', 'ingredients', 'steps']
     });
 
     const data = {
@@ -61,6 +61,22 @@ router.get("/recipes/:id", async (req, res, next) => {
     }
 
     res.render('Public/recipe', data);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+router.post("/recipes/delete/:id", adminChecker, async (req, res, next) => {
+  const id = req.params.id;
+
+  try {
+    models.Recipe.destroy({
+      where: {
+        id: id
+      }
+    });
+
+    res.redirect('/public/recipes')
   } catch (error) {
     res.status(500).json(error);
   }
