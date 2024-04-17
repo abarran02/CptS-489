@@ -30,6 +30,36 @@ router.get("/", async (req, res, next) => {
   res.render('Public/homePage', data);
 });
 
+router.get("/signup", async (req, res, next) => {
+  const data = {
+    pageTitle: 'Sign Up',
+    session: req.session.user
+  };
+
+  if (data.session) {
+    // user already logged in
+    res.redirect('/');
+  } else {
+    res.render('Public/signup', data);
+  }
+});
+
+router.post("/signup", async (req, res, next) => {
+  const { username, displayname, password } = req.body;
+
+  try {
+    await models.User.create({
+      username: username,
+      displayname: displayname,
+      password: password
+    });
+
+    res.redirect('/');
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 router.get("/recipes", async (req, res, next) => {
   const recipes = await models.Recipe.findAll({
     attributes: ['id', 'name', 'image']
@@ -70,13 +100,13 @@ router.post("/recipes/delete/:id", adminChecker, async (req, res, next) => {
   const id = req.params.id;
 
   try {
-    models.Recipe.destroy({
+    await models.Recipe.destroy({
       where: {
         id: id
       }
     });
 
-    res.redirect('/public/recipes')
+    res.redirect('/public/recipes');
   } catch (error) {
     res.status(500).json(error);
   }
@@ -373,7 +403,7 @@ router.post("/ban", adminChecker, async (req, res, next) => {
   const userid = req.body.userid;
 
   try {
-    models.User.destroy({
+    await models.User.destroy({
       where: {
         id: userid
       }

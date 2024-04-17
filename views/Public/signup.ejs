@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include("./shared/styles") %>
+  <title><%= pageTitle %></title>
+</head>
+<body>
+  <%- include("./shared/header") %>
+  <div class="container-fluid backgroundColor">
+    <div class="container">
+      <div class="row" style="margin-top:100px">
+        <h2>Sign Up</h2>
+      </div>
+      <div class="row">
+        <div class="col-3 green-line"></div>
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <form action="/public/signup" method="POST" onsubmit="return validateForm()">
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div class="mb-3">
+              <label for="displayname" class="form-label">Display Name</label>
+              <input type="text" class="form-control" id="displayname" name="displayname" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include("./shared/footer") %>
+
+  <script>
+    function validateForm() {
+      const usernameInput = document.getElementById("username");
+      const username = usernameInput.value.trim();
+
+      const displaynameInput = document.getElementById("displayname");
+      const displayname = displaynameInput.value.trim();
+
+      const passwordInput = document.getElementById("password");
+      const password = passwordInput.value;
+
+      if (username === "") {
+        alert("Username cannot be empty");
+        return false;
+      }
+
+      if (displayname === "") {
+        alert("Display Name cannot be empty");
+        return false;
+      }
+
+      if (password.length < 8) {
+        alert("Password must be at least 8 characters long");
+        return false;
+      }
+
+      return true;
+    }
+  </script>
+</body>
+</html>
