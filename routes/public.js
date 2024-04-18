@@ -4,6 +4,8 @@ var cors = require("cors");
 const models = require('../models/models');
 const { sessionChecker, adminChecker } = require('./sessionChecker');
 
+const sequelize = require('../db');
+
 router.use(cors());
 
 router.get("/", async (req, res, next) => {
@@ -51,7 +53,7 @@ router.get("/recipes/:id", async (req, res, next) => {
       where: {
         id: id
       },
-      attributes: ['id', 'name', 'image', 'ingredients', 'steps']
+      attributes: ['name', 'image', 'ingredients', 'steps']
     });
 
     const data = {
@@ -61,22 +63,6 @@ router.get("/recipes/:id", async (req, res, next) => {
     }
 
     res.render('Public/recipe', data);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
-
-router.post("/recipes/delete/:id", adminChecker, async (req, res, next) => {
-  const id = req.params.id;
-
-  try {
-    models.Recipe.destroy({
-      where: {
-        id: id
-      }
-    });
-
-    res.redirect('/public/recipes')
   } catch (error) {
     res.status(500).json(error);
   }
@@ -271,6 +257,38 @@ router.get("/cart", sessionChecker, async (req, res, next) => {
     session: req.session.user
   }
   res.render('Public/cart', data);
+});
+
+router.post("/cart/order", sessionChecker, async (req, res, next) => {
+
+  try {
+    const user = await models.User.findOne({
+      where: {
+        id: req.session.user.id
+      }
+    });
+    
+    for (let i = 0; i < user.cart.length; i++) {
+      const element = user.cart[i]; 
+      const orderList = models.Order.length;
+      console.log(orderList);
+      console.log(element);
+      //console.log(user.id);
+      models.Order.create({
+        id: i,
+        userid: user.id,
+        storeid: 2,
+        products: {element}
+      });
+    }
+    
+    //user.cart = [];
+    user.changed('cart', true);
+    await user.save();
+    res.sendStatus(200);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 });
 
 router.post("/cart/add", sessionChecker, async (req, res, next) => {
