@@ -41,7 +41,7 @@ router.post("/inventory/create", async (req, res, next) => {
         unit: req.body.unit,
         image: req.body.image
       });
-    res.redirect("/inventory");
+    res.redirect("/storehub/inventory");
     } catch (error) {
       res.status(500).json(error);
       // res.redirect() error msg
