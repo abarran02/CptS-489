@@ -34,15 +34,17 @@ router.post("/inventory/create", async (req, res, next) => {
     try {
       await models.Product.create({
         storeid:1, // placeholder value for store
-        ingredientname: itemName,
-        price: pricing,
-        stock: stock,
-        amount: amount,
-        image: image
+        ingredientname: req.body.itemName,
+        price: req.body.pricing,
+        stock: req.body.stock,
+        amount: req.body.amount,
+        unit: req.body.unit,
+        image: req.body.image
       });
     res.redirect("/inventory");
     } catch (error) {
       res.status(500).json(error);
+      // res.redirect() error msg
     }
   });
 
