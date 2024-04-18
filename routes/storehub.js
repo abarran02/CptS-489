@@ -28,4 +28,22 @@ router.get("/inventory", (req, res, next) => {
     res.render('Store/inventory', data);
 });
 
+router.post("/inventory/create", async (req, res, next) => {
+    const { itemName, pricing, stock, amount, image } = req.body;
+  
+    try {
+      await models.Product.create({
+        storeid:1, // placeholder value for store
+        ingredientname: itemName,
+        price: pricing,
+        stock: stock,
+        amount: amount,
+        image: image
+      });
+    res.redirect("/inventory");
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  });
+
 module.exports = router;
