@@ -20,9 +20,13 @@ router.get("/order-manage", (req, res, next) => {
     res.render('Store/order-manage', data);
 });
 
-router.get("/inventory", (req, res, next) => {
+router.get("/inventory", async (req, res, next) => {
+    const products = await models.Product.findAll({
+        attributes: ['ingredientname', 'price', 'stock', 'amount', 'unit']
+      });
     const data = {
       pageTitle: 'Inventory',
+      products: products,
       session: req.session.user
     }
     res.render('Store/inventory', data);
@@ -35,7 +39,7 @@ router.post("/inventory/create", async (req, res, next) => {
       await models.Product.create({
         storeid:1, // placeholder value for store
         ingredientname: req.body.itemName,
-        price: req.body.pricing,
+        price: req.body.price,
         stock: req.body.stock,
         amount: req.body.amount,
         unit: req.body.unit,

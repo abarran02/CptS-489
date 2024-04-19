@@ -21,10 +21,11 @@ async function populatetable() {
     })
 }
 
-populatetable().then(console.log("course population completed"))
+populatetable().then(console.log("table population completed"))
 
 async function postData(url = "", data = {}) {
     // Default options are marked with *
+    console.log(url);
     const response = await fetch(url, {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -47,7 +48,7 @@ async function postData(url = "", data = {}) {
     postData('http://localhost:3000/api/product',formobject).then((product)=> {
         console.log(product)
         with(product){
-            addrow(ingredientname, price, stock, amount, unit)
+            addrow(itemName, price, stock, amount, unit)
         }
         document.forms[0].reset()
     })
