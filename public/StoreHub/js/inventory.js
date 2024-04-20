@@ -14,7 +14,10 @@ async function getproducts() {
 
 async function populatetable() {
     const products = await getproducts()
-    products.forEach((product) =>{
+    const filteredProducts = products.filter(product => product.storeid === 1); // placeholder value for storeID
+    console.log(filteredProducts)
+    console.log(products)
+    filteredProducts.forEach((product) =>{
         with(product){
             addrow(ingredientname, price, stock, amount, unit)
         }
