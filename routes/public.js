@@ -68,6 +68,16 @@ router.get("/recipes/:id", async (req, res, next) => {
   }
 });
 
+router.get("/createnewrecipe", async (req, res, next) => {
+
+  const data = {
+    pageTitle: 'Recipe Creation',
+    session: req.session.user
+  }
+
+  res.render('Public/createnewrecipe', data);
+});
+
 router.get("/users", async (req, res, next) => {
   const users = await models.User.findAll({
     attributes: ['id', 'displayname', 'portrait']
@@ -267,22 +277,46 @@ router.post("/cart/order", sessionChecker, async (req, res, next) => {
         id: req.session.user.id
       }
     });
-    
+    console.log(user.cart);
+    //const orderList = await models.Order.findAll().length + 1;
+    let maxid = await models.Order.max('orderid');
+    console.log(maxid);
+    if(maxid === null){
+      neworderid = 1;
+    }
+    else{
+      neworderid = maxid + 1;
+    }
     for (let i = 0; i < user.cart.length; i++) {
-      const element = user.cart[i]; 
-      const orderList = models.Order.length;
-      console.log(orderList);
-      console.log(element);
-      //console.log(user.id);
-      models.Order.create({
-        id: i,
-        userid: user.id,
-        storeid: 2,
-        products: {element}
+      const productid = user.cart[i]; 
+      const product = await models.Product.findOne({
+        where: {
+          id: productid
+        }
       });
+      
+      let multipleItem = await models.Order.findOne({
+        where:{
+          orderid: neworderid,
+          productid: productid
+        }
+      });
+      if(multipleItem === null){
+      //console.log(orderList);
+      //console.log(productid);
+        models.Order.create({
+          orderid: neworderid,
+          productid: productid,
+          userid: user.id,
+          amount: 1
+        });
+      }
+      else{
+        multipleItem.increment('amount');
+      }
     }
     
-    //user.cart = [];
+    user.cart = [];
     user.changed('cart', true);
     await user.save();
     res.sendStatus(200);
@@ -319,6 +353,40 @@ router.post("/cart/add", sessionChecker, async (req, res, next) => {
   } catch (error) {
     res.status(500).json(error);
   }
+});
+
+router.get("/orders", sessionChecker, async (req, res, next) => {
+  const user = await models.User.findOne({
+    where: {
+      id: req.session.user.id
+    },
+  });
+
+  let orders = await models.Order.findAll({
+    attributes: [[sequelize.fn('DISTINCT', sequelize.col('orderid')), 'orderid']],
+    where: {
+        userid: req.session.user.id
+    }
+  });
+
+  let orderitems = await models.Order.findAll({
+    attributes: ['orderid','productid', 'amount', 'fulfilledAt'],
+    where: {
+        userid: req.session.user.id
+    }
+  });
+
+  console.log(user);
+  console.log(orders);
+ 
+  //console.log(orderList[1].products);
+  const data = {
+    pageTitle: 'User Orders',
+    orders: orders,
+    orderitems: orderitems,
+    session: req.session.user
+  }
+  res.render('Public/userorders', data);
 });
 
 router.get("/settings", sessionChecker, async (req, res, next) => {
