@@ -17,6 +17,7 @@
       </div>
       <div class="row ht200">
         <div class="col-4">
+          <div id="liveAlertPlaceholder"></div>
           <form class="" method="POST" action="/public/settings/change" id="settings">
             <table>
               <tr>
@@ -35,6 +36,10 @@
                 <td><label for="newpasswd"><b>New password</b></label></td>
                 <td><input type="password" name="newpasswd" /></td>
               </tr>
+              <tr>
+                <td><label for="confirmpasswd"><b>Confirm password</b></label></td>
+                <td><input type="password" name="confirmpasswd" /></td>
+              </tr>
             </table>
           </form>
           <span style="color:red;"> * indicates required </span>
@@ -48,16 +53,24 @@
   <%- include("./shared/footer") %>
   <script>
     document.getElementById("submitButton").addEventListener("click", function() {
-      let form = document.getElementById("settings");
-      let formData = new FormData(form);
-      let xhr = new XMLHttpRequest();
+      const form = document.getElementById("settings");
+      const formData = new FormData(form);
       
+      // validate passwords
+      const newpasswd = formData.get("newpasswd");
+      const confirmpasswd = formData.get("confirmpasswd");
+      if (newpasswd != confirmpasswd) {
+        appendAlert("New passwords must match", "warning");
+        return;
+      }
+
       // send Form data to server
+      let xhr = new XMLHttpRequest();
       xhr.open("POST", form.action);
       xhr.setRequestHeader("Content-Type", "application/json");
       xhr.send(JSON.stringify({
         curpasswd: formData.get("curpasswd"),
-        newpasswd: formData.get("newpasswd"),
+        newpasswd: newpasswd,
         displayname: formData.get("displayname")
       }));
       
@@ -65,11 +78,11 @@
       xhr.onload = function() {
         if (xhr.status === 200) {
           form.reset();
-          console.log("Settings submitted successfully");
+          appendAlert("Settings changed successfully", "success");
         } else if (xhr.status === 403) {
-          console.error("Access forbidden");
+          appendAlert("Access forbidden", "danger");
         } else {
-          console.error("Unexpected response:", xhr.status);
+          appendAlert(`Unexpected response: HTTP/${xhr.status}`, "danger");
         }
       };
     });

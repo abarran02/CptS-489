@@ -3,6 +3,7 @@ var router = express.Router();
 var cors = require("cors");
 const models = require('../models/models');
 const { sessionChecker, adminChecker } = require('./sessionChecker');
+const { QueryTypes } = require("sequelize");
 
 router.use(cors());
 
@@ -194,7 +195,7 @@ router.get("/stores/:id", async (req, res, next) => {
 
 router.get("/products", async (req, res, next) => {
   const products = await models.Product.findAll({
-    attributes: ['id', 'name']
+    attributes: ['id', 'ingredientname']
   });
 
   const data = {
@@ -213,7 +214,7 @@ router.get("/products/:id", async (req, res, next) => {
       where: {
         id: id
       },
-      attributes: ['id', 'storeid', 'name', 'price', 'stock', 'amount', 'unit', 'image']
+      attributes: ['id', 'storeid', 'ingredientname', 'price', 'stock', 'amount', 'unit', 'image']
     });
 
     const store = await models.Store.findOne({
@@ -224,7 +225,7 @@ router.get("/products/:id", async (req, res, next) => {
     });
 
     const data = {
-      pageTitle: product.name,
+      pageTitle: product.ingredientname,
       product: product,
       store: store,
       session: req.session.user
@@ -250,12 +251,15 @@ router.get("/ingredients/:id", async (req, res, next) => {
       attributes: ['name', 'description', 'category', 'image']
     });
 
-    const products = await models.Product.findAll({
-      where: {
-        ingredientname: ingredient.name
-      },
-      attributes: ['id', 'name', 'amount', 'unit']
-    });
+    const sequelize = models.Product.sequelize;
+    // without foreign key from Product storeid to Store table this is the only way to do it
+    const products = await sequelize.query(
+      'SELECT `p`.`id`, `p`.`ingredientname`, `p`.`amount`, `p`.`unit`, `s`.`name` AS `storename` FROM `Products` AS `p` JOIN `Stores` AS `s` ON `s`.`id`=`p`.`storeid` WHERE `p`.`ingredientname`=?',
+      {
+        replacements: [ingredient.name],
+        type: QueryTypes.SELECT,
+      }
+    );
 
     const data = {
       pageTitle: ingredient.name,
