@@ -49,13 +49,25 @@ router.post("/signup", async (req, res, next) => {
   const { username, displayname, password } = req.body;
 
   try {
-    await models.User.create({
-      username: username,
-      displayname: displayname,
-      password: password
-    });
+    // attempt to create new User, if the username exists then send error
+    models.User.findOrCreate({
+      where: {
+        username: username
+      },
+      defaults: {
+        displayname: displayname,
+        password: password
+      }
+    }).then(function(result) {
+      const created = result[1];
 
-    res.redirect('/#signup-success');
+      if (created) {
+        res.redirect('/#signup-success');
+      } else {
+        console.log("what")
+        res.sendStatus(202);
+      }
+    });
   } catch (error) {
     res.status(500).json(error);
   }
