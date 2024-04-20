@@ -10,6 +10,8 @@
     <div class="container">
       <%- include("./shared/banner") %>
       
+      <div id="liveAlertPlaceholder"></div>
+
       <div class="row green-line"></div>
       <div class="row ht200">
         <div class="col-4 topRecipes">
@@ -17,7 +19,6 @@
         </div>
       </div>
       <div class="row">
-
         <div class="col-6 recipe-in-top">
           <% for(let i = 0; i < recipes.length; i+=2) { %>
             <a href="/public/recipes/<%= recipes[i].id %>" class="list-element-title"><%= recipes[i].name %></a>
@@ -56,5 +57,13 @@
   </div>
 
   <%- include("./shared/footer") %>
+
+  <script>
+    window.onload = function() {
+      if (window.location.hash === "#signup-success") {
+        appendAlert("Account successfully created. You may now log in.", "success")
+      }
+    }
+  </script>
 </body>
 </html>
