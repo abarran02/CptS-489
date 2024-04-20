@@ -194,7 +194,7 @@ router.get("/stores/:id", async (req, res, next) => {
 
 router.get("/products", async (req, res, next) => {
   const products = await models.Product.findAll({
-    attributes: ['id', 'name']
+    attributes: ['id', 'ingredientname']
   });
 
   const data = {
@@ -213,7 +213,7 @@ router.get("/products/:id", async (req, res, next) => {
       where: {
         id: id
       },
-      attributes: ['id', 'storeid', 'name', 'price', 'stock', 'amount', 'unit', 'image']
+      attributes: ['id', 'storeid', 'ingredientname', 'price', 'stock', 'amount', 'unit', 'image']
     });
 
     const store = await models.Store.findOne({
@@ -254,7 +254,7 @@ router.get("/ingredients/:id", async (req, res, next) => {
       where: {
         ingredientname: ingredient.name
       },
-      attributes: ['id', 'name', 'amount', 'unit']
+      attributes: ['id', 'ingredientname', 'amount', 'unit']
     });
 
     const data = {
@@ -452,6 +452,22 @@ router.post("/change/:id", adminChecker, async (req, res, next) => {
   } catch (error) {
     res.status(500).json(error);
   }
+});
+
+router.get("/about-us", async (req, res, next) => {
+  const data = {
+    pageTitle: 'About Us',
+    session: req.session.user
+  }
+  res.render('Public/about-us', data);
+});
+
+router.get("/contact-us", async (req, res, next) => {
+  const data = {
+    pageTitle: 'Contact Us',
+    session: req.session.user
+  }
+  res.render('Public/contact-us', data);
 });
 
 module.exports = router;
