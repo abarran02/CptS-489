@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include("./shared/styles") %>
+  <title><%= pageTitle %></title>
+</head>
+<body>
+  <%- include("./shared/header") %>
+  
+  <div class="container-fluid backgroundColor">
+    <div class="container">
+      <div class="row" style="margin-top:100px">
+        Your Orders:
+      </div>
+      
+      <div>
+        <% if (orders.length == 0) { %>
+          <li>No Orders Placed</li>
+        <% } else { %>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">Order Id</th>
+                <th scope="col">Product</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Fulfilled At</th>
+              </tr>
+            </thead>
+            <% for(let i = 0; i < orderitems.length; i++) { %>
+              <tbody>
+                <tr>
+                  <td><%= `${orderitems[i].orderid}` %></td>
+                  <td><%= `${orderitems[i].productid}` %></td>
+                  <td><%= `${orderitems[i].amount}` %></td>
+                  <td><%= `${orderitems[i].fulfilledAt}` %></td>
+                </tr>
+              </tbody>
+            <% } %>
+          </table>
+          <% } %>
+      </div>
+    </div>
+  </div>
+
+  <%- include("./shared/footer") %>
+</body>
+</html>
