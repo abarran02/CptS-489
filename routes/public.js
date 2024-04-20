@@ -54,7 +54,7 @@ router.post("/signup", async (req, res, next) => {
       password: password
     });
 
-    res.redirect('/');
+    res.redirect('/#signup-success');
   } catch (error) {
     res.status(500).json(error);
   }
