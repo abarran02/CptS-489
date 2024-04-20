@@ -126,6 +126,16 @@ router.get("/users", async (req, res, next) => {
   res.render('Public/userIndex', data);
 });
 
+router.get("/createnewrecipe", async (req, res, next) => {
+
+  const data = {
+    pageTitle: 'Recipe Creation',
+    session: req.session.user
+  }
+
+  res.render('Public/createnewrecipe', data);
+});
+
 router.get("/users/:id", async (req, res, next) => {
   const id = req.params.id;
   try {
