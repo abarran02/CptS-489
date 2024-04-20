@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include("./shared/styles") %>
+  <title><%= pageTitle %></title>
+</head>
+<body>
+  <%- include("./shared/header") %>
+
+  <div class="container-fluid backgroundColor">
+    <div class="container">
+      <%- include("./shared/banner") %>
+
+      <div class="row green-line"></div>
+      <div class="row">
+        <div class="col-4 topRecipes">
+            <form id="recipeForm">
+                <label for="recipeName">Recipe Name:</label>
+                <input type="text" id="recipeName" name="recipeName"><br><br>
+                
+                <label for="ingredients">Ingredients:</label>
+                <textarea id="ingredients" name="ingredients"></textarea><br><br>
+                
+                <div id="stepsContainer">
+                  <div class="step">
+                    <label for="step1">Step 1:</label>
+                    <input type="text" id="step1" name="step1">
+                  </div>
+                </div>
+                
+                <button type="button" id="addStep">Add Step</button><br><br>
+                
+                <button type="submit">Submit Recipe</button>
+            </form>
+        </div>
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <%- include("./shared/footer") %>
+</body>
+<script>
+    document.getElementById('addStep').addEventListener('click', function() {
+      const stepsContainer = document.getElementById('stepsContainer');
+      const stepNumber = stepsContainer.childElementCount + 1;
+      const newStep = document.createElement('div');
+      newStep.innerHTML = `
+        <label for="step${stepNumber}">Step ${stepNumber}:</label>
+        <input type="text" id="step${stepNumber}" name="step${stepNumber}">
+      `;
+      stepsContainer.appendChild(newStep);
+    });
+    
+    document.getElementById('recipeForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const formData = new FormData(this);
+      const jsonData = {};
+      for (const [key, value] of formData.entries()) {
+        jsonData[key] = value;
+      }
+      const jsonString = JSON.stringify(jsonData);
+      console.log(jsonString); // Send jsonString to server via HTTP request
+    });
+    </script>
+</html>
