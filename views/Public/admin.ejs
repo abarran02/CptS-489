@@ -121,6 +121,8 @@
     }
 
     function submitForm() {
+      clearAlert();
+      
       const formName = document.getElementById("confirmationModal").getAttribute("data-form-name");
       const form = document.getElementById(formName);
       const formData = new FormData(form);
