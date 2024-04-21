@@ -403,10 +403,15 @@ router.get("/administration", adminChecker, async (req, res, next) => {
     attributes: ["id", "name"]
   });
 
+  const contacts = await models.Contact.findAll({
+    attributes: ['id', 'name', 'email', 'message']
+  });
+
   const data = {
     pageTitle: 'Administration',
     users: users,
     stores: stores,
+    contacts: contacts,
     session: req.session.user
   }
 
@@ -465,6 +470,21 @@ router.post("/change/:id", adminChecker, async (req, res, next) => {
     res.sendStatus(200);
   } catch (error) {
     res.status(500).json(error);
+  }
+});
+
+router.get("/delete-contact/:contactId", adminChecker, async function(req, res, next) {
+  try {
+    const contact = await models.Contact.findByPk(req.params.contactId);
+    if (contact) {
+      await contact.destroy();
+      res.redirect('/public/administration?msg=successdel&contactid=' + req.params.contactId);
+    } else {
+      res.redirect('/public/administration?msg=contact+not+found&contactid=' + req.params.contactId);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    res.redirect('/public/administration?msg=error');
   }
 });
 
