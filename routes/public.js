@@ -3,6 +3,7 @@ var router = express.Router();
 var cors = require("cors");
 const models = require('../models/models');
 const { sessionChecker, adminChecker } = require('./sessionChecker');
+const { QueryTypes } = require("sequelize");
 
 router.use(cors());
 
@@ -48,13 +49,25 @@ router.post("/signup", async (req, res, next) => {
   const { username, displayname, password } = req.body;
 
   try {
-    await models.User.create({
-      username: username,
-      displayname: displayname,
-      password: password
-    });
+    // attempt to create new User, if the username exists then send error
+    models.User.findOrCreate({
+      where: {
+        username: username
+      },
+      defaults: {
+        displayname: displayname,
+        password: password
+      }
+    }).then(function(result) {
+      const created = result[1];
 
-    res.redirect('/#signup-success');
+      if (created) {
+        res.redirect('/#signup-success');
+      } else {
+        console.log("what")
+        res.sendStatus(202);
+      }
+    });
   } catch (error) {
     res.status(500).json(error);
   }
@@ -224,7 +237,7 @@ router.get("/products/:id", async (req, res, next) => {
     });
 
     const data = {
-      pageTitle: product.name,
+      pageTitle: product.ingredientname,
       product: product,
       store: store,
       session: req.session.user
@@ -254,7 +267,7 @@ router.get("/ingredients/:id", async (req, res, next) => {
       where: {
         ingredientname: ingredient.name
       },
-      attributes: ['id', 'ingredientname', 'amount', 'unit']
+      attributes: ['id', 'name', 'amount', 'unit']
     });
 
     const data = {
