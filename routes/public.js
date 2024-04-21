@@ -394,14 +394,15 @@ router.post("/settings/change", sessionChecker, upload.single('file'), async (re
         user.password = req.body.newpasswd;
         user.changed('password', true);
       }
-      
+
       if (req.body.displayname && req.body.displayname != user.displayname) {
         user.displayname = req.body.displayname;
         user.changed('displayname', true);
       }
 
       if (req.file) {
-        if (user.portrait) {
+        // prevent deleting default image
+        if (user.portrait != '/uploads/default-profile.jpg') {
           fs.unlink('public' + user.portrait, cb);
         }
 

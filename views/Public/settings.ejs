@@ -56,6 +56,12 @@
 
   <%- include("./shared/footer") %>
   <script>
+    window.onload = function() {
+      if (window.location.hash === "#success") {
+        appendAlert("Settings changed successfully", "success");
+      }
+    }
+
     document.getElementById("submitButton").addEventListener("click", function() {
       clearAlert();
 
@@ -79,7 +85,7 @@
       xhr.onload = function() {
         if (xhr.status === 200) {
           form.reset();
-          appendAlert("Settings changed successfully", "success");
+          window.location.replace('/public/settings/#success');
         } else if (xhr.status === 403) {
           appendAlert("Access forbidden", "danger");
         } else {
