@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="/public/css/contact-us" type="text/css">
     <%- include("./shared/styles") %>
 
         <title>
@@ -11,41 +10,47 @@
 </head>
 <%- include("./shared/header") %>
 
-    <main>
-        <div class="container">
-            <div class="row">
-                <h1>Get in Contact with Us!</h1>
-                <p>email@email.com</p>
-            </div>
-            <div class="row">
-                <form method="post">
-                    <h3>Drop Us a Message</h3>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <input type="text" name="name" class="form-control" placeholder="Your Name *"
-                                    value="" />
-                            </div>
-                            <div class="form-group">
-                                <input type="text" name="email" class="form-control" placeholder="Your Email *"
-                                    value="" />
-                            </div>
-                            <div class="form-group">
-                                <input type="submit" name="btnSubmit" class="btnContact" value="Send Message" />
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <textarea name="message" class="form-control" placeholder="Your Message *"
-                                    style="width: 100%; height: 150px;"></textarea>
-                            </div>
-                        </div>
-                    </div>
-            </div>
-        </div>
-    </main>
+    <body>
+        <main>
+            <div class="container">
+                <div class="row">
+                    <h1>Get in Contact with Us!</h1>
+                </div>
+                <div class="row">
+                    <form method="POST" action="/public/contact-us/create" id="contactform" class="container mt-3">
+                        <h3>Drop Us a Message</h3>
+                        <div id="liveAlertPlaceholder"></div>
+                        <div class="row">
+                            <div class="col">
 
-    <%- include("./shared/footer") %>
-        </body>
+                                <div class="form-group mb-3">
+                                    <input type="text" name="name" class="form-control" placeholder="Your Name *"
+                                        value="" required>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <input type="text" name="email" class="form-control" placeholder="Your Email *"
+                                        required>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <textarea name="message" class="form-control" placeholder="Your Message *"
+                                        style="width: 100%; height: 150px;" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" name="btnSubmit" class="btn btn-primary" value="Send Message">
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </main>
+        <%- include("./shared/footer") %>
+    </body>
+    <script src = "/public/js/alerts.js"></script>
+    <script>
+    error = "<%= errorMessages %>";
+    if (error) {
+            appendAlert(error, "warning");
+        }
+    </script>
 
 </html>

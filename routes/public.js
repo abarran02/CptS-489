@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var cors = require("cors");
 const models = require('../models/models');
+const { body, validationResult } = require('express-validator');
 const { sessionChecker, adminChecker } = require('./sessionChecker');
 const { QueryTypes } = require("sequelize");
 
@@ -476,25 +477,40 @@ router.get("/about-us", async (req, res, next) => {
 });
 
 router.get("/contact-us", async (req, res, next) => {
+  let errorMessages = req.query.error; 
+  // Split the concatenated error messages into an array
+  if (errorMessages) {
+    errorMessages = errorMessages.split('; ');
+  }
   const data = {
     pageTitle: 'Contact Us',
-    session: req.session.user
-  }
+    session: req.session.user,
+    errorMessages: errorMessages 
+  };
   res.render('Public/contact-us', data);
 });
 
-
-router.post("/contact-us/create", async (req, res, next) => {s
+router.post("/contact-us/create", [
+  body('name').notEmpty().withMessage('Name is required'),
+  body('email').isEmail().withMessage('Invalid email address'),
+  body('message').notEmpty().withMessage('Message is required')
+], async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      // If validation fails, return error messages
+      const errorMessages = errors.array().map(error => error.msg).join('; ');
+      return res.redirect("/public/contact-us?error=" + encodeURIComponent(errorMessages));
+    }
     await models.Contact.create({
       name: req.body.name,
       email: req.body.email,
       message: req.body.message,
     });
-  res.redirect("/contact-us"); // message success
+
+    res.redirect("/public/contact-us"); // message success
   } catch (error) {
-    res.status(500).json(error);
-    // res.redirect() error msg
+    res.status(500).json({ error: 'An error occurred while processing your request' });
   }
 });
 

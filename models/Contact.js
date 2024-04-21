@@ -16,7 +16,8 @@ const Contact = sequelize.define('Contact', {
     allowNull: false
   },
   message: {
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    allowNull: false
   }
 });
 
