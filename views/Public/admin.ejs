@@ -20,7 +20,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" onclick="submitForm()">Confirm</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="submitForm()">Confirm</button>
         </div>
       </div>
     </div>
@@ -39,7 +39,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-danger" onclick="submitBan()">Confirm</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="submitBan()">Confirm</button>
         </div>
       </div>
     </div>
@@ -53,6 +53,7 @@
       </div>
       <div class="row">
         <div class="col-4">
+          <div id="liveAlertPlaceholder"></div>
           <table class="table">
             <thead>
               <tr>
@@ -120,6 +121,8 @@
     }
 
     function submitForm() {
+      clearAlert();
+      
       const formName = document.getElementById("confirmationModal").getAttribute("data-form-name");
       const form = document.getElementById(formName);
       const formData = new FormData(form);
@@ -137,12 +140,17 @@
       // handle server response
       xhr.onload = function() {
         if (xhr.status === 200) {
-          location.reload();
-          console.log("User settings changed successfully");
+          // disable all change buttons
+          const warningButtons = document.querySelectorAll('.btn-warning');
+          warningButtons.forEach(button => {
+            button.disabled = true;
+          });
+
+          appendAlert("User settings changed successfully", "success");
         } else if (xhr.status === 403) {
-          console.error("Access forbidden");
+          appendAlert("Access forbidden", "danger");
         } else {
-          console.error("Unexpected response:", xhr.status);
+          appendAlert(`Unexpected response: HTTP/${xhr.status}`, "danger");
         }
       };
     }
@@ -150,12 +158,8 @@
     function submitBan() {
       const formName = document.getElementById("banModal").getAttribute("data-form-name");
       const userid = formName.replace(/^ban/, "");
-      sendPostRequest(userid);
-    }
-
-    function sendPostRequest(userid) {
+      
       let xhr = new XMLHttpRequest();
-
       xhr.open("POST", "/public/ban");
       xhr.setRequestHeader("Content-Type", "application/json");
       xhr.send(JSON.stringify({ userid: userid }));
@@ -163,12 +167,15 @@
       // handle server response
       xhr.onload = function() {
         if (xhr.status === 200) {
-          console.log("User successfully banned");
-          location.reload();
+          // delete user's row in table
+          const userform = document.getElementById(`userform${userid}`);
+          userform.parentNode.remove();
+          
+          appendAlert("User successfully banned", "warning");
         } else if (xhr.status === 403) {
-          console.error("Access forbidden");
+          appendAlert("Access forbidden", "danger");
         } else {
-          console.error("Unexpected response:", xhr.status);
+          appendAlert(`Unexpected response: HTTP/${xhr.status}`, "danger");
         }
       }
     }
