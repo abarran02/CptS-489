@@ -83,20 +83,60 @@ router.get("/recipes/create", sessionChecker, async (req, res, next) => {
   res.render('Public/createnewrecipe', data);
 });
 
-router.post("/recipes/create", sessionChecker, async (req, res, next) => {
-  const { name, description, ingredients, steps } = req.body;
+router.post("/createnewrecipe", sessionChecker, async (req, res, next) => {
 
   try {
-    await models.Recipe.create({
-      ownerid: req.session.user.id,
-      name: name,
-      description: description,
+    
+    ingredients = [];
+    ingredientsData = {};
+    steps = [];
+    const user = await models.User.findOne({
+      where: {
+        id: req.session.user.id
+      }
+    });
+
+    console.log(req.body.recipeName);
+
+    let maxid = await models.Recipe.max('id');
+    if(maxid === null){
+      newid = 1;
+    }
+    else{
+      newid = maxid + 1;
+    }
+
+    console.log(req.body);
+    for (const key in req.body) {
+      if (req.body.hasOwnProperty(key)) {  // This check isn't usually necessary in modern JavaScript environments
+        console.log(`${key}: ${req.body[key]}`);
+      }
+      if(key[0] === 'i'){
+        ingredients.push({amount: '',ingredientdisplayname: `${req.body[key]}`,ingredientname:`${req.body[key]}`});
+        console.log(ingredients);
+      }
+      else if(key[0] === 's'){
+        steps.push(`${req.body[key]}`)
+      }
+      else if(key[0] === 'a'){
+        console.log(ingredients);
+        ingredients[key[6]-1].amount = `${req.body[key]}`;
+      }
+    }
+    
+    models.Recipe.create({
+      id: newid,
+      ownerid: user.id,
+      name: req.body.recipeName,
+      description: req.body.description,
       steps: steps,
       ingredients: ingredients
     });
-  
+
+    await user.save();
     res.sendStatus(200);
   } catch (error) {
+    console.error('Failed to create new recipe', error);
     res.status(500).json(error);
   }
 });
