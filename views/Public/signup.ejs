@@ -91,6 +91,7 @@
         if (xhr.status === 200) {
           window.location.replace("/public/#signup-success");
         } else if (xhr.status === 202) {
+          console.log('hi')
           appendAlert("Username already exists", "danger");
         } else {
           appendAlert(`Unexpected response: HTTP/${xhr.status}`, "danger");

@@ -64,7 +64,6 @@ router.post("/signup", async (req, res, next) => {
       if (created) {
         res.redirect('/#signup-success');
       } else {
-        console.log("what")
         res.sendStatus(202);
       }
     });
