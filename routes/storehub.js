@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 var cors = require("cors");
 const models = require('../models/models');
-const { sessionChecker, adminChecker } = require('./sessionChecker');
+const { sessionChecker, adminChecker } = require('./middleware/sessionChecker');
 
 router.use(express.static('StoreHub'));
 router.use(cors());

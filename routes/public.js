@@ -1,9 +1,10 @@
 var express = require("express");
 var router = express.Router();
 var cors = require("cors");
+const fs = require('fs');
 const models = require('../models/models');
-const { sessionChecker, adminChecker } = require('./sessionChecker');
-const upload = require('./upload');
+const { sessionChecker, adminChecker } = require('./middleware/sessionChecker');
+const upload = require('./middleware/upload');
 const { QueryTypes } = require("sequelize");
 
 router.use(cors());
@@ -374,21 +375,36 @@ router.post("/settings/change", sessionChecker, upload.single('file'), async (re
       }
     });
 
+    const cb = (error) => {
+      if (error) {
+        throw error;
+      }
+    }
+
     // check user password
     if (req.body.curpasswd != user.password) {
       res.sendStatus(403);
+      if (req.file) {
+        // delete the file since we allowed upload anyway
+        fs.unlink(req.file.path, cb);
+      }
     } else {
       // check for changed values
       if (req.body.newpasswd && req.body.newpasswd != user.password) {
         user.password = req.body.newpasswd;
         user.changed('password', true);
       }
+      
       if (req.body.displayname && req.body.displayname != user.displayname) {
         user.displayname = req.body.displayname;
         user.changed('displayname', true);
       }
 
       if (req.file) {
+        if (user.portrait) {
+          fs.unlink('public' + user.portrait, cb);
+        }
+
         user.portrait = req.file.path.replace("public", "");
         user.changed('portrait', true);
       }
