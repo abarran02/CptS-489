@@ -9,39 +9,52 @@
 
   <div class="container-fluid backgroundColor">
     <div class="container">
-      <%- include("./shared/banner") %>
-
       <div class="row green-line"></div>
       <div class="row">
-        <div class="col-4 topRecipes">
-            <form id="recipeForm">
-                <label for="recipeName">Recipe Name:</label>
-                <input type="text" id="recipeName" name="recipeName"><br><br>
-                
-                <label for="ingredients">Ingredients:</label>
-                <textarea id="ingredients" name="ingredients"></textarea><br><br>
-                
-                <div id="stepsContainer">
-                  <div class="step">
-                    <label for="step1">Step 1:</label>
-                    <input type="text" id="step1" name="step1">
-                  </div>
+        <div class="col-4">
+          <form id="recipeForm">
+            <div class="form-group">
+              <label for="recipeName">Recipe Name:</label>
+              <input type="text" id="recipeName" name="recipeName"><br>
+              <label for="description">Description:</label>
+              <textarea id="description" name="description"></textarea><br>
+              <label for="ingredients">Ingredients:</label>
+              <textarea id="ingredients" name="ingredients"></textarea><br>
+              <div id="stepsContainer">
+                <div class="step">
+                  <label for="step1">Step 1:</label>
+                  <input type="text" id="step1" name="step1">
                 </div>
-                
-                <button type="button" id="addStep">Add Step</button><br><br>
-                
-                <button type="submit">Submit Recipe</button>
-            </form>
+              </div>
+              <button type="button" id="addStep" class="btn btn-secondary">Add Step</button><br><br>
+              <button type="submit" class="btn btn-primary">Submit Recipe</button>
+            </div>
+          </form>
+          <div id="liveAlertPlaceholder"></div>
         </div>
-        
-        
       </div>
     </div>
   </div>
 
   <%- include("./shared/footer") %>
-</body>
-<script>
+
+  <script>
+    function collectSteps() {
+      const form = document.getElementById('recipeForm');
+      let steps = [];
+
+      for (let i = 0; i < form.elements.length; i++) {
+        let elem = form.elements[i];
+        // check that the input is a step and is not null
+        let isStepInput = elem.getAttribute('name') && elem.getAttribute('name').startsWith('step');
+        if (isStepInput && elem.value) {
+          steps.push(elem.value);
+        }
+      }
+
+      return steps;
+    }
+
     document.getElementById('addStep').addEventListener('click', function() {
       const stepsContainer = document.getElementById('stepsContainer');
       const stepNumber = stepsContainer.childElementCount + 1;
@@ -56,12 +69,28 @@
     document.getElementById('recipeForm').addEventListener('submit', function(event) {
       event.preventDefault();
       const formData = new FormData(this);
-      const jsonData = {};
-      for (const [key, value] of formData.entries()) {
-        jsonData[key] = value;
+      let jsonData = {};
+      jsonData['name'] = formData.get('recipeName');
+      jsonData['description'] = formData.get('description');
+      jsonData['ingredients'] = formData.get('ingredients');
+      jsonData['steps'] = collectSteps();
+      
+      let xhr = new XMLHttpRequest();
+      xhr.open("POST", "/public/recipes/create");
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.send(JSON.stringify(jsonData));
+
+      // handle server response
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          window.location.href = '/public/recipes/#create-success';
+        } else if (xhr.status === 403) {
+          appendAlert("Access forbidden", "danger");
+        } else {
+          appendAlert(`Unexpected response: HTTP/${xhr.status}`, "danger");
+        }
       }
-      const jsonString = JSON.stringify(jsonData);
-      console.log(jsonString); // Send jsonString to server via HTTP request
     });
-    </script>
+  </script>
+</body>
 </html>

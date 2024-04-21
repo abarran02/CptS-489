@@ -74,6 +74,33 @@ router.get("/recipes", async (req, res, next) => {
   res.render('Public/recipeIndex', data);
 });
 
+router.get("/recipes/create", sessionChecker, async (req, res, next) => {
+  const data = {
+    pageTitle: 'Create New Recipe',
+    session: req.session.user
+  }
+
+  res.render('Public/createnewrecipe', data);
+});
+
+router.post("/recipes/create", sessionChecker, async (req, res, next) => {
+  const { name, description, ingredients, steps } = req.body;
+
+  try {
+    await models.Recipe.create({
+      ownerid: req.session.user.id,
+      name: name,
+      description: description,
+      steps: steps,
+      ingredients: ingredients
+    });
+  
+    res.sendStatus(200);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 router.get("/recipes/:id", async (req, res, next) => {
   const id = req.params.id;
   try {
@@ -124,16 +151,6 @@ router.get("/users", async (req, res, next) => {
   }
 
   res.render('Public/userIndex', data);
-});
-
-router.get("/createnewrecipe", async (req, res, next) => {
-
-  const data = {
-    pageTitle: 'Recipe Creation',
-    session: req.session.user
-  }
-
-  res.render('Public/createnewrecipe', data);
 });
 
 router.get("/users/:id", async (req, res, next) => {
