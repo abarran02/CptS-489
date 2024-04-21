@@ -1,3 +1,4 @@
+const Contact = require('./Contact');
 const Ingredient = require('./Ingredient');
 const Order = require('./Order');
 const Product = require('./Product');
@@ -11,5 +12,6 @@ module.exports = {
   Product,
   Recipe,
   Store,
-  User
+  User,
+  Contact
 };

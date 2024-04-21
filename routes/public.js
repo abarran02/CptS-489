@@ -470,4 +470,19 @@ router.get("/contact-us", async (req, res, next) => {
   res.render('Public/contact-us', data);
 });
 
+
+router.post("/contact-us/create", async (req, res, next) => {s
+  try {
+    await models.Contact.create({
+      name: req.body.name,
+      email: req.body.email,
+      message: req.body.message,
+    });
+  res.redirect("/contact-us"); // message success
+  } catch (error) {
+    res.status(500).json(error);
+    // res.redirect() error msg
+  }
+});
+
 module.exports = router;
