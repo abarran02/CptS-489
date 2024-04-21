@@ -86,6 +86,7 @@
         if (xhr.status === 200) {
           form.reset();
           window.location.replace('/public/settings/#success');
+          window.location.reload();
         } else if (xhr.status === 403) {
           appendAlert("Access forbidden", "danger");
         } else {
