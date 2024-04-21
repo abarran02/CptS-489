@@ -3,6 +3,7 @@ var router = express.Router();
 var cors = require("cors");
 const models = require('../models/models');
 const { sessionChecker, adminChecker } = require('./sessionChecker');
+const upload = require('./upload');
 const { QueryTypes } = require("sequelize");
 
 router.use(cors());
@@ -365,7 +366,7 @@ router.get("/settings", sessionChecker, async (req, res, next) => {
   res.render('Public/settings', data);
 });
 
-router.post("/settings/change", sessionChecker, async (req, res, next) => {
+router.post("/settings/change", sessionChecker, upload.single('file'), async (req, res, next) => {
   try {
     const user = await models.User.findOne({
       where: {
@@ -385,6 +386,11 @@ router.post("/settings/change", sessionChecker, async (req, res, next) => {
       if (req.body.displayname && req.body.displayname != user.displayname) {
         user.displayname = req.body.displayname;
         user.changed('displayname', true);
+      }
+
+      if (req.file) {
+        user.portrait = req.file.path.replace("public", "");
+        user.changed('portrait', true);
       }
 
       await user.save();
