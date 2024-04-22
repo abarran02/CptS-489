@@ -11,17 +11,14 @@
     <div class="container">
       <%- include("./shared/banner") %>
 
+      <div id="liveAlertPlaceholder"></div>
+
       <div class="row green-line"></div>
       <div class="row ht200">
         <div class="col-4 topRecipes">
           <p>All Recipes</p>
         </div>
         <div class="col-6"></div>
-        <!-- <div class="col-2 sort-recipes">
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Sort By
-          </button>
-        </div> -->
       </div>
       <div class="row" style="margin-bottom:30px;">
         <div class="col-6 recipe-in-top">
@@ -34,7 +31,6 @@
           <% for(let i = 1; i < recipes.length; i+=2) { %>
             <a href="/public/recipes/<%= recipes[i].id %>" class="list-element-title"><%= recipes[i].name %></a>
             <img src="<%= recipes[i].image %>" class="img-square-150">
-
           <% } %>
         </div>
       </div>
@@ -42,5 +38,13 @@
   </div>
 
   <%- include("./shared/footer") %>
+
+  <script>
+    window.onload = function() {
+      if (window.location.hash === "#create-success") {
+        appendAlert("Recipe successfully created.", "success")
+      }
+    }
+  </script>
 </body>
 </html>

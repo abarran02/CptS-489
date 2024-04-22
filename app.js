@@ -4,9 +4,10 @@ const sequelize = require('./db');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 
-var apiRouter = require('./routes/api');
-var publicRouter = require('./routes/public');
-var storeRouter = require('./routes/storehub');
+let apiRouter = require('./routes/api');
+let authRouter = require('./routes/auth');
+let publicRouter = require('./routes/public');
+let storeRouter = require('./routes/storehub');
 
 const app = express();
 const port = 3000;
@@ -24,10 +25,11 @@ app.use(session({
 }));
 
 app.set('view engine', 'ejs');
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({extended: true, limit: '50mb'}));
 app.use(cookieParser());
-app.use(express.json());
+app.use(express.json({limit: '50mb'}));
 app.use('/api', apiRouter);
+app.use('/auth', authRouter);
 app.use('/public', publicRouter);
 app.use('/public', express.static('./public/Public'));
 app.use('/storehub', storeRouter);
@@ -36,32 +38,6 @@ app.use('/uploads', express.static('./public/uploads'));
 
 app.get('/', (req, res) => {
   res.redirect('/public');
-});
-
-app.post('/login', async (req, res, next) => {
-  try {
-    const user = await models.User.findOne({
-      where: {
-        username: req.body.username,
-        password: req.body.passwd
-      },
-      attributes: ['id', 'username', 'displayname', 'isAdmin', 'isChef']
-    });
-
-    req.session.user = user;
-    res.redirect('/');
-  } catch (error) {
-    console.log(error);
-    res.status(500).json(error);
-  }
-});
-
-app.get('/logout', (req, res, next) =>{
-  if (req.session.user) {
-    req.session.destroy();
-  }
-
-  res.redirect('/');
 });
 
 // create default Recipe in database

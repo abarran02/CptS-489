@@ -1,8 +1,8 @@
-var express = require("express");
-var router = express.Router();
-var recipeRouter = require("../api/recipe");
-var productRouter = require("../api/product")
-var cors = require("cors");
+let express = require("express");
+let router = express.Router();
+let recipeRouter = require("../api/recipe");
+let productRouter = require("../api/product")
+let cors = require("cors");
 
 router.use(cors());
 

@@ -1,8 +1,10 @@
-var express = require("express");
-var router = express.Router();
-var cors = require("cors");
+let express = require("express");
+let router = express.Router();
+let cors = require("cors");
+const fs = require('fs');
 const models = require('../models/models');
-const { sessionChecker, adminChecker } = require('./sessionChecker');
+const { sessionChecker, adminChecker } = require('./middleware/sessionChecker');
+const upload = require('./middleware/upload');
 const { QueryTypes } = require("sequelize");
 
 router.use(cors());
@@ -64,7 +66,6 @@ router.post("/signup", async (req, res, next) => {
       if (created) {
         res.redirect('/#signup-success');
       } else {
-        console.log("what")
         res.sendStatus(202);
       }
     });
@@ -85,6 +86,46 @@ router.get("/recipes", async (req, res, next) => {
   }
 
   res.render('Public/recipeIndex', data);
+});
+
+router.get("/recipes/create", sessionChecker, async (req, res, next) => {
+  const data = {
+    pageTitle: 'Create New Recipe',
+    session: req.session.user
+  }
+
+  res.render('Public/recipeCreate', data);
+});
+
+router.post("/recipes/create", sessionChecker, upload.single('file'), async (req, res, next) => {
+  const { name, description, ingredients, steps } = req.body;
+
+  console.log(req.body);
+
+  const cb = (error) => {
+    if (error) {
+      throw error;
+    }
+  }
+
+  try {
+    await models.Recipe.create({
+      ownerid: req.session.user.id,
+      name: name,
+      description: description,
+      steps: JSON.parse(steps),
+      ingredients: JSON.parse(ingredients),
+      image: req.file.path.replace("public", "")
+    });
+
+    res.sendStatus(200);
+  } catch (error) {
+    if (req.file) {
+      fs.unlink(req.file.path, cb);
+    }
+    console.log(error)
+    res.status(500).json(error);
+  }
 });
 
 router.get("/recipes/:id", async (req, res, next) => {
@@ -389,7 +430,13 @@ router.get("/settings", sessionChecker, async (req, res, next) => {
   res.render('Public/settings', data);
 });
 
-router.post("/settings/change", sessionChecker, async (req, res, next) => {
+router.post("/settings/change", sessionChecker, upload.single('file'), async (req, res, next) => {
+  const cb = (error) => {
+    if (error) {
+      throw error;
+    }
+  }
+  
   try {
     const user = await models.User.findOne({
       where: {
@@ -400,21 +447,40 @@ router.post("/settings/change", sessionChecker, async (req, res, next) => {
     // check user password
     if (req.body.curpasswd != user.password) {
       res.sendStatus(403);
+      if (req.file) {
+        // delete the file since we allowed upload anyway
+        fs.unlink(req.file.path, cb);
+      }
     } else {
       // check for changed values
       if (req.body.newpasswd && req.body.newpasswd != user.password) {
         user.password = req.body.newpasswd;
         user.changed('password', true);
       }
+
       if (req.body.displayname && req.body.displayname != user.displayname) {
         user.displayname = req.body.displayname;
         user.changed('displayname', true);
+      }
+
+      if (req.file) {
+        // prevent deleting default image
+        if (user.portrait != '/uploads/default-profile.jpg') {
+          fs.unlink('public' + user.portrait, cb);
+        }
+
+        user.portrait = req.file.path.replace("public", "");
+        user.changed('portrait', true);
       }
 
       await user.save();
       res.sendStatus(200);
     }
   } catch (error) {
+    if (req.file) {
+      // delete the file since we allowed upload anyway
+      fs.unlink(req.file.path, cb);
+    }
     res.status(500).json(error);
   }
 });

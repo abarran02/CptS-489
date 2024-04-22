@@ -43,7 +43,7 @@
                   const productId = <%= product.id %>;
 
                   // new POST request
-                  var xhr = new XMLHttpRequest();
+                  let xhr = new XMLHttpRequest();
                   xhr.open("POST", "/public/cart/add", true);
                   xhr.setRequestHeader("Content-Type", "application/json");
 
