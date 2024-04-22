@@ -97,20 +97,33 @@ router.get("/recipes/create", sessionChecker, async (req, res, next) => {
   res.render('Public/recipeCreate', data);
 });
 
-router.post("/recipes/create", sessionChecker, async (req, res, next) => {
+router.post("/recipes/create", sessionChecker, upload.single('file'), async (req, res, next) => {
   const { name, description, ingredients, steps } = req.body;
+
+  console.log(req.body);
+
+  const cb = (error) => {
+    if (error) {
+      throw error;
+    }
+  }
 
   try {
     await models.Recipe.create({
       ownerid: req.session.user.id,
       name: name,
       description: description,
-      steps: steps,
-      ingredients: ingredients
+      steps: JSON.parse(steps),
+      ingredients: JSON.parse(ingredients),
+      image: req.file.path.replace("public", "")
     });
 
     res.sendStatus(200);
   } catch (error) {
+    if (req.file) {
+      fs.unlink(req.file.path, cb);
+    }
+    console.log(error)
     res.status(500).json(error);
   }
 });
@@ -395,18 +408,18 @@ router.get("/settings", sessionChecker, async (req, res, next) => {
 });
 
 router.post("/settings/change", sessionChecker, upload.single('file'), async (req, res, next) => {
+  const cb = (error) => {
+    if (error) {
+      throw error;
+    }
+  }
+  
   try {
     const user = await models.User.findOne({
       where: {
         id: req.session.user.id
       }
     });
-
-    const cb = (error) => {
-      if (error) {
-        throw error;
-      }
-    }
 
     // check user password
     if (req.body.curpasswd != user.password) {
@@ -441,6 +454,10 @@ router.post("/settings/change", sessionChecker, upload.single('file'), async (re
       res.sendStatus(200);
     }
   } catch (error) {
+    if (req.file) {
+      // delete the file since we allowed upload anyway
+      fs.unlink(req.file.path, cb);
+    }
     res.status(500).json(error);
   }
 });

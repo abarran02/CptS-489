@@ -12,7 +12,7 @@
       <div class="row green-line"></div>
       <div class="row">
         <div class="col-12">
-          <form id="recipeForm">
+          <form id="recipeForm" action="/public/recipes/create">
             <table class="table">
               <tbody>
                 <tr>
@@ -51,6 +51,10 @@
                       </div>
                     </div>
                   </td>
+                </tr>
+                <tr>
+                  <td><label for="file">Image</label></td>
+                  <td colspan="2"><input type="file" name="file" accept=".jpg, .jpeg, .png" id="imageInput"/></td>
                 </tr>
                 <tr>
                   <td><button type="button" id="addIngredient" class="btn btn-secondary">Add Ingredient</button></td>
@@ -131,23 +135,26 @@
     
     document.getElementById('recipeForm').addEventListener('submit', function(event) {
       event.preventDefault();
-      const formData = new FormData(this);
+      const form = document.getElementById("recipeForm");
+      const formData = new FormData(form);
+      let sendData = new FormData();
 
       const ingredients = collect('ingredients');
       const amounts = collect('amount');
+      sendData.append('ingredients', JSON.stringify(compileIngredients(ingredients, amounts)));
+      sendData.append('name', formData.get('recipeName'));
+      sendData.append('description', formData.get('description'));
+      sendData.append('steps', JSON.stringify(collect('step')));
 
-      let jsonData = {};
-      jsonData['name'] = formData.get('recipeName');
-      jsonData['description'] = formData.get('description');
-      jsonData['ingredients'] = compileIngredients(ingredients, amounts);
-      jsonData['steps'] = collect('step');
-
-      console.log(jsonData);
+      let fileInput = document.getElementById('imageInput');
+      sendData.append('file', fileInput.files[0]);
       
+      // send Form data to server
       let xhr = new XMLHttpRequest();
-      xhr.open("POST", "/public/recipes/create");
-      xhr.setRequestHeader("Content-Type", "application/json");
-      xhr.send(JSON.stringify(jsonData));
+      xhr.open("POST", form.action);
+      xhr.send(sendData);
+
+      console.log(sendData);
 
       // handle server response
       xhr.onload = function() {
