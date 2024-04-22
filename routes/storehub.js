@@ -18,11 +18,15 @@ router.get("/", storeChecker, (req, res, next) => {
     res.render('Store/hub', data);
 });
 
-router.get("/order-manage", storeChecker, (req, res, next) => {
+router.get("/order-manage", storeChecker, async (req, res, next) => {
+    const orders = await models.Order.findAll({
+      attributes: ['orderid', 'productid', 'amount', 'userid', 'fulfilledAt']
+    });
+
     const data = {
       pageTitle: 'Order Management',
-      session: req.session.user
-
+      session: req.session.user,
+      orders: orders
     }
     res.render('Store/order-manage', data);
 });
