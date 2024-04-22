@@ -4,9 +4,10 @@ const sequelize = require('./db');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 
-var apiRouter = require('./routes/api');
-var publicRouter = require('./routes/public');
-var storeRouter = require('./routes/storehub');
+let apiRouter = require('./routes/api');
+let authRouter = require('./routes/auth');
+let publicRouter = require('./routes/public');
+let storeRouter = require('./routes/storehub');
 
 const app = express();
 const port = 3000;
@@ -24,10 +25,11 @@ app.use(session({
 }));
 
 app.set('view engine', 'ejs');
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({extended: true, limit: '50mb'}));
 app.use(cookieParser());
-app.use(express.json());
+app.use(express.json({limit: '50mb'}));
 app.use('/api', apiRouter);
+app.use('/auth', authRouter);
 app.use('/public', publicRouter);
 app.use('/public', express.static('./public/Public'));
 app.use('/storehub', storeRouter);
@@ -38,32 +40,6 @@ app.get('/', (req, res) => {
   res.redirect('/public');
 });
 
-app.post('/login', async (req, res, next) => {
-  try {
-    const user = await models.User.findOne({
-      where: {
-        username: req.body.username,
-        password: req.body.passwd
-      },
-      attributes: ['id', 'username', 'displayname', 'isAdmin', 'isChef']
-    });
-
-    req.session.user = user;
-    res.redirect('/');
-  } catch (error) {
-    console.log(error);
-    res.status(500).json(error);
-  }
-});
-
-app.get('/logout', (req, res, next) =>{
-  if (req.session.user) {
-    req.session.destroy();
-  }
-
-  res.redirect('/');
-});
-
 // create default Recipe in database
 async function setup() {
   const defaultRecipe = await models.Recipe.findOne({
@@ -72,26 +48,8 @@ async function setup() {
     }
   });
 
-  // check whether the default already exists
   if (!defaultRecipe) {
-    const def = await models.Recipe.create({
-      name: "Grilled Cheese",
-      description: "A sandwich.",
-      ownerid: 0,
-      steps: [
-        "Butter one side of each slice of bread.",
-        "Place cheese slices between the unbuttered sides of the bread slices.",
-        "Heat a skillet over medium heat.",
-        "Place the sandwich in the skillet and cook until the bread is golden brown and the cheese is melted, flipping once.",
-        "Remove from heat and serve hot."
-      ],
-      ingredients: [
-        { amount: "2 slices", ingredient_id: "cheese" },
-        { amount: "2 slices", ingredient_id: "bread" },
-        { amount: "1 tablespoon", ingredient_id: "butter" }
-      ],
-      image: "/uploads/grilled-cheese.jpg"
-    });
+    require('./database/generate');
   }
 }
 

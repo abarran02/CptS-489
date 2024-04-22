@@ -1,9 +1,12 @@
-var express = require("express");
-var router = express.Router();
-var cors = require("cors");
+let express = require("express");
+let router = express.Router();
+let cors = require("cors");
+const fs = require('fs');
 const models = require('../models/models');
 const { body, validationResult } = require('express-validator');
-const { sessionChecker, adminChecker } = require('./middleware/sessionChecker');
+const { sessionChecker, adminChecker } = require('./middleware/middleware/sessionChecker');
+const sequelize = require('../db');
+const upload = require('./middleware/upload');
 const { QueryTypes } = require("sequelize");
 
 router.use(cors());
@@ -65,7 +68,6 @@ router.post("/signup", async (req, res, next) => {
       if (created) {
         res.redirect('/#signup-success');
       } else {
-        console.log("what")
         res.sendStatus(202);
       }
     });
@@ -88,6 +90,43 @@ router.get("/recipes", async (req, res, next) => {
   res.render('Public/recipeIndex', data);
 });
 
+router.get("/recipes/create", sessionChecker, async (req, res, next) => {
+  const data = {
+    pageTitle: 'Create New Recipe',
+    session: req.session.user
+  }
+
+  res.render('Public/recipeCreate', data);
+});
+
+router.post("/recipes/create", sessionChecker, upload.single('file'), async (req, res, next) => {
+  const { name, description, ingredients, steps } = req.body;
+
+  const cb = (error) => {
+    if (error) {
+      throw error;
+    }
+  }
+
+  try {
+    await models.Recipe.create({
+      ownerid: req.session.user.id,
+      name: name,
+      description: description,
+      steps: JSON.parse(steps),
+      ingredients: JSON.parse(ingredients),
+      image: req.file.path.replace("public", "")
+    });
+
+    res.sendStatus(200);
+  } catch (error) {
+    if (req.file) {
+      fs.unlink(req.file.path, cb);
+    }
+    res.status(500).json(error);
+  }
+});
+
 router.get("/recipes/:id", async (req, res, next) => {
   const id = req.params.id;
   try {
@@ -95,16 +134,20 @@ router.get("/recipes/:id", async (req, res, next) => {
       where: {
         id: id
       },
-      attributes: ['id', 'name', 'image', 'ingredients', 'steps']
+      attributes: ['name', 'image', 'ingredients', 'steps']
     });
 
-    const data = {
-      pageTitle: recipe.name,
-      recipe: recipe,
-      session: req.session.user
-    }
+    if (!recipe) {
+      res.redirect('/public/recipes');
+    } else {
+      const data = {
+        pageTitle: recipe.name,
+        recipe: recipe,
+        session: req.session.user
+      }
 
-    res.render('Public/recipe', data);
+      res.render('Public/recipe', data);
+    }
   } catch (error) {
     res.status(500).json(error);
   }
@@ -317,16 +360,61 @@ router.get("/cart", sessionChecker, async (req, res, next) => {
   res.render('Public/cart', data);
 });
 
+router.post("/cart/order", sessionChecker, async (req, res, next) => {
+
+  try {
+    const user = await models.User.findOne({
+      where: {
+        id: req.session.user.id
+      }
+    });
+
+    let maxid = await models.Order.max('orderid');
+    if(maxid === null){
+      neworderid = 1;
+    } else {
+      neworderid = maxid + 1;
+    }
+    for (let i = 0; i < user.cart.length; i++) {
+      const productid = user.cart[i];
+      const product = await models.Product.findOne({
+        where: {
+          id: productid
+        }
+      });
+
+      let multipleItem = await models.Order.findOne({
+        where:{
+          orderid: neworderid,
+          productid: productid
+        }
+      });
+      if(multipleItem === null){
+        models.Order.create({
+          orderid: neworderid,
+          productid: productid,
+          userid: user.id,
+          amount: 1
+        });
+      }
+      else{
+        multipleItem.increment('amount');
+      }
+    }
+
+    user.cart = [];
+    user.changed('cart', true);
+    await user.save();
+    res.sendStatus(200);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 router.post("/cart/add", sessionChecker, async (req, res, next) => {
   const productid = req.body.id;
 
   try {
-    const product = await models.Product.findOne({
-      where: {
-        id: productid
-      }
-    });
-
     const user = await models.User.findOne({
       where: {
         id: req.session.user.id
@@ -347,6 +435,60 @@ router.post("/cart/add", sessionChecker, async (req, res, next) => {
   }
 });
 
+router.get("/myrecipes", sessionChecker, async (req, res, next) => {
+
+  const userRecipes = await models.Recipe.findAll({
+    where: {
+      ownerid: req.session.user.id
+    },
+    attributes: ['id', 'name', 'image']
+  });
+
+
+  const data = {
+    pageTitle: 'My Recipes',
+    recipes: userRecipes,
+    session: req.session.user
+  }
+  res.render('Public/myrecipes', data);
+});
+
+router.get("/orders", sessionChecker, async (req, res, next) => {
+  let orders = await models.Order.findAll({
+    attributes: [[sequelize.fn('DISTINCT', sequelize.col('orderid')), 'orderid']],
+    where: {
+      userid: req.session.user.id
+    }
+  });
+
+  let orderitems = await models.Order.findAll({
+    attributes: ['orderid','productid', 'amount', 'fulfilledAt'],
+    where: {
+      userid: req.session.user.id
+    }
+  });
+
+  let products = [];
+  for (let i = 0; i < orderitems.length; i++) {
+    let product = await models.Product.findOne({
+      where: {
+        id: orderitems[i].productid
+      }
+    });
+    products.push(product.ingredientname);
+  }
+
+  const data = {
+    pageTitle: 'User Orders',
+    orders: orders,
+    orderitems: orderitems,
+    products: products,
+    session: req.session.user
+  }
+  res.render('Public/userorders', data);
+});
+
+
 router.get("/settings", sessionChecker, async (req, res, next) => {
   const user = await models.User.findOne({
     where: {
@@ -364,7 +506,13 @@ router.get("/settings", sessionChecker, async (req, res, next) => {
   res.render('Public/settings', data);
 });
 
-router.post("/settings/change", sessionChecker, async (req, res, next) => {
+router.post("/settings/change", sessionChecker, upload.single('file'), async (req, res, next) => {
+  const cb = (error) => {
+    if (error) {
+      throw error;
+    }
+  }
+
   try {
     const user = await models.User.findOne({
       where: {
@@ -375,21 +523,40 @@ router.post("/settings/change", sessionChecker, async (req, res, next) => {
     // check user password
     if (req.body.curpasswd != user.password) {
       res.sendStatus(403);
+      if (req.file) {
+        // delete the file since we allowed upload anyway
+        fs.unlink(req.file.path, cb);
+      }
     } else {
       // check for changed values
       if (req.body.newpasswd && req.body.newpasswd != user.password) {
         user.password = req.body.newpasswd;
         user.changed('password', true);
       }
+
       if (req.body.displayname && req.body.displayname != user.displayname) {
         user.displayname = req.body.displayname;
         user.changed('displayname', true);
+      }
+
+      if (req.file) {
+        // prevent deleting default image
+        if (user.portrait != '/uploads/default-profile.jpg') {
+          fs.unlink('public' + user.portrait, cb);
+        }
+
+        user.portrait = req.file.path.replace("public", "");
+        user.changed('portrait', true);
       }
 
       await user.save();
       res.sendStatus(200);
     }
   } catch (error) {
+    if (req.file) {
+      // delete the file since we allowed upload anyway
+      fs.unlink(req.file.path, cb);
+    }
     res.status(500).json(error);
   }
 });
