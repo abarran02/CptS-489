@@ -1,8 +1,11 @@
-var express = require("express");
-var router = express.Router();
-var cors = require("cors");
+let express = require("express");
+let router = express.Router();
+let cors = require("cors");
+const fs = require('fs');
 const models = require('../models/models');
-const { sessionChecker, adminChecker, storeChecker } = require('./sessionChecker');
+const upload = require('./middleware/upload');
+const { QueryTypes } = require("sequelize");
+const { sessionChecker, adminChecker, storeChecker } = require('./middleware/sessionChecker');
 
 router.use(express.static('StoreHub'));
 router.use(cors());
@@ -38,9 +41,16 @@ router.get("/inventory", storeChecker, async (req, res, next) => {
     res.render('Store/inventory', data);
 });
 
-router.post("/inventory/create", storeChecker, async (req, res, next) => {
+router.post("/inventory/create", storeChecker,  upload.single('file'), async (req, res, next) => {
     const storeid = req.session.user.controlsStore;
     try {
+      const cb = (error) => {
+        if (error) {
+          throw error;
+        }
+      }
+      const image = req.file ? req.file.path.replace("public", "") : null;
+      
       await models.Product.create({
         storeid: storeid, // placeholder value for store
         ingredientname: req.body.itemName,
@@ -48,7 +58,7 @@ router.post("/inventory/create", storeChecker, async (req, res, next) => {
         stock: req.body.stock,
         amount: req.body.amount,
         unit: req.body.unit,
-        image: req.body.image
+        image: image
       });
     res.redirect("/storehub/inventory");
     } catch (error) {

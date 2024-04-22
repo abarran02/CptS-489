@@ -3,7 +3,7 @@ var router = express.Router();
 var cors = require("cors");
 const models = require('../models/models');
 const { body, validationResult } = require('express-validator');
-const { sessionChecker, adminChecker } = require('./sessionChecker');
+const { sessionChecker, adminChecker } = require('./middleware/sessionChecker');
 const { QueryTypes } = require("sequelize");
 
 router.use(cors());
