@@ -1,7 +1,6 @@
 let express = require("express");
 let router = express.Router();
 let cors = require("cors");
-const fs = require('fs');
 const models = require('../models/models');
 const upload = require('./middleware/upload');
 const { QueryTypes } = require("sequelize");
@@ -46,44 +45,66 @@ router.get("/inventory", storeChecker, async (req, res, next) => {
 });
 
 router.post("/inventory/create", storeChecker,  upload.single('file'), async (req, res, next) => {
-    const storeid = req.session.user.controlsStore;
-    try {
-      const cb = (error) => {
-        if (error) {
-          throw error;
-        }
+  const storeid = req.session.user.controlsStore;
+  try {
+    const cb = (error) => {
+      if (error) {
+        throw error;
       }
-      const image = req.file ? req.file.path.replace("public", "") : null;
-      
-      await models.Product.create({
-        storeid: storeid, // placeholder value for store
-        ingredientname: req.body.itemName,
-        price: req.body.price,
-        stock: req.body.stock,
-        amount: req.body.amount,
-        unit: req.body.unit,
-        image: image
-      });
-    res.redirect("/storehub/inventory");
-    } catch (error) {
-      res.status(500).json(error);
-      // res.redirect() error msg
     }
-  });
+    const image = req.file ? req.file.path.replace("public", "") : null;
+    
+    await models.Product.create({
+      storeid: storeid, // placeholder value for store
+      ingredientname: req.body.itemName,
+      price: req.body.price,
+      stock: req.body.stock,
+      amount: req.body.amount,
+      unit: req.body.unit,
+      image: image
+    });
 
-  router.get("/delete-product/:productid", storeChecker, async function(req, res, next) {
-    try {
-      const productId = req.params.productid; 
-      await models.Product.destroy({
-        where: {
-          id: productId
-        }
-      })
-      res.redirect("/storehub/inventory");
-    } catch (error) {
-      console.error('Error:', error);
-      res.redirect('/storehub/inventory?msg=error');
-    }
-  });
+    res.redirect("/storehub/inventory");
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+router.get("/delete-product/:productid", storeChecker, async function(req, res, next) {
+  try {
+    const productId = req.params.productid; 
+    await models.Product.destroy({
+      where: {
+        id: productId
+      }
+    })
+    res.redirect("/storehub/inventory");
+  } catch (error) {
+    console.error('Error:', error);
+    res.redirect('/storehub/inventory?msg=error');
+  }
+});
+
+router.post("/fulfill", storeChecker, async function(req, res, next) {
+  const orderid = req.body.buttonId.replace('f', '');
+  
+  try {
+    let order = await models.Order.findOne({
+      where: {
+        orderid: orderid
+      }
+    });
+  
+    const currentTime = new Date();
+    order.fulfilledAt = currentTime;
+    order.changed('controlsStore', true);
+    await order.save();
+
+    res.sendStatus(200);
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error);
+  }
+});
 
 module.exports = router;
