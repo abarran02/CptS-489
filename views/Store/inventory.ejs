@@ -69,15 +69,29 @@
                         <th scope = "col">Amount</th>
                         <th scope = "col">Unit</th>
                       </thead>
-
+                      <tbody>
+                        <% products.forEach(product => { %>
+                            <tr>
+                                <td><%= product.ingredientname %></td>
+                                <td><%= product.price %></td>
+                                <td><%= product.stock %></td>
+                                <td><%= product.amount %></td>
+                                <td><%= product.unit %></td>
+                                <!-- Form for deleting the product -->
+                                <td>
+                                  <form action="delete-product/<%= product.id %>" method="get"> <!-- Use POST method for deletion -->
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                  </form>
+                                </td>
+                              </tr>
+                        <% }); %>
+                      </tbody>
                 </table>
             </div>
         </div>
     </main>
 
-    <%- include("./shared/footer") %>
-    <script src="/StoreHub/js/inventory.js"></script>
-    
+    <%- include("./shared/footer") %>    
 </body>
 
 </html>

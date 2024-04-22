@@ -2,16 +2,17 @@ var express = require("express");
 var router = express.Router();
 var cors = require("cors");
 const models = require('../models/models');
-const { sessionChecker, adminChecker } = require('./sessionChecker');
+const { sessionChecker, adminChecker, storeChecker } = require('./sessionChecker');
 
 router.use(express.static('StoreHub'));
 router.use(cors());
 
-router.get("/", (req, res, next) => {
+router.get("/", storeChecker, (req, res, next) => {
+    console.log(req.session.user);
     res.sendFile('index.html', {root:'public/StoreHub'});
 });
 
-router.get("/order-manage", (req, res, next) => {
+router.get("/order-manage", storeChecker, (req, res, next) => {
     const data = {
       pageTitle: 'Order Management',
       session: req.session.user
@@ -20,9 +21,11 @@ router.get("/order-manage", (req, res, next) => {
     res.render('Store/order-manage', data);
 });
 
-router.get("/inventory", async (req, res, next) => {
+router.get("/inventory", storeChecker, async (req, res, next) => {
+    const storeid = req.session.user.controlsStore;
     const products = await models.Product.findAll({
-        attributes: ['ingredientname', 'price', 'stock', 'amount', 'unit']
+        where: { storeid },
+        attributes: ['id','ingredientname', 'price', 'stock', 'amount', 'unit']
       });
     const data = {
       pageTitle: 'Inventory',
@@ -32,12 +35,11 @@ router.get("/inventory", async (req, res, next) => {
     res.render('Store/inventory', data);
 });
 
-router.post("/inventory/create", async (req, res, next) => {
-    const { itemName, pricing, stock, amount, image } = req.body;
-  
+router.post("/inventory/create", storeChecker, async (req, res, next) => {
+    const storeid = req.session.user.controlsStore;
     try {
       await models.Product.create({
-        storeid:1, // placeholder value for store
+        storeid: storeid, // placeholder value for store
         ingredientname: req.body.itemName,
         price: req.body.price,
         stock: req.body.stock,
@@ -49,6 +51,21 @@ router.post("/inventory/create", async (req, res, next) => {
     } catch (error) {
       res.status(500).json(error);
       // res.redirect() error msg
+    }
+  });
+
+  router.get("/delete-product/:productid", storeChecker, async function(req, res, next) {
+    try {
+      const productId = req.params.productid; 
+      await models.Product.destroy({
+        where: {
+          id: productId
+        }
+      })
+      res.redirect("/storehub/inventory");
+    } catch (error) {
+      console.error('Error:', error);
+      res.redirect('/storehub/inventory?msg=error');
     }
   });
 

@@ -16,7 +16,18 @@ const adminChecker = (req, res, next) => {
   });
 };
 
+  const storeChecker = (req, res, next) => {
+    sessionChecker(req, res, () => {
+      if (req.session.user.controlsStore !== 0 || req.session.user.isAdmin) {
+        next();
+      } else {
+        res.redirect('/');
+      }
+    });
+  };
+
 module.exports = {
   sessionChecker,
-  adminChecker
+  adminChecker,
+  storeChecker
 };
