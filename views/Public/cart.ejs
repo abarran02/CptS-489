@@ -18,7 +18,7 @@
         <% } else { %>
           <% for(let i = 0; i < cart.length; i++) { %>
             <li>
-              <a href="/public/products/<%= cart[i].id %>"><%= `${cart[i].name}, ${cart[i].amount} ${cart[i].unit} for $${cart[i].price}` %></a>
+              <a href="/public/products/<%= cart[i].id %>"><%= `${cart[i].ingredientname}, ${cart[i].amount} ${cart[i].unit} for $${cart[i].price}` %></a>
             </li>
           <% } %>
         <% } %>

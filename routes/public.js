@@ -101,8 +101,6 @@ router.get("/recipes/create", sessionChecker, async (req, res, next) => {
 router.post("/recipes/create", sessionChecker, upload.single('file'), async (req, res, next) => {
   const { name, description, ingredients, steps } = req.body;
 
-  console.log(req.body);
-
   const cb = (error) => {
     if (error) {
       throw error;
@@ -124,7 +122,6 @@ router.post("/recipes/create", sessionChecker, upload.single('file'), async (req
     if (req.file) {
       fs.unlink(req.file.path, cb);
     }
-    console.log(error)
     res.status(500).json(error);
   }
 });
@@ -373,24 +370,21 @@ router.post("/cart/order", sessionChecker, async (req, res, next) => {
         id: req.session.user.id
       }
     });
-    console.log(user.cart);
-    //const orderList = await models.Order.findAll().length + 1;
+
     let maxid = await models.Order.max('orderid');
-    console.log(maxid);
     if(maxid === null){
       neworderid = 1;
-    }
-    else{
+    } else {
       neworderid = maxid + 1;
     }
     for (let i = 0; i < user.cart.length; i++) {
-      const productid = user.cart[i]; 
+      const productid = user.cart[i];
       const product = await models.Product.findOne({
         where: {
           id: productid
         }
       });
-      
+
       let multipleItem = await models.Order.findOne({
         where:{
           orderid: neworderid,
@@ -398,8 +392,6 @@ router.post("/cart/order", sessionChecker, async (req, res, next) => {
         }
       });
       if(multipleItem === null){
-      //console.log(orderList);
-      //console.log(productid);
         models.Order.create({
           orderid: neworderid,
           productid: productid,
@@ -411,7 +403,7 @@ router.post("/cart/order", sessionChecker, async (req, res, next) => {
         multipleItem.increment('amount');
       }
     }
-    
+
     user.cart = [];
     user.changed('cart', true);
     await user.save();
@@ -425,12 +417,6 @@ router.post("/cart/add", sessionChecker, async (req, res, next) => {
   const productid = req.body.id;
 
   try {
-    const product = await models.Product.findOne({
-      where: {
-        id: productid
-      }
-    });
-
     const user = await models.User.findOne({
       where: {
         id: req.session.user.id
@@ -469,34 +455,30 @@ router.get("/myrecipes", sessionChecker, async (req, res, next) => {
   res.render('Public/myrecipes', data);
 });
 
-
 router.get("/orders", sessionChecker, async (req, res, next) => {
-  const user = await models.User.findOne({
-    where: {
-      id: req.session.user.id
-    },
-  });
-
   let orders = await models.Order.findAll({
     attributes: [[sequelize.fn('DISTINCT', sequelize.col('orderid')), 'orderid']],
     where: {
-        userid: req.session.user.id
+      userid: req.session.user.id
     }
   });
 
   let orderitems = await models.Order.findAll({
     attributes: ['orderid','productid', 'amount', 'fulfilledAt'],
     where: {
-        userid: req.session.user.id
+      userid: req.session.user.id
     }
   });
 
-  products = [];
-
-  for(let i = 0; i < orderitems.length; i++){
-    products.push((await models.Product.findOne({where: {id: orderitems[i].productid}})).name);
+  let products = [];
+  for (let i = 0; i < orderitems.length; i++) {
+    let product = await models.Product.findOne({
+      where: {
+        id: orderitems[i].productid
+      }
+    });
+    products.push(product.ingredientname);
   }
-  console.log(products);
 
   const data = {
     pageTitle: 'User Orders',
@@ -532,7 +514,7 @@ router.post("/settings/change", sessionChecker, upload.single('file'), async (re
       throw error;
     }
   }
-  
+
   try {
     const user = await models.User.findOne({
       where: {

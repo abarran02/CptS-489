@@ -48,26 +48,8 @@ async function setup() {
     }
   });
 
-  // check whether the default already exists
   if (!defaultRecipe) {
-    const def = await models.Recipe.create({
-      name: "Grilled Cheese",
-      description: "A sandwich.",
-      ownerid: 0,
-      steps: [
-        "Butter one side of each slice of bread.",
-        "Place cheese slices between the unbuttered sides of the bread slices.",
-        "Heat a skillet over medium heat.",
-        "Place the sandwich in the skillet and cook until the bread is golden brown and the cheese is melted, flipping once.",
-        "Remove from heat and serve hot."
-      ],
-      ingredients: [
-        { amount: "2 slices", ingredient_id: "cheese" },
-        { amount: "2 slices", ingredient_id: "bread" },
-        { amount: "1 tablespoon", ingredient_id: "butter" }
-      ],
-      image: "/uploads/grilled-cheese.jpg"
-    });
+    require('./database/generate');
   }
 }
 

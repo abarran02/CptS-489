@@ -2,22 +2,20 @@ const sequelize = require('../db');
 const { DataTypes } = require('sequelize');
 
 const Order = sequelize.define('Order', {
-  id: {
+  orderid: {
     type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
+    allowNull: false
+  },
+  productid: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  amount: {
+    type: DataTypes.INTEGER,
+    allowNull: false
   },
   userid: {
     type: DataTypes.INTEGER,
-    allowNull: false
-  },
-  storeid: {
-    type: DataTypes.INTEGER,
-    allowNull: false
-  },
-  products: {
-    // defined as amounts and product ids
-    type: DataTypes.JSON,
     allowNull: false
   },
   fulfilledAt: DataTypes.DATE
