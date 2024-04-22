@@ -400,7 +400,7 @@ router.get("/myrecipes", sessionChecker, async (req, res, next) => {
     where: {
       ownerid: req.session.user.id
     },
-    attributes: ['id', 'name']
+    attributes: ['id', 'name', 'image']
   });
 
 
