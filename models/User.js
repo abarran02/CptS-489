@@ -22,7 +22,10 @@ const User = sequelize.define('User', {
   },
   cart: DataTypes.JSON,
   savedRecipes: DataTypes.JSON,
-  portrait: DataTypes.STRING, // image storage path
+  portrait: {
+    type: DataTypes.STRING, // image storage path
+    defaultValue: "/uploads/default-profile.jpg"
+  },
   controlsStore: DataTypes.INTEGER, // gives permission to login on StoreHub
   isAdmin: DataTypes.BOOLEAN,
   isChef: DataTypes.BOOLEAN
