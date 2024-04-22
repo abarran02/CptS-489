@@ -6,19 +6,12 @@
 </head>
 <body>
   <%- include("./shared/header") %>
-
+  
   <div class="container-fluid backgroundColor">
     <div class="container">
-      <%- include("./shared/banner") %>
 
-      <div id="liveAlertPlaceholder"></div>
-
-      <div class="row green-line"></div>
-      <div class="row ht200">
-        <div class="col-4 topRecipes">
-          <p>All Recipes</p>
-        </div>
-        <div class="col-6"></div>
+      <div class="row" style="margin-top:100px">
+        Your Recipes:
       </div>
       <div class="row" style="margin-bottom:30px;">
         <div class="col-6 recipe-in-top">
@@ -31,20 +24,17 @@
           <% for(let i = 1; i < recipes.length; i+=2) { %>
             <a href="/public/recipes/<%= recipes[i].id %>" class="list-element-title"><%= recipes[i].name %></a>
             <img src="<%= recipes[i].image %>" class="img-square-150">
+
           <% } %>
         </div>
+      </div>
+      <div class="row" style="margin-bottom:30px;">
+        <a href="/public/recipes/create"><button type="button" class="btn btn-primary">Create New Recipe</button></a>
       </div>
     </div>
   </div>
 
   <%- include("./shared/footer") %>
-
-  <script>
-    window.onload = function() {
-      if (window.location.hash === "#create-success") {
-        appendAlert("Recipe successfully created.", "success")
-      }
-    }
-  </script>
 </body>
 </html>
+

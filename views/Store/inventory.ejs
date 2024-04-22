@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("./shared/styles") %>
+    <title><%= pageTitle %></title>
+</head>
+
+<body>
+    <%- include("./shared/header") %>
+    <main>
+        <div class="container">
+            <div class="row">
+                <h1>Inventory Management</h1>
+                <!-- Form to enter inventory item -->
+                <form action = "/storehub/inventory/create" onsubmit="" method = "POST" id="inventoryForm" class="container mt-3">
+                    <div class="row mb-3">
+                        <label for="itemName" class="col-sm-1 col-form-label">Item Name:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="itemName" name="itemName" required min="0">
+                        </div>
+                    </div>
+                
+                    <div class="row mb-3">
+                        <label for="price" class="col-sm-1 col-form-label">Price:</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="price" name="price" placeholder="$0.00" step="any" min="0" required>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="stock" class="col-sm-1 col-form-label">Stock:</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="stock" name="stock" required min ="0">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <!-- First input field with label -->
+                        <div class="col-sm-3">
+                            <label for="amount" class="col-form-label">Amount:</label>
+                            <input type="number" class="form-control" id="amount" name="amount" required min="1">
+                        </div>
+                    
+                        <!-- Second input field with label -->
+                        <div class="col-sm-3">
+                            <label for="unit" class="col-form-label">Unit:</label>
+                            <input type="text" class="form-control" id="unit" name="unit" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="file" class="col-sm-1 col-form-label">Image:</label>
+                        <div class="col-sm-10">
+                            <!-- File needs validation on server as well -->
+                            <input type="file" class="form-control" id="file" name="file" accept="image/*" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Add Item</button>
+                        </div>
+                    </div>
+                </form>
+                <!-- Code to populate inventory table from user's SQL db -->
+                <table class = "table table-hover" id="productstable">
+                    <thead>
+                        <th scope = "col">Item Name</th>
+                        <th scope = "col">Pricing</th>
+                        <th scope = "col">Stock</th>
+                        <th scope = "col">Amount</th>
+                        <th scope = "col">Unit</th>
+                      </thead>
+
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <%- include("./shared/footer") %>
+    <script src="/StoreHub/js/inventory.js"></script>
+    
+</body>
+
+</html>

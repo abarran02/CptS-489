@@ -1,8 +1,10 @@
+const User = require('../../models/User');
+
 const sessionChecker = (req, res, next) => {
   if (req.session.user) {
-      next();
+    next();
   } else {
-      res.redirect('/');
+    res.redirect('/');
   }
 };
 

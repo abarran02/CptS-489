@@ -16,9 +16,14 @@
         <div class="col-3 green-line"></div>
       </div>
       <div class="row ht200">
-        <div class="col-4">
-          <form class="" method="POST" action="/public/settings/change" id="settings">
+        <div class="col-6">
+          <div id="liveAlertPlaceholder"></div>
+          <form method="POST" action="/public/settings/change" id="settings" enctype="multipart/form-data">
             <table>
+              <tr>
+                <td><label for="file"><b>Portrait</b></label></td>
+                <td><input type="file" name="file" accept=".jpg, .jpeg, .png" /></td>
+              </tr>
               <tr>
                 <td><label for="username"><b>Username</b></label></td>
                 <td><input type="text" placeholder="<%= user.username %>" name="username" disabled /></td>
@@ -35,6 +40,10 @@
                 <td><label for="newpasswd"><b>New password</b></label></td>
                 <td><input type="password" name="newpasswd" /></td>
               </tr>
+              <tr>
+                <td><label for="confirmpasswd"><b>Confirm password</b></label></td>
+                <td><input type="password" name="confirmpasswd" /></td>
+              </tr>
             </table>
           </form>
           <span style="color:red;"> * indicates required </span>
@@ -47,29 +56,41 @@
 
   <%- include("./shared/footer") %>
   <script>
+    window.onload = function() {
+      if (window.location.hash === "#success") {
+        appendAlert("Settings changed successfully", "success");
+      }
+    }
+
     document.getElementById("submitButton").addEventListener("click", function() {
-      let form = document.getElementById("settings");
-      let formData = new FormData(form);
-      let xhr = new XMLHttpRequest();
+      clearAlert();
+
+      const form = document.getElementById("settings");
+      const formData = new FormData(form);
       
+      // validate passwords
+      const newpasswd = formData.get("newpasswd");
+      const confirmpasswd = formData.get("confirmpasswd");
+      if (newpasswd != confirmpasswd) {
+        appendAlert("New passwords must match", "warning");
+        return;
+      }
+
       // send Form data to server
+      let xhr = new XMLHttpRequest();
       xhr.open("POST", form.action);
-      xhr.setRequestHeader("Content-Type", "application/json");
-      xhr.send(JSON.stringify({
-        curpasswd: formData.get("curpasswd"),
-        newpasswd: formData.get("newpasswd"),
-        displayname: formData.get("displayname")
-      }));
+      xhr.send(formData);
       
       // handle server response
       xhr.onload = function() {
         if (xhr.status === 200) {
           form.reset();
-          console.log("Settings submitted successfully");
+          window.location.replace('/public/settings/#success');
+          window.location.reload();
         } else if (xhr.status === 403) {
-          console.error("Access forbidden");
+          appendAlert("Access forbidden", "danger");
         } else {
-          console.error("Unexpected response:", xhr.status);
+          appendAlert(`Unexpected response: HTTP/${xhr.status}`, "danger");
         }
       };
     });

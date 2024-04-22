@@ -27,14 +27,13 @@
         <div class="col-6 recipe-in-top">
           <% for(let i = 0; i < users.length; i+=2) { %>
             <a href="/public/users/<%= users[i].id %>" class="list-element-title"><%= users[i].displayname %></a>
-            <img src="<%= users[i].image %>" class="img-square-150">
+            <img src="<%= users[i].portrait %>" class="img-square-150">
           <% } %>
         </div>
         <div class="col-6 recipe-in-top">
           <% for(let i = 1; i < users.length; i+=2) { %>
             <a href="/public/users/<%= users[i].id %>" class="list-element-title"><%= users[i].displayname %></a>
-            <img src="<%= users[i].image %>" class="img-square-150">
-
+            <img src="<%= users[i].portrait %>" class="img-square-150">
           <% } %>
         </div>
       </div>

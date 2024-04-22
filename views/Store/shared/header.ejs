@@ -6,8 +6,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div id="loginAlertPlaceholder"></div>
-        <form class="login-modal" method="POST" action="/auth/login" id="login">
+        <form class="login-modal" method="POST" action="/login" id="login">
           <label for="username"><b>Username</b></label>
           <input type="text" placeholder="Enter Username" name="username" required />
           <br />
@@ -21,7 +20,7 @@
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           Close
         </button>
-        <button type="button" class="btn btn-primary" form="login" id="loginButton">Log In</button>
+        <button type="submit" class="btn btn-primary" form="login">Log In</button>
       </div>
     </div>
   </div>
@@ -55,7 +54,7 @@
                 <% } %>
                 <a class="dropdown-item" href="/public/settings">Settings</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/auth/logout">Sign Out</a>
+                <a class="dropdown-item" href="/logout">Sign Out</a>
               </div>
             </li>
           </ul>
@@ -64,48 +63,6 @@
           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
             Sign In
           </button>
-
-          <script>
-            function loginAlert(message, type) {
-              const alertPlaceholder = document.getElementById("loginAlertPlaceholder");
-              const wrapper = document.createElement("div");
-              wrapper.innerHTML = [
-                `<div class="alert alert-${type} alert-dismissible" role="alert">`,
-                `   <div>${message}</div>`,
-                '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-                '</div>',
-              ].join("");
-              alertPlaceholder.append(wrapper);
-            }
-
-            document.getElementById("loginButton").addEventListener("click", function() {
-              const alertPlaceholder = document.getElementById("loginAlertPlaceholder");
-              alertPlaceholder.innerHTML = "";
-
-              const form = document.getElementById("login");
-              const formData = new FormData(form);
-
-              // send Form data to server
-              let xhr = new XMLHttpRequest();
-              xhr.open("POST", form.action);
-              xhr.setRequestHeader("Content-Type", "application/json");
-              xhr.send(JSON.stringify({
-                username: formData.get("username"),
-                passwd: formData.get("passwd"),
-              }));
-              
-              // handle server response
-              xhr.onload = function() {
-                if (xhr.status === 200) {
-                  window.location.reload();
-                } else if (xhr.status === 401) {
-                  loginAlert("Incorrect username or password", "warning");
-                } else {
-                  loginAlert(`Unexpected response: HTTP/${xhr.status}`, "danger");
-                }
-              };
-            });
-          </script>
         <% } %>
       </div>
     </div>

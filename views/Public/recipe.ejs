@@ -10,6 +10,7 @@
   <div class="container-fluid backgroundColor">
     <div class="container">
       <div class="row" style="margin-top:100px">
+        <div id="liveAlertPlaceholder"></div>
         <img src="<%= recipe.image %>" alt="<%= recipe.name %>" class="recipe-img">
       </div>
       <div class="row">
@@ -49,7 +50,7 @@
         </div>
       </div>
 
-      <% if (session.isAdmin) { %>
+      <% if (session && session.isAdmin) { %>
         <!-- Confirmation Modal -->
         <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -77,5 +78,13 @@
   </div>
 
   <%- include("./shared/footer") %>
+
+  <script>
+    window.onload = function() {
+      if (window.location.hash === "#success") {
+        appendAlert("Recipe created successfully", "success");
+      }
+    }
+  </script>
 </body>
 </html>

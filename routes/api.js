@@ -1,11 +1,13 @@
-var express = require("express");
-var router = express.Router();
-var recipeRouter = require("../api/recipe");
-var cors = require("cors");
+let express = require("express");
+let router = express.Router();
+let recipeRouter = require("../api/recipe");
+let productRouter = require("../api/product")
+let cors = require("cors");
 
 router.use(cors());
 
 router.use("/recipe", recipeRouter);
+router.use("/product", productRouter);
 
 router.get("/", (req, res, next) => {
   res.send("in api route");
