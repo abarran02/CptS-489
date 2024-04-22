@@ -61,3 +61,5 @@ sequelize.sync({ force: false }).then(()=>{
 app.listen(port, () => {
   console.log(`App available at http://localhost:${port}`);
 });
+
+module.exports = app;

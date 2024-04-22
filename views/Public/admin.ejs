@@ -1,184 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <%- include("./shared/styles") %>
-  <title><%= pageTitle %></title>
+    <title>
+      <%= pageTitle %>
+    </title>
 </head>
+
 <body>
   <%- include("./shared/header") %>
 
-  <!-- Confirmation Modal -->
-  <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="confirmModalLabel">Confirm Submission</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          Are you sure you want to change the user settings?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="submitForm()">Confirm</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Ban Confirmation Modal -->
-  <div class="modal fade" id="banModal" tabindex="-1" aria-labelledby="banModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="banModalLabel">Confirm Ban</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          Are you sure you want to ban this user? This action cannot be undone.
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="submitBan()">Confirm</button>
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmModalLabel">Confirm Submission</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to change the user settings?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+              onclick="submitForm()">Confirm</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="container-fluid backgroundColor">
-    <div class="container">
-      <div class="row">
-        <h2>User Administration</h2>
-        <div class="col-3 green-line"></div>
+    <!-- Ban Confirmation Modal -->
+    <div class="modal fade" id="banModal" tabindex="-1" aria-labelledby="banModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="banModalLabel">Confirm Ban</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to ban this user? This action cannot be undone.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="submitBan()">Confirm</button>
+          </div>
+        </div>
       </div>
-      <div class="row">
-        <div class="col-4">
-          <div id="liveAlertPlaceholder"></div>
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Username</th>
-                <th scope="col">Display Name</th>
-                <th scope="col">controlsStore </th>
-                <th scope="col">isChef</th>
-                <th scope="col">isAdmin</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% users.forEach(user => { %>
+    </div>
+
+    <div class="container-fluid backgroundColor">
+      <div class="container">
+        <div class="row">
+          <h2>User Administration</h2>
+          <div class="col-3 green-line"></div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <div id="liveAlertPlaceholder"></div>
+            <table class="table">
+              <thead>
                 <tr>
-                  <form action="/public/change/<%= user.id %>" method="POST" id="userform<%= user.id %>">
-                    <td><%= user.username %></td>
-                    <td><%= user.displayname %></td>
-
-                    <td>
-                      <select name="stores" onchange="enableButton('btn<%= user.id %>')">
-                        <option value="none"></option>
-                        <% stores.forEach(function(store) { %>
-                          <option value="<%= store.id %>" <% if (user.controlsStore === store.id) { %> selected <% } %>><%= store.name %></option>
-                        <% }); %>
-                      </select>
-                    </td>
-
-                    <td><input class="form-check-input" type="checkbox" name="chefbox" <% if (user.isChef) { %> checked <% } %> onchange="enableButton('btn<%= user.id %>')"></td>
-
-                    <% if (user.id == session.id) { %>
-                      <td><input class="form-check-input" type="checkbox" name="adminbox" checked disabled></td>
-                    <% } else { %>
-                      <td><input class="form-check-input" type="checkbox" name="adminbox" <% if (user.isAdmin) { %> checked <% } %> onchange="enableButton('btn<%= user.id %>')"></td>
-                    <% } %>
-
-                    <td>
-                      <button id="btn<%= user.id %>" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#confirmationModal" onclick="setModalData('confirmationModal', 'userform<%= user.id %>')" disabled>Change</button>
-                      <% if (user.id != session.id) { %>
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#banModal" onclick="setModalData('banModal', 'ban<%= user.id %>')">Ban</button>
-                      <% } else { %>
-                        <button type="button" class="btn btn-danger" disabled>Ban</button>
-                      <% } %>
-                    </td>
-                  </form>
+                  <th scope="col">Username</th>
+                  <th scope="col">Display Name</th>
+                  <th scope="col">controlsStore </th>
+                  <th scope="col">isChef</th>
+                  <th scope="col">isAdmin</th>
+                  <th scope="col">Actions</th>
                 </tr>
-              <% }); %>
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                <% users.forEach(user=> { %>
+                  <tr>
+                    <form action="/public/change/<%= user.id %>" method="POST" id="userform<%= user.id %>">
+                      <td>
+                        <%= user.username %>
+                      </td>
+                      <td>
+                        <%= user.displayname %>
+                      </td>
+
+                      <td>
+                        <select name="stores" onchange="enableButton('btn<%= user.id %>')">
+                          <option value="none"></option>
+                          <% stores.forEach(function(store) { %>
+                            <option value="<%= store.id %>" <% if (user.controlsStore===store.id) { %> selected <% } %>>
+                                <%= store.name %>
+                            </option>
+                            <% }); %>
+                        </select>
+                      </td>
+
+                      <td><input class="form-check-input" type="checkbox" name="chefbox" <% if (user.isChef) { %>
+                        checked <% } %> onchange="enableButton('btn<%= user.id %>')"></td>
+
+                      <% if (user.id==session.id) { %>
+                        <td><input class="form-check-input" type="checkbox" name="adminbox" checked disabled></td>
+                        <% } else { %>
+                          <td><input class="form-check-input" type="checkbox" name="adminbox" <% if (user.isAdmin) { %>
+                            checked <% } %> onchange="enableButton('btn<%= user.id %>')"></td>
+                          <% } %>
+
+                            <td>
+                              <button id="btn<%= user.id %>" type="button" class="btn btn-warning"
+                                data-bs-toggle="modal" data-bs-target="#confirmationModal"
+                                onclick="setModalData('confirmationModal', 'userform<%= user.id %>')"
+                                disabled>Change</button>
+                              <% if (user.id !=session.id) { %>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                  data-bs-target="#banModal"
+                                  onclick="setModalData('banModal', 'ban<%= user.id %>')">Ban</button>
+                                <% } else { %>
+                                  <button type="button" class="btn btn-danger" disabled>Ban</button>
+                                  <% } %>
+                            </td>
+                    </form>
+                  </tr>
+                  <% }); %>
+              </tbody>
+            </table>
+          </div>
         </div>
+        <div class="row">
+          <h2>Contact Messages</h2>
+          <div class="col-3 green-line"></div>
+          <div class="row">
+            <div class="col">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Message </th>
+                    <th scope ="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% contacts.forEach(contact=> { %>
+                    <tr>
+                      <td>
+                        <%= contact.name %>
+                      </td>
+                      <td>
+                        <%= contact.email %>
+                      </td>
+                      <td>
+                        <%= contact.message %>
+                      </td>
+                      <td>
+                        <form action=<%="delete-contact/"+contact.id %> method="GET">
+                          <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </tr>
+                    <% }); %>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
-  </div>
+    </div>
 
-  <%- include("./shared/footer") %>
+    <%- include("./shared/footer") %>
 
-  <script>
-    function enableButton(btnId) {
-      const button = document.getElementById(btnId);
-      button.disabled = false;
-    }
-
-    function setModalData(id, value) {
-      const element = document.getElementById(id);
-      element.setAttribute("data-form-name", value);
-    }
-
-    function submitForm() {
-      clearAlert();
-      
-      const formName = document.getElementById("confirmationModal").getAttribute("data-form-name");
-      const form = document.getElementById(formName);
-      const formData = new FormData(form);
-      let xhr = new XMLHttpRequest();
-
-      // send Form data to server
-      xhr.open("POST", form.action);
-      xhr.setRequestHeader("Content-Type", "application/json");
-      xhr.send(JSON.stringify({
-        stores: formData.get("stores"),
-        chefbox: formData.get("chefbox"),
-        adminbox: formData.get("adminbox")
-      }));
-
-      // handle server response
-      xhr.onload = function() {
-        if (xhr.status === 200) {
-          // disable all change buttons
-          const warningButtons = document.querySelectorAll('.btn-warning');
-          warningButtons.forEach(button => {
-            button.disabled = true;
-          });
-
-          appendAlert("User settings changed successfully", "success");
-        } else if (xhr.status === 403) {
-          appendAlert("Access forbidden", "danger");
-        } else {
-          appendAlert(`Unexpected response: HTTP/${xhr.status}`, "danger");
+      <script>
+        function enableButton(btnId) {
+          const button = document.getElementById(btnId);
+          button.disabled = false;
         }
-      };
-    }
 
-    function submitBan() {
-      const formName = document.getElementById("banModal").getAttribute("data-form-name");
-      const userid = formName.replace(/^ban/, "");
-      
-      let xhr = new XMLHttpRequest();
-      xhr.open("POST", "/public/ban");
-      xhr.setRequestHeader("Content-Type", "application/json");
-      xhr.send(JSON.stringify({ userid: userid }));
-
-      // handle server response
-      xhr.onload = function() {
-        if (xhr.status === 200) {
-          // delete user's row in table
-          const userform = document.getElementById(`userform${userid}`);
-          userform.parentNode.remove();
-          
-          appendAlert("User successfully banned", "warning");
-        } else if (xhr.status === 403) {
-          appendAlert("Access forbidden", "danger");
-        } else {
-          appendAlert(`Unexpected response: HTTP/${xhr.status}`, "danger");
+        function setModalData(id, value) {
+          const element = document.getElementById(id);
+          element.setAttribute("data-form-name", value);
         }
-      }
-    }
-  </script>
+
+        function submitForm() {
+          clearAlert();
+
+          const formName = document.getElementById("confirmationModal").getAttribute("data-form-name");
+          const form = document.getElementById(formName);
+          const formData = new FormData(form);
+          let xhr = new XMLHttpRequest();
+
+          // send Form data to server
+          xhr.open("POST", form.action);
+          xhr.setRequestHeader("Content-Type", "application/json");
+          xhr.send(JSON.stringify({
+            stores: formData.get("stores"),
+            chefbox: formData.get("chefbox"),
+            adminbox: formData.get("adminbox")
+          }));
+
+          // handle server response
+          xhr.onload = function () {
+            if (xhr.status === 200) {
+              // disable all change buttons
+              const warningButtons = document.querySelectorAll('.btn-warning');
+              warningButtons.forEach(button => {
+                button.disabled = true;
+              });
+
+              appendAlert("User settings changed successfully", "success");
+            } else if (xhr.status === 403) {
+              appendAlert("Access forbidden", "danger");
+            } else {
+              appendAlert(`Unexpected response: HTTP/${xhr.status}`, "danger");
+            }
+          };
+        }
+
+        function submitBan() {
+          const formName = document.getElementById("banModal").getAttribute("data-form-name");
+          const userid = formName.replace(/^ban/, "");
+
+          let xhr = new XMLHttpRequest();
+          xhr.open("POST", "/public/ban");
+          xhr.setRequestHeader("Content-Type", "application/json");
+          xhr.send(JSON.stringify({ userid: userid }));
+
+          // handle server response
+          xhr.onload = function () {
+            if (xhr.status === 200) {
+              // delete user's row in table
+              const userform = document.getElementById(`userform${userid}`);
+              userform.parentNode.remove();
+
+              appendAlert("User successfully banned", "warning");
+            } else if (xhr.status === 403) {
+              appendAlert("Access forbidden", "danger");
+            } else {
+              appendAlert(`Unexpected response: HTTP/${xhr.status}`, "danger");
+            }
+          }
+        }
+      </script>
 </body>
+
 </html>
