@@ -28,7 +28,7 @@
           </p>
           <p style="font-weight:bold">
             Available from:
-            <a href="<%= `/public/stores/${product.storeid}` %>"><%= store.name %></a> <%= `for ${product.price} with ${product.stock} in stock` %>
+            <a href="<%= `/public/stores/${product.storeid}` %>"><%= product.storename %></a> <%= `for $${product.price} with ${product.stock} in stock` %>
           </p>
 
           <% if (session) { %>

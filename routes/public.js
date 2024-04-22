@@ -250,9 +250,14 @@ router.get("/stores/:id", async (req, res, next) => {
 });
 
 router.get("/products", async (req, res, next) => {
-  const products = await models.Product.findAll({
-    attributes: ['id', 'ingredientname']
-  });
+  const query = `
+    SELECT \`p\`.\`id\`, \`p\`.\`ingredientname\`, \`i\`.\`image\`, \`s\`.\`name\` AS \`storename\`
+    FROM \`Products\` AS \`p\`
+    JOIN \`Ingredients\` AS \`i\` ON \`p\`.\`ingredientname\` = \`i\`.\`name\`
+    JOIN \`Stores\` AS \`s\` ON \`p\`.\`storeid\` = \`s\`.\`id\`;
+  `;
+  const sequelize = models.Product.sequelize;
+  const products = await sequelize.query(query, {type: QueryTypes.SELECT })
 
   const data = {
     pageTitle: 'All Products',
@@ -266,29 +271,41 @@ router.get("/products", async (req, res, next) => {
 router.get("/products/:id", async (req, res, next) => {
   const id = req.params.id;
   try {
-    const product = await models.Product.findOne({
-      where: {
-        id: id
-      },
-      attributes: ['id', 'storeid', 'ingredientname', 'price', 'stock', 'amount', 'unit', 'image']
+    const query = `
+      SELECT \`p\`.\`storeid\`, \`p\`.\`id\`, \`p\`.\`ingredientname\`, \`p\`.\`price\`, \`p\`.\`amount\`, \`p\`.\`stock\`, \`p\`.\`unit\`, \`p\`.\`image\`, \`s\`.\`name\` AS \`storename\`
+      FROM \`Products\` AS \`p\`
+      JOIN \`Stores\` AS \`s\` ON \`p\`.\`storeid\` = \`s\`.\`id\`
+      WHERE \`p\`.\`id\`=?;
+    `;
+
+    let product = await sequelize.query(query, {
+      replacements: [id],
+      type: QueryTypes.SELECT
     });
 
-    const store = await models.Store.findOne({
-      where: {
-        id: product.storeid
-      },
-      attributes: ['name']
-    });
+    console.log(product);
+
+    if (!product[0].image) {
+      const ingredient = await models.Ingredient.findOne({
+        where: {
+          name: product[0].ingredientname
+        }
+      });
+
+      product[0].image = ingredient.image;
+    }
+
+    console.log(product);
 
     const data = {
-      pageTitle: product.ingredientname,
-      product: product,
-      store: store,
+      pageTitle: product[0].ingredientname,
+      product: product[0],
       session: req.session.user
     }
 
     res.render('Public/product', data);
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 });

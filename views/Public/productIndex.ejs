@@ -26,13 +26,13 @@
       <div class="row" style="margin-bottom:30px;">
         <div class="col-6 recipe-in-top">
           <% for(let i = 0; i < products.length; i+=2) { %>
-            <a href="/public/products/<%= products[i].id %>" class="list-element-title"><%= products[i].name %></a>
+            <a href="/public/products/<%= products[i].id %>" class="list-element-title"><%= products[i].ingredientname %> from <%= products[i].storename %></a>
             <img src="<%= products[i].image %>" class="img-square-150">
           <% } %>
         </div>
         <div class="col-6 recipe-in-top">
           <% for(let i = 1; i < products.length; i+=2) { %>
-            <a href="/public/products/<%= products[i].id %>" class="list-element-title"><%= products[i].name %></a>
+            <a href="/public/products/<%= products[i].id %>" class="list-element-title"><%= products[i].ingredientname %> from <%= products[i].storename %></a>
             <img src="<%= products[i].image %>" class="img-square-150">
 
           <% } %>
