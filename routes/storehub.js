@@ -8,8 +8,11 @@ router.use(express.static('StoreHub'));
 router.use(cors());
 
 router.get("/", storeChecker, (req, res, next) => {
-    console.log(req.session.user);
-    res.sendFile('index.html', {root:'public/StoreHub'});
+    const data = {
+      pageTitle: 'Store Hub',
+      session: req.session.user
+    };
+    res.render('Store/hub', data);
 });
 
 router.get("/order-manage", storeChecker, (req, res, next) => {
