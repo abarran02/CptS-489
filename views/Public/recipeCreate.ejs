@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include("./shared/styles") %>
+  <title><%= pageTitle %></title>
+</head>
+<body>
+  <%- include("./shared/header") %>
+
+  <div class="container-fluid backgroundColor">
+    <div class="container">
+      <div class="row green-line"></div>
+      <div class="row">
+        <div class="col-12">
+          <form id="recipeForm">
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td><label for="recipeName">Recipe Name:</label></td>
+                  <td colspan="2"><input type="text" id="recipeName" name="recipeName"></td>
+                </tr>
+                <tr>
+                  <td><label for="description">Description:</label></td>
+                  <td colspan="2"><textarea id="description" name="description"></textarea></td>
+                </tr>
+                <tr>
+                  <td><label for="ingredients">Ingredients:</label></td>
+                  <td>
+                    <div id="ingredientsContainer">
+                      <div class="ingredients">
+                        <label for="ingredients1">Ingredient 1:</label>
+                        <input type="text" id="ingredients1" name="ingredients1">
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div id="amountContainer">
+                      <div class="amount">
+                        <label for="amount1">Ingredient 1 Amount:</label>
+                        <input type="text" id="amount1" name="amount1">
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="3">
+                    <div id="stepsContainer">
+                      <div class="step">
+                        <label for="step1">Step 1:</label>
+                        <input type="text" id="step1" name="step1">
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><button type="button" id="addIngredient" class="btn btn-secondary">Add Ingredient</button></td>
+                  <td><button type="button" id="addStep" class="btn btn-secondary">Add Step</button></td>
+                  <td><button type="submit" class="btn btn-primary">Submit Recipe</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+          <div id="liveAlertPlaceholder"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include("./shared/footer") %>
+
+  <script>
+    function collect(prefix) {
+      const form = document.getElementById('recipeForm');
+      let data = [];
+
+      for (let i = 0; i < form.elements.length; i++) {
+        let elem = form.elements[i];
+        // check that the input is a step and is not null
+        let isPrefixedInput = elem.getAttribute('name') && elem.getAttribute('name').startsWith(prefix);
+        if (isPrefixedInput && elem.value) {
+          data.push(elem.value);
+        }
+      }
+
+      return data;
+    }
+
+    function compileIngredients(ingredients, amounts) {
+      if (ingredients.length !== amounts.length) {
+        throw new Error('Amount and ingredients must have the same length.');
+      }
+      
+      // Map the two arrays into an array of objects
+      const compiledList = ingredients.map((ingredient, index) => ({
+        ingredientdisplayname: ingredient,
+        amount: amounts[index]
+      }));
+
+      return compiledList;
+    }
+
+    document.getElementById('addStep').addEventListener('click', function() {
+      const stepsContainer = document.getElementById('stepsContainer');
+      const stepNumber = stepsContainer.childElementCount + 1;
+      const newStep = document.createElement('div');
+      newStep.innerHTML = `
+        <label for="steps${stepNumber}">Step ${stepNumber}:</label>
+        <input type="text" id="steps${stepNumber}" name="steps${stepNumber}">
+      `;
+      stepsContainer.appendChild(newStep);
+    });
+
+    document.getElementById('addIngredient').addEventListener('click', function() {
+      const ingContainer = document.getElementById('ingredientsContainer');
+      const ingCount = ingContainer.childElementCount + 1;
+      const newIng = document.createElement('div');
+      newIng.innerHTML = `
+        <label for="ingredients${ingCount}">Ingredient ${ingCount}:</label>
+        <input type="text" id="ingredients${ingCount}" name="ingredients${ingCount}">
+      `;
+      ingContainer.appendChild(newIng);
+
+      const amountContainer = document.getElementById('amountContainer');
+      const newAmount = document.createElement('div');
+      newAmount.innerHTML = `
+        <label for="amount${ingCount}">Ingredient ${ingCount} Amount:</label>
+        <input type="text" id="amount${ingCount}" name="amount${ingCount}">
+      `;
+      amountContainer.appendChild(newAmount);
+    });
+    
+    document.getElementById('recipeForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const formData = new FormData(this);
+
+      const ingredients = collect('ingredients');
+      const amounts = collect('amount');
+
+      let jsonData = {};
+      jsonData['name'] = formData.get('recipeName');
+      jsonData['description'] = formData.get('description');
+      jsonData['ingredients'] = compileIngredients(ingredients, amounts);
+      jsonData['steps'] = collect('step');
+
+      console.log(jsonData);
+      
+      let xhr = new XMLHttpRequest();
+      xhr.open("POST", "/public/recipes/create");
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.send(JSON.stringify(jsonData));
+
+      // handle server response
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          // window.location.href = '/public/recipes/#create-success';
+          appendAlert("Access forbidden", "success");
+        } else if (xhr.status === 403) {
+          appendAlert("Access forbidden", "danger");
+        } else {
+          appendAlert(`Unexpected response: HTTP/${xhr.status}`, "danger");
+        }
+      }
+    });
+  </script>
+</body>
+</html>
