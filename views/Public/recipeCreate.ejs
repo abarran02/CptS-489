@@ -154,8 +154,6 @@
       xhr.open("POST", form.action);
       xhr.send(sendData);
 
-      console.log(sendData);
-
       // handle server response
       xhr.onload = function() {
         if (xhr.status === 200) {

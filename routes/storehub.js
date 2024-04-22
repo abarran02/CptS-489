@@ -102,7 +102,6 @@ router.post("/fulfill", storeChecker, async function(req, res, next) {
 
     res.sendStatus(200);
   } catch (error) {
-    console.log(error)
     res.status(500).json(error);
   }
 });

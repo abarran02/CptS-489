@@ -99,6 +99,22 @@ router.get("/recipes/create", sessionChecker, async (req, res, next) => {
   res.render('Public/recipeCreate', data);
 });
 
+router.post("/recipes/delete/:id", adminChecker, async (req, res, next) => {
+  const id = req.params.id;
+
+  try {
+    await models.Recipe.destroy({
+      where: {
+        id: id
+      }
+    });
+
+    res.redirect('/public/recipes');
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 router.post("/recipes/create", sessionChecker, upload.single('file'), async (req, res, next) => {
   const { name, description, ingredients, steps } = req.body;
 
@@ -148,22 +164,6 @@ router.get("/recipes/:id", async (req, res, next) => {
 
       res.render('Public/recipe', data);
     }
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
-
-router.post("/recipes/delete/:id", adminChecker, async (req, res, next) => {
-  const id = req.params.id;
-
-  try {
-    await models.Recipe.destroy({
-      where: {
-        id: id
-      }
-    });
-
-    res.redirect('/public/recipes');
   } catch (error) {
     res.status(500).json(error);
   }
@@ -283,8 +283,6 @@ router.get("/products/:id", async (req, res, next) => {
       type: QueryTypes.SELECT
     });
 
-    console.log(product);
-
     if (!product[0].image) {
       const ingredient = await models.Ingredient.findOne({
         where: {
@@ -295,8 +293,6 @@ router.get("/products/:id", async (req, res, next) => {
       product[0].image = ingredient.image;
     }
 
-    console.log(product);
-
     const data = {
       pageTitle: product[0].ingredientname,
       product: product[0],
@@ -305,7 +301,6 @@ router.get("/products/:id", async (req, res, next) => {
 
     res.render('Public/product', data);
   } catch (error) {
-    console.log(error);
     res.status(500).json(error);
   }
 });
