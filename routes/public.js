@@ -4,6 +4,7 @@ let cors = require("cors");
 const fs = require('fs');
 const models = require('../models/models');
 const { sessionChecker, adminChecker } = require('./middleware/sessionChecker');
+const sequelize = require('../db');
 const upload = require('./middleware/upload');
 const { QueryTypes } = require("sequelize");
 
@@ -100,8 +101,6 @@ router.get("/recipes/create", sessionChecker, async (req, res, next) => {
 router.post("/recipes/create", sessionChecker, upload.single('file'), async (req, res, next) => {
   const { name, description, ingredients, steps } = req.body;
 
-  console.log(req.body);
-
   const cb = (error) => {
     if (error) {
       throw error;
@@ -123,7 +122,6 @@ router.post("/recipes/create", sessionChecker, upload.single('file'), async (req
     if (req.file) {
       fs.unlink(req.file.path, cb);
     }
-    console.log(error)
     res.status(500).json(error);
   }
 });
@@ -135,7 +133,7 @@ router.get("/recipes/:id", async (req, res, next) => {
       where: {
         id: id
       },
-      attributes: ['id', 'name', 'image', 'ingredients', 'steps']
+      attributes: ['name', 'image', 'ingredients', 'steps']
     });
 
     if (!recipe) {
@@ -364,16 +362,61 @@ router.get("/cart", sessionChecker, async (req, res, next) => {
   res.render('Public/cart', data);
 });
 
+router.post("/cart/order", sessionChecker, async (req, res, next) => {
+
+  try {
+    const user = await models.User.findOne({
+      where: {
+        id: req.session.user.id
+      }
+    });
+
+    let maxid = await models.Order.max('orderid');
+    if(maxid === null){
+      neworderid = 1;
+    } else {
+      neworderid = maxid + 1;
+    }
+    for (let i = 0; i < user.cart.length; i++) {
+      const productid = user.cart[i];
+      const product = await models.Product.findOne({
+        where: {
+          id: productid
+        }
+      });
+
+      let multipleItem = await models.Order.findOne({
+        where:{
+          orderid: neworderid,
+          productid: productid
+        }
+      });
+      if(multipleItem === null){
+        models.Order.create({
+          orderid: neworderid,
+          productid: productid,
+          userid: user.id,
+          amount: 1
+        });
+      }
+      else{
+        multipleItem.increment('amount');
+      }
+    }
+
+    user.cart = [];
+    user.changed('cart', true);
+    await user.save();
+    res.sendStatus(200);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 router.post("/cart/add", sessionChecker, async (req, res, next) => {
   const productid = req.body.id;
 
   try {
-    const product = await models.Product.findOne({
-      where: {
-        id: productid
-      }
-    });
-
     const user = await models.User.findOne({
       where: {
         id: req.session.user.id
@@ -412,6 +455,41 @@ router.get("/myrecipes", sessionChecker, async (req, res, next) => {
   res.render('Public/myrecipes', data);
 });
 
+router.get("/orders", sessionChecker, async (req, res, next) => {
+  let orders = await models.Order.findAll({
+    attributes: [[sequelize.fn('DISTINCT', sequelize.col('orderid')), 'orderid']],
+    where: {
+      userid: req.session.user.id
+    }
+  });
+
+  let orderitems = await models.Order.findAll({
+    attributes: ['orderid','productid', 'amount', 'fulfilledAt'],
+    where: {
+      userid: req.session.user.id
+    }
+  });
+
+  let products = [];
+  for (let i = 0; i < orderitems.length; i++) {
+    let product = await models.Product.findOne({
+      where: {
+        id: orderitems[i].productid
+      }
+    });
+    products.push(product.ingredientname);
+  }
+
+  const data = {
+    pageTitle: 'User Orders',
+    orders: orders,
+    orderitems: orderitems,
+    products: products,
+    session: req.session.user
+  }
+  res.render('Public/userorders', data);
+});
+
 
 router.get("/settings", sessionChecker, async (req, res, next) => {
   const user = await models.User.findOne({
@@ -436,7 +514,7 @@ router.post("/settings/change", sessionChecker, upload.single('file'), async (re
       throw error;
     }
   }
-  
+
   try {
     const user = await models.User.findOne({
       where: {

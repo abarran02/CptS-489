@@ -18,7 +18,7 @@
         <% } else { %>
           <% for(let i = 0; i < cart.length; i++) { %>
             <li>
-              <a href="/public/products/<%= cart[i].id %>"><%= `${cart[i].name}, ${cart[i].amount} ${cart[i].unit} for $${cart[i].price}` %></a>
+              <a href="/public/products/<%= cart[i].id %>"><%= `${cart[i].ingredientname}, ${cart[i].amount} ${cart[i].unit} for $${cart[i].price}` %></a>
             </li>
           <% } %>
         <% } %>
@@ -26,9 +26,33 @@
       <div class="row" style="margin-top:100px">
         Total cost: $<%= cartTotal.toFixed(2) %>
       </div>
+      <button id="orderBtn" class="btn btn-secondary">Order</button>
     </div>
   </div>
 
   <%- include("./shared/footer") %>
 </body>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    let orderBtn = document.getElementById("orderBtn");
+
+    orderBtn.addEventListener("click", function() {
+  
+      // new POST request
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "/public/cart/order", true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+  
+      xhr.send();
+      // handle the response
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          console.log("Order submitted successfully");
+        } else {
+          console.error("Failed to submit order");
+        }
+      };
+    });
+  });
+  </script>
 </html>
