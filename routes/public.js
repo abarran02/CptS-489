@@ -109,7 +109,7 @@ router.post("/recipes/create", sessionChecker, upload.single('file'), async (req
   }
 
   try {
-    const newRecipe = await models.Recipe.create({
+    await models.Recipe.create({
       ownerid: req.session.user.id,
       name: name,
       description: description,
@@ -118,7 +118,7 @@ router.post("/recipes/create", sessionChecker, upload.single('file'), async (req
       image: req.file.path.replace("public", "")
     });
 
-    res.status(200).send(`${newRecipe.id}`);
+    res.sendStatus(200);
   } catch (error) {
     if (req.file) {
       fs.unlink(req.file.path, cb);
@@ -436,7 +436,7 @@ router.post("/settings/change", sessionChecker, upload.single('file'), async (re
       throw error;
     }
   }
-
+  
   try {
     const user = await models.User.findOne({
       where: {
