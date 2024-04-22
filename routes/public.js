@@ -349,6 +349,25 @@ router.post("/cart/add", sessionChecker, async (req, res, next) => {
   }
 });
 
+router.get("/myrecipes", sessionChecker, async (req, res, next) => {
+
+  const userRecipes = await models.Recipe.findAll({
+    where: {
+      ownerid: req.session.user.id
+    },
+    attributes: ['id', 'name']
+  });
+
+
+  const data = {
+    pageTitle: 'My Recipes',
+    recipes: userRecipes,
+    session: req.session.user
+  }
+  res.render('Public/myrecipes', data);
+});
+
+
 router.get("/settings", sessionChecker, async (req, res, next) => {
   const user = await models.User.findOne({
     where: {
