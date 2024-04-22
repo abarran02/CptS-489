@@ -97,13 +97,17 @@ router.get("/recipes/:id", async (req, res, next) => {
       attributes: ['id', 'name', 'image', 'ingredients', 'steps']
     });
 
-    const data = {
-      pageTitle: recipe.name,
-      recipe: recipe,
-      session: req.session.user
+    if (!recipe) {
+      res.redirect('/public/recipes');  
+    } else {
+      const data = {
+        pageTitle: recipe.name,
+        recipe: recipe,
+        session: req.session.user
+      }
+  
+      res.render('Public/recipe', data);
     }
-
-    res.render('Public/recipe', data);
   } catch (error) {
     res.status(500).json(error);
   }
