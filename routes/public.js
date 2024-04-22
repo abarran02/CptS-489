@@ -376,18 +376,27 @@ router.get("/orders", sessionChecker, async (req, res, next) => {
     }
   });
 
-  console.log(user);
-  console.log(orders);
+  products = [];
+
+  for(let i = 0; i < orderitems.length; i++){
+    //console.log(orderitems[i].productid);
+    products.push((await models.Product.findOne({where: {id: orderitems[i].productid}})).name);
+  }
+  console.log(products);
+  //console.log(user);
+ // console.log(orders);
  
   //console.log(orderList[1].products);
   const data = {
     pageTitle: 'User Orders',
     orders: orders,
     orderitems: orderitems,
+    products: products,
     session: req.session.user
   }
   res.render('Public/userorders', data);
 });
+
 
 router.get("/settings", sessionChecker, async (req, res, next) => {
   const user = await models.User.findOne({
