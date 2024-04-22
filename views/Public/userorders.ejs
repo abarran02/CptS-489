@@ -17,24 +17,43 @@
         <% if (orders.length == 0) { %>
           <li>No Orders Placed</li>
         <% } else { %>
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th scope="col">Order Id</th>
-                <th scope="col">Product</th>
-                <th scope="col">Amount</th>
-                <th scope="col">Fulfilled At</th>
-              </tr>
-            </thead>
+          <%previousOrder = 0;%>
             <% for(let i = 0; i < orderitems.length; i++) { %>
+              <% if (orderitems[i].orderid != previousOrder) { %>
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Fulfilled At</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><%= `${products[i]}` %></td>
+                    <td><%= `${orderitems[i].amount}` %></td>
+                    <%if (orderitems[i].fulfilledAt === null){ %>
+                      <td>Not Fulfilled</td>
+                    <% } else { %>
+                    <td><%= `${orderitems[i].fulfilledAt}` %></td>
+                    <% } %>
+                  </tr>
+                </tbody>
+                
+                <% } else { %>
               <tbody>
                 <tr>
-                  <td><%= `${orderitems[i].orderid}` %></td>
-                  <td><%= `${orderitems[i].productid}` %></td>
+                  <td><%= `${products[i]}` %></td>
                   <td><%= `${orderitems[i].amount}` %></td>
+                  <%if (orderitems[i].fulfilledAt === null){ %>
+                    <td>Not Fulfilled</td>
+                  <% } else { %>
                   <td><%= `${orderitems[i].fulfilledAt}` %></td>
+                  <% } %>
                 </tr>
               </tbody>
+            <% } %>
+            <%previousOrder = orderitems[i].orderid;%>
             <% } %>
           </table>
           <% } %>
