@@ -12,7 +12,7 @@ router.post('/login', async (req, res, next) => {
         username: req.body.username,
         password: req.body.passwd
       },
-      attributes: ['id', 'username', 'displayname', 'isAdmin', 'isChef']
+      attributes: ['id', 'username', 'displayname', 'isAdmin', 'isChef', 'controlsStore']
     });
 
     // user failed to authenticate

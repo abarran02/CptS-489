@@ -4,7 +4,7 @@ let cors = require("cors");
 const fs = require('fs');
 const models = require('../models/models');
 const { body, validationResult } = require('express-validator');
-const { sessionChecker, adminChecker } = require('./middleware/middleware/sessionChecker');
+const { sessionChecker, adminChecker } = require('./middleware/sessionChecker');
 const sequelize = require('../db');
 const upload = require('./middleware/upload');
 const { QueryTypes } = require("sequelize");
@@ -311,7 +311,7 @@ router.get("/ingredients/:id", async (req, res, next) => {
       where: {
         ingredientname: ingredient.name
       },
-      attributes: ['id', 'name', 'amount', 'unit']
+      attributes: ['id', 'ingredientname', 'amount', 'unit']
     });
 
     const data = {
