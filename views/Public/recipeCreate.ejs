@@ -93,7 +93,7 @@
       if (ingredients.length !== amounts.length) {
         throw new Error('Amount and ingredients must have the same length.');
       }
-      
+
       // Map the two arrays into an array of objects
       const compiledList = ingredients.map((ingredient, index) => ({
         ingredientdisplayname: ingredient,
@@ -132,7 +132,7 @@
       `;
       amountContainer.appendChild(newAmount);
     });
-    
+
     document.getElementById('recipeForm').addEventListener('submit', function(event) {
       event.preventDefault();
       const form = document.getElementById("recipeForm");
@@ -148,7 +148,7 @@
 
       let fileInput = document.getElementById('imageInput');
       sendData.append('file', fileInput.files[0]);
-      
+
       // send Form data to server
       let xhr = new XMLHttpRequest();
       xhr.open("POST", form.action);
@@ -159,8 +159,8 @@
       // handle server response
       xhr.onload = function() {
         if (xhr.status === 200) {
-          // window.location.href = '/public/recipes/#create-success';
-          appendAlert("Access forbidden", "success");
+          const newid = xhr.responseText;
+          window.location.href = `/public/recipes/${newid}/#success`;
         } else if (xhr.status === 403) {
           appendAlert("Access forbidden", "danger");
         } else {
