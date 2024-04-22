@@ -1,8 +1,11 @@
-var express = require("express");
-var router = express.Router();
-var cors = require("cors");
+let express = require("express");
+let router = express.Router();
+let cors = require("cors");
+const fs = require('fs');
 const models = require('../models/models');
-const { sessionChecker, adminChecker } = require('./sessionChecker');
+const { sessionChecker, adminChecker } = require('./middleware/sessionChecker');
+const upload = require('./middleware/upload');
+const { QueryTypes } = require("sequelize");
 
 router.use(cors());
 
@@ -48,13 +51,24 @@ router.post("/signup", async (req, res, next) => {
   const { username, displayname, password } = req.body;
 
   try {
-    await models.User.create({
-      username: username,
-      displayname: displayname,
-      password: password
-    });
+    // attempt to create new User, if the username exists then send error
+    models.User.findOrCreate({
+      where: {
+        username: username
+      },
+      defaults: {
+        displayname: displayname,
+        password: password
+      }
+    }).then(function(result) {
+      const created = result[1];
 
-    res.redirect('/#signup-success');
+      if (created) {
+        res.redirect('/#signup-success');
+      } else {
+        res.sendStatus(202);
+      }
+    });
   } catch (error) {
     res.status(500).json(error);
   }
@@ -221,7 +235,7 @@ router.get("/stores/:id", async (req, res, next) => {
 
 router.get("/products", async (req, res, next) => {
   const products = await models.Product.findAll({
-    attributes: ['id', 'name']
+    attributes: ['id', 'ingredientname']
   });
 
   const data = {
@@ -240,7 +254,7 @@ router.get("/products/:id", async (req, res, next) => {
       where: {
         id: id
       },
-      attributes: ['id', 'storeid', 'name', 'price', 'stock', 'amount', 'unit', 'image']
+      attributes: ['id', 'storeid', 'ingredientname', 'price', 'stock', 'amount', 'unit', 'image']
     });
 
     const store = await models.Store.findOne({
@@ -251,7 +265,7 @@ router.get("/products/:id", async (req, res, next) => {
     });
 
     const data = {
-      pageTitle: product.name,
+      pageTitle: product.ingredientname,
       product: product,
       store: store,
       session: req.session.user
@@ -277,12 +291,15 @@ router.get("/ingredients/:id", async (req, res, next) => {
       attributes: ['name', 'description', 'category', 'image']
     });
 
-    const products = await models.Product.findAll({
-      where: {
-        ingredientname: ingredient.name
-      },
-      attributes: ['id', 'name', 'amount', 'unit']
-    });
+    const sequelize = models.Product.sequelize;
+    // without foreign key from Product storeid to Store table this is the only way to do it
+    const products = await sequelize.query(
+      'SELECT `p`.`id`, `p`.`ingredientname`, `p`.`amount`, `p`.`unit`, `s`.`name` AS `storename` FROM `Products` AS `p` JOIN `Stores` AS `s` ON `s`.`id`=`p`.`storeid` WHERE `p`.`ingredientname`=?',
+      {
+        replacements: [ingredient.name],
+        type: QueryTypes.SELECT,
+      }
+    );
 
     const data = {
       pageTitle: ingredient.name,
@@ -377,7 +394,7 @@ router.get("/settings", sessionChecker, async (req, res, next) => {
   res.render('Public/settings', data);
 });
 
-router.post("/settings/change", sessionChecker, async (req, res, next) => {
+router.post("/settings/change", sessionChecker, upload.single('file'), async (req, res, next) => {
   try {
     const user = await models.User.findOne({
       where: {
@@ -385,18 +402,39 @@ router.post("/settings/change", sessionChecker, async (req, res, next) => {
       }
     });
 
+    const cb = (error) => {
+      if (error) {
+        throw error;
+      }
+    }
+
     // check user password
     if (req.body.curpasswd != user.password) {
       res.sendStatus(403);
+      if (req.file) {
+        // delete the file since we allowed upload anyway
+        fs.unlink(req.file.path, cb);
+      }
     } else {
       // check for changed values
       if (req.body.newpasswd && req.body.newpasswd != user.password) {
         user.password = req.body.newpasswd;
         user.changed('password', true);
       }
+
       if (req.body.displayname && req.body.displayname != user.displayname) {
         user.displayname = req.body.displayname;
         user.changed('displayname', true);
+      }
+
+      if (req.file) {
+        // prevent deleting default image
+        if (user.portrait != '/uploads/default-profile.jpg') {
+          fs.unlink('public' + user.portrait, cb);
+        }
+
+        user.portrait = req.file.path.replace("public", "");
+        user.changed('portrait', true);
       }
 
       await user.save();

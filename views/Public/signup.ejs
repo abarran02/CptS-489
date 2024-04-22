@@ -16,10 +16,14 @@
       </div>
       <div class="row">
         <div class="col-4">
-          <form action="/public/signup" method="POST" onsubmit="return validateForm()">
+          <div id="liveAlertPlaceholder"></div>
+          <form id="signup" action="/public/signup" method="POST">
             <div class="mb-3">
               <label for="username" class="form-label">Username</label>
               <input type="text" class="form-control" id="username" name="username" required>
+              <small id="usernameHelpBlock" class="form-text text-muted">
+                Your username must be unique and cannot be changed.
+              </small>
             </div>
             <div class="mb-3">
               <label for="displayname" class="form-label">Display Name</label>
@@ -28,8 +32,11 @@
             <div class="mb-3">
               <label for="password" class="form-label">Password</label>
               <input type="password" class="form-control" id="password" name="password" required>
+              <small id="passwordHelpBlock" class="form-text text-muted">
+                Your password must be 8-20 characters long.
+              </small>
             </div>
-            <button type="submit" class="btn btn-primary">Sign Up</button>
+            <button type="button" class="btn btn-primary" onclick="submitForm()">Sign Up</button>
           </form>
         </div>
       </div>
@@ -40,31 +47,56 @@
 
   <script>
     function validateForm() {
-      const usernameInput = document.getElementById("username");
-      const username = usernameInput.value.trim();
+      clearAlert();
 
-      const displaynameInput = document.getElementById("displayname");
-      const displayname = displaynameInput.value.trim();
+      const form = document.getElementById("signup");
+      const formData = new FormData(form);
 
-      const passwordInput = document.getElementById("password");
-      const password = passwordInput.value;
-
-      if (username === "") {
-        alert("Username cannot be empty");
+      if (formData.get("username") === "") {
+        appendAlert("Username cannot be empty", "warning");
         return false;
       }
-
-      if (displayname === "") {
-        alert("Display Name cannot be empty");
+      if (formData.get("displayname") === "") {
+        appendAlert("Display Name cannot be empty", "warning");
         return false;
       }
-
-      if (password.length < 8) {
-        alert("Password must be at least 8 characters long");
+      if (formData.get("password").length < 8 || formData.get("password").length > 20) {
+        appendAlert("Password must be 8-20 characters long", "warning");
         return false;
       }
 
       return true;
+    }
+
+    function submitForm() {
+      if (!validateForm()) {
+        return false;
+      }
+
+      const form = document.getElementById("signup");
+      const formData = new FormData(form);
+      let xhr = new XMLHttpRequest();
+
+      // send Form data to server
+      xhr.open("POST", form.action);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.send(JSON.stringify({
+        username: formData.get("username"),
+        displayname: formData.get("displayname"),
+        password: formData.get("password")
+      }));
+
+      // handle server response
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          window.location.replace("/public/#signup-success");
+        } else if (xhr.status === 202) {
+          console.log('hi')
+          appendAlert("Username already exists", "danger");
+        } else {
+          appendAlert(`Unexpected response: HTTP/${xhr.status}`, "danger");
+        }
+      };
     }
   </script>
 </body>

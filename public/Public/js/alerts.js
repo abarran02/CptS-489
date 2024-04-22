@@ -9,3 +9,8 @@ function appendAlert(message, type) {
   ].join("");
   alertPlaceholder.append(wrapper);
 }
+
+function clearAlert() {
+  const alertPlaceholder = document.getElementById("liveAlertPlaceholder");
+  alertPlaceholder.innerHTML = "";
+}

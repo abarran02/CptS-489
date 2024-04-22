@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 const Recipe = require('../models/Recipe');
 
 router.get('/:id', async (req, res, next) => {
