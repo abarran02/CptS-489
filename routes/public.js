@@ -99,6 +99,22 @@ router.get("/recipes/create", sessionChecker, async (req, res, next) => {
   res.render('Public/recipeCreate', data);
 });
 
+router.post("/recipes/delete/:id", adminChecker, async (req, res, next) => {
+  const id = req.params.id;
+
+  try {
+    await models.Recipe.destroy({
+      where: {
+        id: id
+      }
+    });
+
+    res.redirect('/public/recipes');
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 router.post("/recipes/create", sessionChecker, upload.single('file'), async (req, res, next) => {
   const { name, description, ingredients, steps } = req.body;
 
@@ -109,7 +125,7 @@ router.post("/recipes/create", sessionChecker, upload.single('file'), async (req
   }
 
   try {
-    await models.Recipe.create({
+    const newRecipe = await models.Recipe.create({
       ownerid: req.session.user.id,
       name: name,
       description: description,
@@ -118,7 +134,7 @@ router.post("/recipes/create", sessionChecker, upload.single('file'), async (req
       image: req.file.path.replace("public", "")
     });
 
-    res.sendStatus(200);
+    res.status(200).send(`${newRecipe.id}`);
   } catch (error) {
     if (req.file) {
       fs.unlink(req.file.path, cb);
@@ -134,7 +150,7 @@ router.get("/recipes/:id", async (req, res, next) => {
       where: {
         id: id
       },
-      attributes: ['name', 'image', 'ingredients', 'steps']
+      attributes: ['id', 'name', 'image', 'ingredients', 'steps']
     });
 
     if (!recipe) {
@@ -148,22 +164,6 @@ router.get("/recipes/:id", async (req, res, next) => {
 
       res.render('Public/recipe', data);
     }
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
-
-router.post("/recipes/delete/:id", adminChecker, async (req, res, next) => {
-  const id = req.params.id;
-
-  try {
-    await models.Recipe.destroy({
-      where: {
-        id: id
-      }
-    });
-
-    res.redirect('/public/recipes');
   } catch (error) {
     res.status(500).json(error);
   }
@@ -250,9 +250,13 @@ router.get("/stores/:id", async (req, res, next) => {
 });
 
 router.get("/products", async (req, res, next) => {
-  const products = await models.Product.findAll({
-    attributes: ['id', 'ingredientname']
-  });
+  const query = `
+    SELECT \`p\`.\`id\`, \`p\`.\`ingredientname\`, \`i\`.\`image\`, \`s\`.\`name\` AS \`storename\`
+    FROM \`Products\` AS \`p\`
+    JOIN \`Ingredients\` AS \`i\` ON \`p\`.\`ingredientname\` = \`i\`.\`name\`
+    JOIN \`Stores\` AS \`s\` ON \`p\`.\`storeid\` = \`s\`.\`id\`;
+  `;
+  const products = await sequelize.query(query, {type: QueryTypes.SELECT })
 
   const data = {
     pageTitle: 'All Products',
@@ -266,24 +270,31 @@ router.get("/products", async (req, res, next) => {
 router.get("/products/:id", async (req, res, next) => {
   const id = req.params.id;
   try {
-    const product = await models.Product.findOne({
-      where: {
-        id: id
-      },
-      attributes: ['id', 'storeid', 'ingredientname', 'price', 'stock', 'amount', 'unit', 'image']
+    const query = `
+      SELECT \`p\`.\`storeid\`, \`p\`.\`id\`, \`p\`.\`ingredientname\`, \`p\`.\`price\`, \`p\`.\`amount\`, \`p\`.\`stock\`, \`p\`.\`unit\`, \`p\`.\`image\`, \`s\`.\`name\` AS \`storename\`
+      FROM \`Products\` AS \`p\`
+      JOIN \`Stores\` AS \`s\` ON \`p\`.\`storeid\` = \`s\`.\`id\`
+      WHERE \`p\`.\`id\`=?;
+    `;
+
+    let product = await sequelize.query(query, {
+      replacements: [id],
+      type: QueryTypes.SELECT
     });
 
-    const store = await models.Store.findOne({
-      where: {
-        id: product.storeid
-      },
-      attributes: ['name']
-    });
+    if (!product[0].image) {
+      const ingredient = await models.Ingredient.findOne({
+        where: {
+          name: product[0].ingredientname
+        }
+      });
+
+      product[0].image = ingredient.image;
+    }
 
     const data = {
-      pageTitle: product.ingredientname,
-      product: product,
-      store: store,
+      pageTitle: product[0].ingredientname,
+      product: product[0],
       session: req.session.user
     }
 
@@ -307,11 +318,16 @@ router.get("/ingredients/:id", async (req, res, next) => {
       attributes: ['name', 'description', 'category', 'image']
     });
 
-    const products = await models.Product.findAll({
-      where: {
-        ingredientname: ingredient.name
-      },
-      attributes: ['id', 'ingredientname', 'amount', 'unit']
+    const query = `
+      SELECT \`p\`.\`id\`, \`p\`.\`ingredientname\`, \`p\`.\`amount\`, \`p\`.\`unit\`, \`s\`.\`name\` AS \`storename\`
+      FROM \`Products\` AS \`p\`
+      JOIN \`Stores\` AS \`s\` ON \`p\`.\`storeid\` = \`s\`.\`id\`
+      WHERE \`p\`.\`ingredientname\` = ?
+    `;
+
+    const products = await sequelize.query(query, {
+      replacements: [ingredient.name],
+      type: QueryTypes.SELECT
     });
 
     const data = {
@@ -664,7 +680,7 @@ router.get("/about-us", async (req, res, next) => {
 });
 
 router.get("/contact-us", async (req, res, next) => {
-  let errorMessages = req.query.error; 
+  let errorMessages = req.query.error;
   // Split the concatenated error messages into an array
   if (errorMessages) {
     errorMessages = errorMessages.split('; ');
@@ -672,7 +688,7 @@ router.get("/contact-us", async (req, res, next) => {
   const data = {
     pageTitle: 'Contact Us',
     session: req.session.user,
-    errorMessages: errorMessages 
+    errorMessages: errorMessages
   };
   res.render('Public/contact-us', data);
 });

@@ -34,7 +34,8 @@ async function insertStores() {
     await models.Store.create({
       name: element.name,
       description: element.description,
-      location: element.location
+      location: element.location,
+      image: element.image
     });
   }
 }

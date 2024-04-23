@@ -13,7 +13,7 @@ node database/generate.js
 ```
 Then run the web server:
 ```bash
-npm start
+node app.js
 ```
 
 ## Docker Usage

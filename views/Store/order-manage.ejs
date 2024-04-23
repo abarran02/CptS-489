@@ -2,44 +2,82 @@
 <html lang="en">
 
 <head>
-    <%- include("./shared/styles") %>
-    <title><%= pageTitle %></title>
+  <%- include("./shared/styles") %>
+  <title><%= pageTitle %></title>
   </head>
   <body>
-    <%- include("./shared/header") %>
+  <%- include("./shared/header") %>
 
 <body>
-    <main>
-        <body>
-            <div class="container">
-                <h1 class="mb-4">View Orders</h1>
-                <!-- Table to display orders -->
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Order ID</th>
-                            <th scope="col">Product ID</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">User ID</th>
-                            <th scope="col">Fulfilled At</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% orders.forEach(order => { %>
-                            <tr>
-                                <td><%= order.orderid %></td>
-                                <td><%= order.productid %></td>
-                                <td><%= order.amount %></td>
-                                <td><%= order.userid %></td>
-                                <td><%= order.fulfilledAt %></td>
-                              </tr>
-                        <% }); %>
-                    </tbody>
-                </table>
-            </div>
-    </main>
-    <%- include("./shared/footer") %>
+  <main>
+    <body>
+      <div class="container">
+        <h1 class="mb-4">View Orders</h1>
+        <!-- Table to display orders -->
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Order ID</th>
+              <th scope="col">Product ID</th>
+              <th scope="col">Amount</th>
+              <th scope="col">User ID</th>
+              <th scope="col">Fulfilled At</th>
+              <th scope="col">Fulfill</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% orders.forEach(order => { %>
+              <tr>
+                <td><%= order.orderid %></td>
+                <td><%= order.productid %></td>
+                <td><%= order.amount %></td>
+                <td><%= order.userid %></td>
+                <% if (order.fulfilledAt) { %>
+                  <td><%= order.fulfilledAt.toLocaleString(undefined, { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) %></td>
+                  <td></td>
+                <% } else { %>
+                  <td></td>
+                  <td>
+                    <button class="btn btn-primary" id=<%= `f${order.orderid}` %>>Fulfill</button>
+                  </td>
+                <% } %>
+
+                </tr>
+            <% }); %>
+          </tbody>
+        </table>
+        <div id="liveAlertPlaceholder"></div>
+      </div>
+  </main>
+  <%- include("./shared/footer") %>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const buttons = document.querySelectorAll('[id^="f"]');
+
+      buttons.forEach(button => {
+        button.addEventListener('click', function() {
+          const buttonId = this.id;
+
+          const data = {
+            buttonId: buttonId
+          };
+
+          let xhr = new XMLHttpRequest();
+          xhr.open('POST', '/storehub/fulfill');
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          xhr.send(JSON.stringify(data));
+
+          xhr.onload = function() {
+            if (xhr.status === 200) {
+              location.reload();
+            } else {
+              appendAlert("Order fulfillment failed", "danger");
+            }
+          };
+        });
+      });
+    });
+  </script>
 </body>
-
-
 </html>

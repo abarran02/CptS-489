@@ -27,13 +27,26 @@
         Total cost: $<%= cartTotal.toFixed(2) %>
       </div>
       <button id="orderBtn" class="btn btn-secondary">Order</button>
+      <div class="row" style="margin-top:30px">
+        <div class="col-4">
+          <div id="liveAlertPlaceholder"></div>
+        </div>
+      </div>
     </div>
   </div>
 
   <%- include("./shared/footer") %>
 </body>
 <script>
+  window.onload = function() {
+    if (window.location.hash === "#success") {
+      appendAlert("Order placed successfully", "success");
+    }
+  }
+
   document.addEventListener("DOMContentLoaded", function() {
+    clearAlert();
+
     let orderBtn = document.getElementById("orderBtn");
 
     orderBtn.addEventListener("click", function() {
@@ -47,9 +60,9 @@
       // handle the response
       xhr.onload = function() {
         if (xhr.status === 200) {
-          console.log("Order submitted successfully");
+          window.location.replace('/public/cart/#success');
         } else {
-          console.error("Failed to submit order");
+          appendAlert("Failed to submit order", "danger");
         }
       };
     });

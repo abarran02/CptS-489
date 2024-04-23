@@ -154,13 +154,11 @@
       xhr.open("POST", form.action);
       xhr.send(sendData);
 
-      console.log(sendData);
-
       // handle server response
       xhr.onload = function() {
         if (xhr.status === 200) {
-          // window.location.href = '/public/recipes/#create-success';
-          appendAlert("Access forbidden", "success");
+          const newid = xhr.responseText
+          window.location.href = `/public/recipes/${newid}/#success`;
         } else if (xhr.status === 403) {
           appendAlert("Access forbidden", "danger");
         } else {
