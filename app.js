@@ -40,22 +40,8 @@ app.get('/', (req, res) => {
   res.redirect('/public');
 });
 
-// create default Recipe in database
-async function setup() {
-  const defaultRecipe = await models.Recipe.findOne({
-    where: {
-      id: 1
-    }
-  });
-
-  if (!defaultRecipe) {
-    require('./database/generate');
-  }
-}
-
 sequelize.sync({ force: false }).then(()=>{
   console.log("Sequelize Sync Completed...");
-  setup().then(()=> console.log("Setup complete"));
 });
 
 app.listen(port, () => {

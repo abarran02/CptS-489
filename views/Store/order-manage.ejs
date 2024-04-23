@@ -34,12 +34,14 @@
                 <td><%= order.userid %></td>
                 <% if (order.fulfilledAt) { %>
                   <td><%= order.fulfilledAt.toLocaleString(undefined, { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) %></td>
+                  <td></td>
                 <% } else { %>
                   <td></td>
+                  <td>
+                    <button class="btn btn-primary" id=<%= `f${order.orderid}` %>>Fulfill</button>
+                  </td>
                 <% } %>
-                <td>
-                  <button class="btn btn-primary" id=<%= `f${order.orderid}` %>>Fulfill</button>
-                </td>
+
                 </tr>
             <% }); %>
           </tbody>

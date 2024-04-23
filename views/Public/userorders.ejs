@@ -35,7 +35,7 @@
                     <%if (orderitems[i].fulfilledAt === null){ %>
                       <td>Not Fulfilled</td>
                     <% } else { %>
-                    <td><%= `${orderitems[i].fulfilledAt}` %></td>
+                    <td><%= `${orderitems[i].fulfilledAt.toLocaleString(undefined, { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}` %></td>
                     <% } %>
                   </tr>
                 </tbody>
@@ -48,7 +48,7 @@
                   <%if (orderitems[i].fulfilledAt === null){ %>
                     <td>Not Fulfilled</td>
                   <% } else { %>
-                  <td><%= `${orderitems[i].fulfilledAt}` %></td>
+                  <td><%= `${orderitems[i].fulfilledAt.toLocaleString(undefined, { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}` %></td>
                   <% } %>
                 </tr>
               </tbody>

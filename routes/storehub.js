@@ -4,6 +4,7 @@ let cors = require("cors");
 const models = require('../models/models');
 const upload = require('./middleware/upload');
 const { QueryTypes } = require("sequelize");
+const sequelize = require('../db');
 const { sessionChecker, adminChecker, storeChecker } = require('./middleware/sessionChecker');
 
 router.use(express.static('StoreHub'));
@@ -18,8 +19,16 @@ router.get("/", storeChecker, (req, res, next) => {
 });
 
 router.get("/order-manage", storeChecker, async (req, res, next) => {
-    const orders = await models.Order.findAll({
-      attributes: ['orderid', 'productid', 'amount', 'userid', 'fulfilledAt']
+    const query = `
+      SELECT \`o\`.\`orderid\`, \`o\`.\`productid\`, \`o\`.\`amount\`, \`o\`.\`userid\`, \`o\`.\`fulfilledAt\`
+      FROM \`Orders\` AS \`o\`
+      JOIN \`Products\` AS \`p\` ON \`p\`.\`id\` = \`o\`.\`productid\`
+      WHERE \`p\`.\`storeid\` = ?
+    `;
+
+    const orders = await sequelize.query(query, {
+      replacements: [req.session.user.controlsStore],
+      type: QueryTypes.SELECT
     });
 
     const data = {
@@ -89,16 +98,30 @@ router.post("/fulfill", storeChecker, async function(req, res, next) {
   const orderid = req.body.buttonId.replace('f', '');
   
   try {
-    let order = await models.Order.findOne({
+    const orders = await models.Order.findAll({
       where: {
         orderid: orderid
       }
     });
   
     const currentTime = new Date();
-    order.fulfilledAt = currentTime;
-    order.changed('controlsStore', true);
-    await order.save();
+    for (let i = 0; i < orders.length; i++) {
+      let order = orders[i];
+
+      let product = await models.Product.findOne({
+        where: {
+          id: order.productid,
+          storeid: req.session.user.controlsStore
+        }
+      })
+      product.stock -= order.amount;
+      product.changed('stock', true);
+      await product.save();
+
+      order.fulfilledAt = currentTime;
+      order.changed('fulfilledAt', true);
+      await order.save();
+    }
 
     res.sendStatus(200);
   } catch (error) {

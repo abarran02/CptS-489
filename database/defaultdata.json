@@ -258,7 +258,7 @@
     {"username": "bob", "password": "12345", "displayname": "Bob"},
     {"username": "christian", "password": "12345", "displayname": "Christian", "isChef": true},
     {"username": "eva", "password": "12345", "displayname": "Eva", "isChef": true},
-    {"username": "alec", "password": "12345", "displayname": "Alec", "isChef": true, "controlsStore": 2},
+    {"username": "alec", "password": "12345", "displayname": "Alec", "isChef": true, "controlsStore": 2, "isAdmin": true},
     {"username": "john", "password": "12345", "displayname": "John", "isChef": true}
   ],
   "products": [
